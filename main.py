@@ -122,11 +122,13 @@ def Hamiltonian(k):
 
 # Next we define the vectors that describe the paths for the brillouin zone
 
-Gamma_to_K = np.array([1,(1/2)*(math.sqrt(3)/2)])
+Gamma_to_K = np.array([1/2,(1/2)*(math.sqrt(3))])
 
 Gamma_to_K_prime = np.array([1,0])
 
 K_to_K_prime = -Gamma_to_K + Gamma_to_K_prime
+
+M_to_K = (1/2)*K_to_K_prime
 
 Gamma_to_M = Gamma_to_K + (1/2)*K_to_K_prime
 
@@ -137,7 +139,9 @@ M_to_K_prime = -Gamma_to_M + Gamma_to_K_prime
 #def full_path_vector(k):
 #    return -M_to_K_prime(k) - Gamma_to_K(k) + Gamma_to_K_prime(k) - M_to_K_prime(k)
 
-M_to_M = [-M_to_K_prime, -Gamma_to_K, +Gamma_to_K_prime, -M_to_K_prime]
+#M_to_M = [M_to_K, -Gamma_to_K, Gamma_to_K_prime, -M_to_K_prime]
+M_to_M = [M_to_K, -Gamma_to_K]
+#M_to_M = [M_to_K]
 
 #print("\nThe complete path M -> K -> Gamma -> K' -> M should be the 0 vector: ", Full_Path([1,1]))
 
@@ -146,50 +150,86 @@ M_to_M = [-M_to_K_prime, -Gamma_to_K, +Gamma_to_K_prime, -M_to_K_prime]
 a_prime = (2*np.pi)/a
 
 def Figure_d():
-    Energy = np.array([[],[],[],[],[],[]])
+    #Energy = np.array([[],[],[],[],[],[]])
+    Energy_1 = np.array([])
+    Energy_2 = np.array([])
+    Energy_3 = np.array([])
+    Energy_4 = np.array([])
+    Energy_5 = np.array([])
+    Energy_6 = np.array([])
+    Energy = [Energy_1,Energy_2,Energy_3,Energy_4,Energy_5,Energy_6]
+    #Energy = np.empty(shape = (6,), dtype = float)
+    #print(np.shape(Energy))
+
     Path = np.array([])
-    EigenVectors = np.array([[],[],[],[],[],[]])
+    EigenVectors = np.array([[],[],[],[],[],[]], dtype=complex)
+
     k=[1,1]
-    count = 1
+
+    Path_Offset = 0
     for vectors in M_to_M:
         print("\ndoing path")
-        for x in np.arange(0, np.linalg.norm(vectors)*a_prime, a_prime/20):
-            count = count + 1
-            print("x = ", x)
+        for x in np.arange(0, np.linalg.norm(vectors)*a_prime, a_prime/100):
+
+            #print("x = ", x)
             k_step = x*vectors
-            np.append(Path, x)
+            Path = np.append(Path, x + Path_Offset)
+
             eValues, eVectors = np.linalg.eig(Hamiltonian(k_step))
-            print("energy = ", eValues[0])
-            for i in np.arange(0, 5, 1):
-                np.append(Energy[i], eValues[i].real)
-                np.append(EigenVectors[i], eVectors[i])
 
-    fig = plt.figure(figsize=(6,6))
+            #print("energy = ", eValues.real)
+            #print("evector = ", eVectors[0])
 
-    ax = fig.add_subplot(111)
+            #Energy[0] = np.append(Energy[0], eValues[0].real)
+            #EigenVectors[0] = np.append(EigenVectors[0], eVectors[0])
 
-    for i in np.arange(0,5,1):
-        ax.plot(Path,
-                Energy[i].real,
-                #xerr = ,
-                #yerr = ,
-                #capsize = ,
-                marker = 'o',
-                markersize = 2,
-                color = 'black',
-                markerfacecolor = 'black',
-                #linestyle = '-',
-                #label = 'asdef'
-                )
+            #eValues = [1,2,3,4,5,6]
 
-    plt.xlim(0,np.linalg.norm(Gamma_to_K)*a_prime)
-    plt.ylim(-1,4)
+            #Energy = np.append(Energy, [eValues])
+            #print(np.shape(Energy))
 
-    plt.show()
+            for i in np.arange(0, 6, 1):
+                Energy[i] = np.append(Energy[i], eValues[i].real)
+                #Energy[i] = np.append(Energy[i], [5.0])
+                #Energy[i] = np.append(EigenVectors[i], eVectors[i])
+        Path_Offset += np.linalg.norm(vectors)*a_prime
+        print("new offset = ", Path_Offset)
 
-    #return Energy, Path, EigenVectors
+    #print (Energy[0][0])
+    #print (Energy)
+    print (Path)
+    #print (EigenVectors)
 
-#plot_y, plot_x, eigvec = Figure_d()
+    return Energy, Path, EigenVectors
+
+plot_y, plot_x, eigvec = Figure_d()
 
 #print (plot_x, plot_y)
 
+fig = plt.figure(figsize=(6,6))
+
+ax = fig.add_subplot(111)
+
+for i in np.arange(0,6,1):
+    if i < 3:
+        colour = 'red'
+    else:
+        colour = 'blue'
+
+    ax.plot(plot_x,
+            plot_y[i].real,
+            #xerr = ,
+            #yerr = ,
+            #capsize = ,
+            #marker = 'o',
+            #markersize = 2,
+            color = colour,
+            markerfacecolor = 'black',
+            #linestyle = '-',
+            #label = 'asdef'
+            )
+
+plt.xlim(0,np.linalg.norm(Gamma_to_K)*a_prime*5)
+plt.ylim(-1,4)
+
+plt.show()
