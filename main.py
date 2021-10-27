@@ -4,6 +4,8 @@ import cmath
 import math
 import matplotlib.pyplot as plt
 
+# --- Constants ---
+
 # First define the fitting parameters for the effective TBM Hamiltonian of monolayer NbSe2, energy parameter are in eV
 
 epsilon_1 = 1.4466
@@ -31,15 +33,17 @@ u_22 = -0.0425
 
 lambda_SOC = 0.0784
 
-a = 3.45e-10
+PLC = 3.45e-10
 
 # define alpha and beta from the wavevector k
 
 def alpha(k):
-    return 1/2*k[0]*a
+    return 1/2*k[0]*PLC
 
 def beta(k):
-    return (math.sqrt(3)/2)*k[1]*a
+    return (math.sqrt(3)/2)*k[1]*PLC
+
+# --- Potential 'jumps' ---
 
 # define the 'hops' for each state (in order d_(z^2), d(x^2-y^2), d_(xy))
 
@@ -79,6 +83,8 @@ def V_12(k):
 def V_22(k) :
     return epsilon_2 + ((3 * t_11) + t_22) * math.cos(alpha(k)) * math.cos(beta(k)) + (2 * t_22 * math.cos(2 * alpha(k))) + 2 * r_11 * ((2 * math.cos(3 * alpha(k)) * math.cos(beta(k))) + math.cos(2 * beta(k))) + (2 / math.sqrt(3)) * r_12 * ((4 * math.cos(3 * alpha(k)) * math.cos(beta(k))) - math.cos(2 * beta(k)))+ ((3 * u_11) + u_22) * math.cos(2 * alpha(k)) * math.cos(2 * beta(k)) + (2 * u_22 * math.cos(4 * alpha(k)))
 
+# --- Components of Hamiltonian ---
+
 # Next we define H_TNN the matrix of nearest neighbors
 
 def Hamiltonian_nearest_neighbors(k):
@@ -108,6 +114,8 @@ test_array = np.array([[1,2,3],
 
 #print(np.kron(sigma_0,test_array))
 
+# --- Hamiltonian ---
+
 def Hamiltonian(k):
     return np.kron(sigma_0, Hamiltonian_nearest_neighbors(k)) + np.kron(sigma_z, (1/2)*lambda_SOC*L_z)
 
@@ -120,19 +128,52 @@ def Hamiltonian(k):
 #print("\n", eValues)
 #print("\n", eVectors)
 
+# --- Vectors ---
+
+# Lengths:
+# gamma -> m = 1/2 b (b=reciprocal lattice constant)
+# gamma -> k = b/sqrt(3)
+# k -> m = b/2*sqrt(3)
+
+# reciproal lattice constant
+RLC = (4*np.pi)/(np.sqrt(3)*PLC)
+
+# Primitive lattice vectors
+def PLV_1(k: np.array):
+    return np.array([np.sqrt(3)*PLC*k[0]/2, PLC*k[1]/2])
+
+def PLV_2(k: np.array):
+    return np.array([-np.sqrt(3)*PLC*k[0]/2, PLC*k[1]/2])
+
+# Reciprocal lattice vectors
+def RLV_1(k: np.array):
+    return np.array([2*np.pi*k[0]/(np.sqrt(3)*PLC), 2*np.pi*k[1]/PLC])
+
+def RLV_2(k: np.array):
+    return np.array([-2*np.pi*k[0]/(np.sqrt(3)*PLC), 2*np.pi*k[1]/PLC])
+
+print("PLC = ", PLC, "\nRLC = ", RLC)
+print("|PLV| = ", np.linalg.norm(PLV_1([1,1])), "\n|RLV| = ", np.linalg.norm(RLV_1([1,1])))
+
 # Next we define the vectors that describe the paths for the brillouin zone
 
-Gamma_to_K = np.array([1/2,(1/2)*(math.sqrt(3))])
+def Gamma_to_M(k: np.array):
+    return (1/2)*RLV_1(k)
 
-Gamma_to_K_prime = np.array([1,0])
+def Gamma_to_K_prime(k: np.array):
+    return (1/3)*(RLV_1(k)+RLV_2(k))
 
-K_to_K_prime = -Gamma_to_K + Gamma_to_K_prime
+def M_to_K_prime(k: np.array):
+    return -Gamma_to_M(k)+Gamma_to_K_prime(k)
 
-M_to_K = (1/2)*K_to_K_prime
+def M_to_K(k: np.array):
+    return -M_to_K_prime(k)
 
-Gamma_to_M = Gamma_to_K + (1/2)*K_to_K_prime
+def Gamma_to_K(k: np.array):
+    return Gamma_to_M(k)+M_to_K(k)
 
-M_to_K_prime = -Gamma_to_M + Gamma_to_K_prime
+def K_to_Gamma(k: np.array):
+    return -Gamma_to_K(k)
 
 # So for the complete path M -> K -> Gamma -> K' -> M should be the 0 vector
 
@@ -140,17 +181,25 @@ M_to_K_prime = -Gamma_to_M + Gamma_to_K_prime
 #    return -M_to_K_prime(k) - Gamma_to_K(k) + Gamma_to_K_prime(k) - M_to_K_prime(k)
 
 #M_to_M = [M_to_K, -Gamma_to_K, Gamma_to_K_prime, -M_to_K_prime]
-M_to_M = [M_to_K, -Gamma_to_K]
+M_to_M = [M_to_K, K_to_Gamma, Gamma_to_K_prime, M_to_K]
+
+print("vector scale = ", np.linalg.norm(M_to_K([1,1])))
+
 #M_to_M = [M_to_K]
 
 #print("\nThe complete path M -> K -> Gamma -> K' -> M should be the 0 vector: ", Full_Path([1,1]))
 
+# conditions ai dot bj = 2Pi delta(i,j)
+# pairwise parallel or perpendicular
+
 # define the reciprocal lattice constant
 
-a_prime = (2*np.pi)/a
+# define better transform from real to reciprocal
+
+# find coordinates of M, K, K'
+
 
 def Figure_d():
-    #Energy = np.array([[],[],[],[],[],[]])
     Energy_1 = np.array([])
     Energy_2 = np.array([])
     Energy_3 = np.array([])
@@ -158,6 +207,9 @@ def Figure_d():
     Energy_5 = np.array([])
     Energy_6 = np.array([])
     Energy = [Energy_1,Energy_2,Energy_3,Energy_4,Energy_5,Energy_6]
+
+    #These don't work
+    #Energy = np.array([[],[],[],[],[],[]])
     #Energy = np.empty(shape = (6,), dtype = float)
     #print(np.shape(Energy))
 
@@ -165,16 +217,16 @@ def Figure_d():
     EigenVectors = np.array([[],[],[],[],[],[]], dtype=complex)
 
     k=[1,1]
-
     Path_Offset = 0
     for vectors in M_to_M:
         print("\ndoing path")
-        for x in np.arange(0, np.linalg.norm(vectors)*a_prime, a_prime/100):
-
+        for x in np.arange(0, np.linalg.norm(vectors([1,1])), RLC/20):
             #print("x = ", x)
-            k_step = x*vectors
-            Path = np.append(Path, x + Path_Offset)
 
+            k_step = x*vectors([1,1])
+            #eValues, eVectors = np.linalg.eig(Hamiltonian(k_step))
+
+            Path = np.append(Path, x + Path_Offset)
             eValues, eVectors = np.linalg.eig(Hamiltonian(k_step))
 
             #print("energy = ", eValues.real)
@@ -192,7 +244,7 @@ def Figure_d():
                 Energy[i] = np.append(Energy[i], eValues[i].real)
                 #Energy[i] = np.append(Energy[i], [5.0])
                 #Energy[i] = np.append(EigenVectors[i], eVectors[i])
-        Path_Offset += np.linalg.norm(vectors)*a_prime
+        Path_Offset += np.linalg.norm(vectors([1,1]))
         print("new offset = ", Path_Offset)
 
     #print (Energy[0][0])
@@ -229,7 +281,8 @@ for i in np.arange(0,6,1):
             #label = 'asdef'
             )
 
-plt.xlim(0,np.linalg.norm(Gamma_to_K)*a_prime*5)
+#plt.xlim(0,RLC*10)
+plt.xlim(0,plot_x[-1])
 plt.ylim(-1,4)
 
 plt.show()
