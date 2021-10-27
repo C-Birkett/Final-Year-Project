@@ -1,3 +1,5 @@
+# This is the main file for this project
+
 import numpy as np
 import scipy
 import cmath
