@@ -184,10 +184,10 @@ def PLV_2(k: np.array):
 
 # Reciprocal lattice vectors
 def RLV_1(k: np.array):
-    return np.array([2*np.pi*k[0]/(np.sqrt(3)*PLC), 2*np.pi*k[1]/PLC])
+    return np.array([2*np.pi*k[0]/PLC, 2*np.pi*k[1]/(np.sqrt(3)*PLC)])
 
 def RLV_2(k: np.array):
-    return np.array([-2*np.pi*k[0]/(np.sqrt(3)*PLC), 2*np.pi*k[1]/PLC])
+    return np.array([2*np.pi*k[0]/PLC, -2*np.pi*k[1]/(np.sqrt(3)*PLC)])
 
 print("PLC = ", PLC, "\nRLC = ", RLC)
 print("|PLV| = ", np.linalg.norm(PLV_1([1,1])), "\n|RLV| = ", np.linalg.norm(RLV_1([1,1])))
@@ -195,32 +195,32 @@ print("|PLV| = ", np.linalg.norm(PLV_1([1,1])), "\n|RLV| = ", np.linalg.norm(RLV
 # Next we define the vectors that describe the paths for the brillouin zone
 
 def Gamma_to_M(k: np.array):
-    return (1/2)*RLV_1(k)
+    return (1.0/2.0)*RLV_1(k)
 
 def Gamma_to_K_prime(k: np.array):
-    return (1/3)*(RLV_1(k)-RLV_2(k))
+    return (1.0/3.0)*(RLV_1(k)+RLV_2(k))
 
 def M_to_K_prime(k: np.array):
-    return -Gamma_to_M(k)+Gamma_to_K_prime(k)
+    return (-1.0/6.0)*RLV_1(k) + (1.0/3.0)*RLV_2(k)
 
 def M_to_K(k: np.array):
-    return -M_to_K_prime(k)
+    return (1.0/6.0)*RLV_1(k) - (1.0/3.0)*RLV_2(k)
 
 def Gamma_to_K(k: np.array):
-    return Gamma_to_M(k)+M_to_K(k)
+    return (2.0/3.0)*RLV_1(k) - (1.0/3.0)*RLV_2(k)
 
 def K_to_Gamma(k: np.array):
-    return -Gamma_to_K(k)
+    return (-2.0/3.0)*RLV_1(k) + (1.0/3.0)*RLV_2(k)
+
+print("\nK prime to M = ", -M_to_K_prime([1,1])/RLC)
 
 # So for the complete path M -> K -> Gamma -> K' -> M should be the 0 vector
 
 #def full_path_vector(k):
 #    return -M_to_K_prime(k) - Gamma_to_K(k) + Gamma_to_K_prime(k) - M_to_K_prime(k)
 
-#M_to_M = [M_to_K, -Gamma_to_K, Gamma_to_K_prime, -M_to_K_prime]
+# note K' to M = M to K
 M_to_M = [M_to_K, K_to_Gamma, Gamma_to_K_prime, M_to_K]
-
-print("vector scale = ", np.linalg.norm(M_to_K([1,1])))
 
 #M_to_M = [M_to_K]
 
@@ -237,6 +237,8 @@ print("vector scale = ", np.linalg.norm(M_to_K([1,1])))
 
 
 def Figure_d():
+
+    # this is not great but it doesn't work otherwise (numpy)
     Energy_1 = np.array([])
     Energy_2 = np.array([])
     Energy_3 = np.array([])
@@ -245,59 +247,62 @@ def Figure_d():
     Energy_6 = np.array([])
     Energy = [Energy_1,Energy_2,Energy_3,Energy_4,Energy_5,Energy_6]
 
-    #These don't work
-    #Energy = np.array([[],[],[],[],[],[]])
-    #Energy = np.empty(shape = (6,), dtype = float)
-    #print(np.shape(Energy))
-
+    Path_x = np.array([])
+    Path_y = np.array([])
     Path = np.array([])
     EigenVectors = np.array([[],[],[],[],[],[]], dtype=complex)
 
-    k=[1,1]
     Path_Offset = 0
+    #assuming starting from M
+    k_last = Gamma_to_M([1,1])
+    print("\nstarting k offset = ", k_last/RLC)
+    Path_Offset += np.linalg.norm(k_last)
+    print("\ninitial x offset = ", Path_Offset)
+
+    count = 0
     for vectors in M_to_M:
-        print("\ndoing path")
-        for x in np.arange(0, np.linalg.norm(vectors([1,1])), RLC/20):
-            #print("x = ", x)
+        vector_length = np.linalg.norm(vectors([1,1]))
+        for x in np.arange(0, 1, 0.01):
 
-            k_step = x*vectors([1,1])
-            #eValues, eVectors = np.linalg.eig(Hamiltonian(k_step))
+            k_step = x*vectors([1,1]) + k_last
+            #k_step = x*vectors([1,1])
+            Path_x = np.append(Path_x, k_step[0]/RLC)
+            Path_y = np.append(Path_y, k_step[1]/RLC)
 
-            Path = np.append(Path, x + Path_Offset)
+            Path = np.append(Path, x*vector_length + Path_Offset)
             eValues, eVectors = np.linalg.eig(Hamiltonian(k_step))
-
-            #print("energy = ", eValues.real)
-            #print("evector = ", eVectors[0])
-
-            #Energy[0] = np.append(Energy[0], eValues[0].real)
-            #EigenVectors[0] = np.append(EigenVectors[0], eVectors[0])
-
-            #eValues = [1,2,3,4,5,6]
-
-            #Energy = np.append(Energy, [eValues])
-            #print(np.shape(Energy))
+            np.sort(eValues)
 
             for i in np.arange(0, 6, 1):
+                #if (count!=0) and (np.absolute(eValues[i].real - Energy[i][-1]) > 0.2):
+                #    eValues[i] = Energy[i][-1]
+
                 Energy[i] = np.append(Energy[i], eValues[i].real)
-                #Energy[i] = np.append(Energy[i], [5.0])
-                #Energy[i] = np.append(EigenVectors[i], eVectors[i])
-        Path_Offset += np.linalg.norm(vectors([1,1]))
-        print("new offset = ", Path_Offset)
 
-    #print (Energy[0][0])
-    #print (Energy)
-    print (Path)
-    #print (EigenVectors)
+        k_last += vectors([1,1])
+        print("\nnew k offset = ", k_last/RLC)
 
-    return Energy, Path, EigenVectors
+        Path_Offset += vector_length
+        print("new x offset = ", Path_Offset)
 
-plot_y, plot_x, eigvec = Figure_d()
+        count += 1
 
-#print (plot_x, plot_y)
+    return Energy, Path, EigenVectors, Path_x, Path_y
+
+plot_y, plot_x, eigvec, path_x, path_y = Figure_d()
 
 fig = plt.figure(figsize=(6,6))
 
 ax = fig.add_subplot(111)
+
+#ax.plot(path_x,
+#        path_y,
+#        marker = 'o')
+
+#plt.xlim(-2,2)
+#plt.ylim(-2,2)
+
+
 
 for i in np.arange(0,6,1):
     if i < 3:
@@ -318,8 +323,8 @@ for i in np.arange(0,6,1):
             #label = 'asdef'
             )
 
-#plt.xlim(0,RLC*10)
-plt.xlim(0,plot_x[-1])
+plt.xlim(0,RLC*10)
+plt.xlim(plot_x[0],plot_x[-1])
 plt.ylim(-1,4)
 
 plt.show()
