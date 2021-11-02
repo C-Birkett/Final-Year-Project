@@ -1,3 +1,5 @@
+# This is the main file for this project
+
 import numpy as np
 import scipy
 import cmath
@@ -48,40 +50,75 @@ def beta(k):
 # define the 'hops' for each state (in order d_(z^2), d(x^2-y^2), d_(xy))
 
 def V_0(k):
-    return epsilon_1 + 2*t_0*(2*math.cos(alpha(k))*math.cos(beta(k))+math.cos(2*alpha(k))) + 2*r_0*(2*math.cos(3*alpha(k))*math.cos(beta(k))+math.cos(2*beta(k))) + 2*u_0*(2*math.cos(2*alpha(k))*math.cos(2*beta(k))+math.cos(4*alpha(k)))
+    tmp = epsilon_1
+    tmp += 2*t_0*(2*math.cos(alpha(k))*math.cos(beta(k))+math.cos(2*alpha(k)))
+    tmp += 2*r_0*(2*math.cos(3*alpha(k))*math.cos(beta(k))+math.cos(2*beta(k)))
+    tmp += 2*u_0*(2*math.cos(2*alpha(k))*math.cos(2*beta(k))+math.cos(4*alpha(k)))
+    return tmp
 
 def Re_V_1(k):
-    return -2*math.sqrt(3)*t_2*math.sin(alpha(k))*math.sin(beta(k)) + 2*(r_1+r_2)*math.sin(3*alpha(k))*math.sin(beta(k)) - 2*math.sqrt(3)*u_2*math.sin(2*alpha(k))*math.sin(2*beta(k)) 
+    tmp = -2*math.sqrt(3)*t_2*math.sin(alpha(k))*math.sin(beta(k))
+    tmp += 2*(r_1+r_2)*math.sin(3*alpha(k))*math.sin(beta(k))
+    tmp += -2*math.sqrt(3)*u_2*math.sin(2*alpha(k))*math.sin(2*beta(k)) 
+    return tmp
 
 def Im_V_1(k):
-    return 2*t_1*math.sin(alpha(k))*(2*math.cos(alpha(k))+math.cos(beta(k))) + 2*(r_1-r_2)*math.sin(3*alpha(k))*math.cos(beta(k)) + 2*u_1*math.sin(2*alpha(k))*(2*math.cos(2*alpha(k))+math.cos(2*beta(k)))
+    tmp = 2*t_1*math.sin(alpha(k))*(2*math.cos(alpha(k))+math.cos(beta(k)))
+    tmp += 2*(r_1-r_2)*math.sin(3*alpha(k))*math.cos(beta(k))
+    tmp += 2*u_1*math.sin(2*alpha(k))*(2*math.cos(2*alpha(k))+math.cos(2*beta(k)))
+    return tmp
 
 def V_1(k):
     return complex(Re_V_1(k), Im_V_1(k))
 
 def Re_V_2(k):
-    return 2 * t_2 * (math.cos(2 * alpha(k)) + math.cos(beta(k))) - (2 / math.sqrt(3)) * (r_1 + r_2) * ((math.cos(3 * alpha(k)) * math.cos(beta(k))) - math.cos(2 * beta(k))) + 2 * u_2 * (math.cos(4 * alpha(k)) - (math.cos(2 * alpha(k))*math.cos(2*beta(k))))
+    tmp = 2*t_2*(math.cos(2*alpha(k))-math.cos(alpha(k))*math.cos(beta(k)))
+    tmp += (-2/math.sqrt(3))*(r_1 + r_2)*(math.cos(3*alpha(k))*math.cos(beta(k))-math.cos(2*beta(k)))
+    tmp += 2*u_2*(math.cos(4*alpha(k))-math.cos(2*alpha(k))*math.cos(2*beta(k)))
+    return tmp
 
 def Im_V_2(k):
-    return 2 * math.sqrt(3) * t_1 * math.cos(alpha(k)) * math.sin(beta(k)) + (2 / math.sqrt(3)) * (r_1 - r_2) * math.sin(beta(k)) * (math.cos(3 * alpha(k)) + 2 * math.cos(beta(k))) + 2 * math.sqrt(3)* u_1 * math.cos(2 * alpha(k)) * math.sin(2 * beta(k))
+    tmp = 2*math.sqrt(3)*t_1*math.cos(alpha(k))*math.sin(beta(k))
+    tmp += (2/math.sqrt(3))*(r_1-r_2)*math.sin(beta(k))*(math.cos(3*alpha(k))+2*math.cos(beta(k)))
+    tmp += 2*math.sqrt(3)*u_1*math.cos(2*alpha(k))*math.sin(2*beta(k))
+    return tmp
 
 def V_2(k):
     return complex(Re_V_2(k), Im_V_2(k))
 
 def V_11(k):
-    return epsilon_2 + (t_11 + 3*t_22)*math.cos(alpha(k))*math.cos(beta(k)) + 2*t_11*math.cos(2*alpha(k)) + 4*r_11*math.cos(3*alpha(k))*math.cos(beta(k)) + 2*(r_11+math.sqrt(3)*r_12)*math.cos(2*beta(k)) + (u_11+3*u_22)*math.cos(2*alpha(k))*math.cos(2*beta(k)) + 2*u_11*math.cos(4*alpha(k))
+    tmp = epsilon_2
+    tmp += (t_11 + 3*t_22)*math.cos(alpha(k))*math.cos(beta(k))
+    tmp += 2*t_11*math.cos(2*alpha(k))
+    tmp += 4*r_11*math.cos(3*alpha(k))*math.cos(beta(k))
+    tmp += 2*(r_11+math.sqrt(3)*r_12)*math.cos(2*beta(k))
+    tmp += (u_11+3*u_22)*math.cos(2*alpha(k))*math.cos(2*beta(k))
+    tmp += 2*u_11*math.cos(4*alpha(k))
+    return tmp
 
 def Re_V_12(k):
-    return math.sqrt(3)*(t_22-t_11)*math.sin(alpha(k))*math.sin(beta(k)) + 4*r_12*math.sin(3*alpha(k))*math.sin(beta(k)) + math.sqrt(3)*(u_22-u_11)*math.sin(2*alpha(k))*math.sin(2*beta(k))
+    tmp = math.sqrt(3)*(t_22-t_11)*math.sin(alpha(k))*math.sin(beta(k))
+    tmp += 4*r_12*math.sin(3*alpha(k))*math.sin(beta(k))
+    tmp += math.sqrt(3)*(u_22-u_11)*math.sin(2*alpha(k))*math.sin(2*beta(k))
+    return tmp
 
 def Im_V_12(k):
-    return 4*t_12*math.sin(alpha(k))*(math.cos(alpha(k))-math.cos(beta(k))) + 4*u_12*math.sin(2*alpha(k))*(math.cos(2*alpha(k))-math.cos(2*beta(k)))
+    tmp = 4*t_12*math.sin(alpha(k))*(math.cos(alpha(k))-math.cos(beta(k)))
+    tmp += 4*u_12*math.sin(2*alpha(k))*(math.cos(2*alpha(k))-math.cos(2*beta(k)))
+    return tmp
 
 def V_12(k):
     return complex(Re_V_12(k), Im_V_12(k))
 
 def V_22(k) :
-    return epsilon_2 + ((3 * t_11) + t_22) * math.cos(alpha(k)) * math.cos(beta(k)) + (2 * t_22 * math.cos(2 * alpha(k))) + 2 * r_11 * ((2 * math.cos(3 * alpha(k)) * math.cos(beta(k))) + math.cos(2 * beta(k))) + (2 / math.sqrt(3)) * r_12 * ((4 * math.cos(3 * alpha(k)) * math.cos(beta(k))) - math.cos(2 * beta(k)))+ ((3 * u_11) + u_22) * math.cos(2 * alpha(k)) * math.cos(2 * beta(k)) + (2 * u_22 * math.cos(4 * alpha(k)))
+    tmp = epsilon_2
+    tmp += ((3*t_11)+t_22)*math.cos(alpha(k))*math.cos(beta(k))
+    tmp += 2*t_22*math.cos(2*alpha(k))
+    tmp += 2*r_11*((2*math.cos(3*alpha(k))*math.cos(beta(k)))+math.cos(2*beta(k)))
+    tmp += (2/math.sqrt(3))*r_12*((4*math.cos(3*alpha(k))*math.cos(beta(k)))-math.cos(2*beta(k)))
+    tmp += ((3*u_11)+u_22)*math.cos(2*alpha(k))*math.cos(2*beta(k))
+    tmp += 2*u_22*math.cos(4*alpha(k))
+    return tmp
 
 # --- Components of Hamiltonian ---
 
@@ -97,8 +134,8 @@ def Hamiltonian_nearest_neighbors(k):
 # L_z which describes the difference in energy due to spin orbit coupling
 
 L_z = np.array([[0,0,0],
-                [0,0,-2j],
-                [0,2j,0]])
+                [0,0,complex(0,-2)],
+                [0,complex(0,2),0]])
 
 # The pauli matrices sigma_0 and sigma_z
 
@@ -135,7 +172,7 @@ def Hamiltonian(k):
 # gamma -> k = b/sqrt(3)
 # k -> m = b/2*sqrt(3)
 
-# reciproal lattice constant
+# reciprocal lattice constant
 RLC = (4*np.pi)/(np.sqrt(3)*PLC)
 
 # Primitive lattice vectors
@@ -161,7 +198,7 @@ def Gamma_to_M(k: np.array):
     return (1/2)*RLV_1(k)
 
 def Gamma_to_K_prime(k: np.array):
-    return (1/3)*(RLV_1(k)+RLV_2(k))
+    return (1/3)*(RLV_1(k)-RLV_2(k))
 
 def M_to_K_prime(k: np.array):
     return -Gamma_to_M(k)+Gamma_to_K_prime(k)
