@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 # --- Constants ---
 
-# First define the fitting parameters for the effective TBM Hamiltonian of monolayer NbSe2, energy parameter are in eV
+# Define the fitting parameters for the effective TBM Hamiltonian of monolayer NbSe2, energy parameter are in eV
 
 epsilon_1 = 1.4466
 epsilon_2 = 1.8496
@@ -34,7 +34,48 @@ u_22 = -0.0425
 
 lambda_SOC = 0.0784
 
+# --- Vectors ---
+
+# 2D rotation matrix
+def rotation_matrix(theta):
+    return np.array([[np.cos(theta), - np.sin(theta)],
+                    [np.sin(theta), np.cos(theta)]])
+
+#define some with exact values to test
+def rotation_matrix_90(theta):
+    return np.array([[0, -1],
+                    [1, 0]])
+
+# A simple vector class to cut down on the amount of messy numpy array syntax & to keep methods such as rotation etc in one place
+# these vectors are dimensionless, each element is assumed to be a function of some other value (i.e wavevector k)
+class Vector:
+    def __init__(this, vec: np.array):
+        this.v = np.array(vec)
+    
+    def rotate(this, theta):
+        this.v = np.matmul(rotation_matrix(theta), this.v)
+        return this.v
+
+    def rotate90(this, theta):
+        this.v = np.matmul(rotation_matrix_90(theta), this.v)
+        return this.v
+
+    def len(this):
+        return np.linalg.norm(this.v)
+
+    def k(this, k: np.array):   # evaluate at some wavevector k, just an elementwise product
+        return np.array([this.v[0] * k[0], this.v[1] * k[1]])
+
+# for simplicity we will define the "default" primitive and reciprocal lattice vectors the same way they were defined before (before weekend of 13/11/21), this can be easily changed in the future if need be.
+
+# Primitive lattice constant
 PLC = 3.45e-10
+
+# Primitive lattice vectors
+PLV_1 = Vector([np.sqrt(3)*PLC/2, PLC/2])
+PLV_2 = Vector([-np.sqrt(3)*PLC/2, PLC/2])
+
+# --- Potential 'jumps' ---
 
 # define alpha and beta from the wavevector k
 
@@ -44,10 +85,16 @@ def alpha(k):
 def beta(k):
     return (math.sqrt(3)/2)*k[1]*PLC
 
-# --- Potential 'jumps' ---
+"""
+# defined from PLV
+def alpha(k):
+    return PLV_1.v[1]*k[0]
+
+def beta(k):
+    return PLV_1.v[0]*k[1]
+"""
 
 # define the 'hops' for each state (in order d_(z^2), d(x^2-y^2), d_(xy))
-
 def V_0(k):
     tmp = epsilon_1
     tmp += 2*t_0*(2*math.cos(alpha(k))*math.cos(beta(k))+math.cos(2*alpha(k)))
@@ -121,23 +168,18 @@ def V_22(k) :
 
 # --- Components of Hamiltonian ---
 
-# Next we define H_TNN the matrix of nearest neighbors
-
+# Next we define the hamiltonian matrix of nearest neighbors TBM
 def Hamiltonian_nearest_neighbors(k):
     return np.array([[V_0(k), V_1(k), V_2(k)],
                     [V_1(k).conjugate(), V_11(k), V_12(k)],
                     [V_2(k).conjugate(), V_12(k).conjugate(), V_22(k)]])
 
-#print(type(V_1(k)))
-
 # L_z which describes the difference in energy due to spin orbit coupling
-
 L_z = np.array([[0,0,0],
                 [0,0,complex(0,-2)],
                 [0,complex(0,2),0]])
 
 # The pauli matrices sigma_0 and sigma_z
-
 sigma_0 = np.array([[1,0],
                     [0,1]])
 
@@ -146,88 +188,60 @@ sigma_z = np.array([[1,0],
 
 # --- Hamiltonian ---
 
+# the full hamiltonian
 def Hamiltonian(k):
     return np.kron(sigma_0, Hamiltonian_nearest_neighbors(k)) + np.kron(sigma_z, (1/2)*lambda_SOC*L_z)
 
-#TODO define some sort of eigenvector, do across range of k values that are on paths K M, Gamma etc
+# rotation matrix for wavenumber vector to compensate for rotation of layers
+# turns out this is equaivalent to rotating the opposite direction with the normal rotation matrix, so may remove this at some point later
+def k_rotation(k, phi):
+    rot_mat = np.array([[math.cos(phi), math.sin(phi)],
+                        [-math.sin(phi), math.cos(phi)]])
+    return np.matmul(rot_mat, k)
 
-#eValues, eVectors = np.linalg.eig(Hamiltonian)
+# Class to manage the whole system - mostly for constructing the hamiltonian of the whole system (2 layers) and its eigenvalues
+class Heterostructure:
 
-#print("\n", eValues)
-#print("\n", eVectors)
+    # heterostructure has some # of layers each one has its own hamiltonian
+    def __init__(this, plv1: Vector):
+        this.layers = []
+        this.layer_hamiltonians = []
+        this.layer_rotations = []
+        this.numlayers = 0
+        
+    def gen_lattices(this):
+        # generate each lattice with some rotation etc
+        return 0
 
-# --- Vectors ---
+    # need to combine all of the hamiltionians with an inner product
+    # will need to evaluate individual hamiltionians at k, then combine into large one for evalues
+    def gen_full_hamiltonian(this, k):
+        #something like this
+        #for lattice in layer:
+        #   this.layer_hamiltonians[lattice.layer_index] = lattice.gen_layer_hamiltonian
 
-# Lengths:
-# gamma -> m = 1/2 b (b = reciprocal lattice constant)
-# gamma -> k = b/sqrt(3)
-# k -> m = b/2*sqrt(3)
+        return 0
 
-# 2D rotation matrix
-def rotation_matrix(theta):
-    return np.array([[np.cos(theta), - np.sin(theta)],
-                    [np.sin(theta), np.cos(theta)]])
+    def find_eigenvalues(this, k):
+        # for k in path, gen_full_hamiltonian(k) at each k_step
+        # get evalues like for just 1 layer
+        return 0
 
-#define some with exact values to test
-def rotation_matrix_90(theta):
-    return np.array([[0, -1],
-                    [1, 0]])
+# --- Lattice ---
 
-
-# A simple vector class to cut down on the amount of messy numpy array syntax & to keep methods such as rotation etc in one place
-# these vectors are dimensionless, each element is assumed to be a function of some other value (i.e wavevector k)
-class Vector:
-    def __init__(this, vec: np.array):
-        this.v = np.array(vec)
-    
-    def rotate(this, theta):
-        this.v = np.matmul(rotation_matrix(theta), this.v)
-        return this.v
-
-    def rotate90(this, theta):
-        this.v = np.matmul(rotation_matrix_90(theta), this.v)
-        return this.v
-
-    def len(this):
-        return np.linalg.norm(this.v)
-
-    def k(this, k: np.array):   # evaluate at some wavevector k, elementwise product
-        return np.array([this.v[0] * k[0], this.v[1] * k[1]])
-
-"""
-# testing out the vector class
-test_vector_1 = Vector([1,0])
-test_vector_2 = Vector([0,1])
-print ("\n init test vectors: ", test_vector_1.v, test_vector_2.v)
-
-print("\n types: ", type(test_vector_1), type(test_vector_1.v))
-
-test_vector_1.rotate(np.pi/2)
-test_vector_2.rotate(np.pi/2)
-print ("\n rotated test vectors: ", test_vector_1.v, test_vector_2.v)
-
-print ("\n evaluate test vectors at [0.5,0.5]: ", test_vector_1.k([0.5,0.5]), test_vector_2.k([0.5,0.5]))
-"""
-
-# for simplicity we will define the "default" primitive and reciprocal lattice vectors the same way they were defined before (before weekend of 13/11/21), this can be easily changed in the future if need be
-
-# Primitive lattice vectors
-PLV_1 = Vector([np.sqrt(3)*PLC/2, PLC/2])
-PLV_2 = Vector([-np.sqrt(3)*PLC/2, PLC/2])
-
-"""
-# Reciprocal lattice vectors
-RLV_1 = Vector([2*np.pi/PLC, 2*np.pi/(np.sqrt(3)*PLC)])
-RLV_2 = Vector([2*np.pi/PLC, -2*np.pi/(np.sqrt(3)*PLC)])
-"""
-
-# Class that describes a lattice, can generate reciprocal lattice.
-# TODO migrate Hamiltonian generation into this class &/or make a Hamiltonian class that is able to generate larger & larger hamiltonians to then find the corresponding evalues from
+# Class that describes a lattice, can generate reciprocal lattice & hamiltonian.
 class Lattice:
-    def __init__(this, plc, plv_1: Vector, plv_2: Vector, angle):
-        #primitive lattice constant
+
+    def __init__(this, plc, plv_1: Vector, plv_2: Vector, angle, layer_index):
         print("\n= Generating lattice... =")
+
+        #important for heterostructure
+        this.rotation = angle
+        this.layerindex = layer_index
+
+        #primitive lattice constant
         this.PLC = plc
+
         #primitive lattice vectors
         this.PLV_1 = plv_1
         this.PLV_2 = plv_2
@@ -240,21 +254,25 @@ class Lattice:
             this.PLV_2.rotate(angle)
             print("Primitive lattice vectors rotated by ", angle, " radians to ", this.PLV_1, this.PLV_2)
 
+
     def gen_reciprocal_lattice(this):
-        print("\n=Generating reciprocal lattice...=")
+        print("\n= Generating reciprocal lattice... =")
+
         # reciprocal lattice constant
         this.RLC = (4*np.pi)/(np.sqrt(3)*this.PLC)
+
         # reciprocal lattice vectors
         # conditions to generate RLVs: ai dot bj = 2Pi delta(i,j)
-
         four_pi_over_rt_three_RLC_sqrd = (4*np.pi)/(np.sqrt(3)*this.PLC*this.PLC)
         this.RLV_1 = Vector(four_pi_over_rt_three_RLC_sqrd*this.PLV_1.v)
         this.RLV_2 = Vector(-four_pi_over_rt_three_RLC_sqrd*this.PLV_2.v)
+
         print("\nReciprocal lattice constant = ", this.RLC)
         print("Reciprocal lattice vectors = ", this.RLV_1.v, this.RLV_2.v)
         
     # Define the vectors that describe the paths for points Gamma, K, K', M in the brillouin zone
     def gen_brilloin_zone_vectors(this):
+
         this.Gamma_to_M = Vector((1.0/2.0)*this.RLV_1.v)
 
         this.Gamma_to_K_prime = Vector((1.0/3.0) * (this.RLV_1.v + this.RLV_2.v))
@@ -287,6 +305,15 @@ class Lattice:
         print("this should be equal to zero: ", tmp)
         """
 
+    #generate a nearest neighbors hamiltonian, must rotate k input to be of perspective of the layer (k_prime)
+    def gen_layer_hamiltonian(this, k: np.array):
+        #phi = np.arctan(k[1]/k[0])  #try and relate this to rotation of the whole layer?
+        # difference in angle = phi - rotation
+        #k_prime = np.matmul(k_rotation(-this.rotation), k)
+        #return Hamiltonian(k_prime)
+        return Hamiltonian(k)
+
+    #get eigenvalues for one layer
     def get_eigenvalues(this):
         # this is not great but it doesn't work otherwise (numpy)
         Energy_1 = np.array([])
@@ -313,9 +340,9 @@ class Lattice:
         #assuming starting from point M - should rotate with the rest
         k_last = this.Gamma_to_M.v
         #k_last = Gamma_to_M.v
-        print("\nstarting k offset (M) = ", k_last/this.RLC)
+        print("\nstarting position (M) = ", k_last/this.RLC)
         Path_Offset += np.linalg.norm(k_last)
-        print("\ninitial x offset = ", Path_Offset)
+        print("\ninitial x axis 'distance' travelled = ", Path_Offset)
 
         for vectors in this.M_to_M:
             print("\nmoving along vector: ", vectors.v)
@@ -323,13 +350,17 @@ class Lattice:
 
                 k_step = x*vectors.v + k_last
 
+                # IMPORTANT rotates k to k', by rotating in the opposite direction to the rotation of the lattice
+                # this is equaivalent to rotating the coordinate system (kx, ky) -> (k'x, k'y)
+                #probably a tidier way of doing this - in the hamiltonian generation
+                k_step = k_rotation(k_step, this.rotation)
+
                 # for plotting the path in the brillouin zone
                 Path_x = np.append(Path_x, k_step[0]/this.RLC)
                 Path_y = np.append(Path_y, k_step[1]/this.RLC)
 
                 Path = np.append(Path, x*vectors.len() + Path_Offset)
-                #eValues, eVectors = np.linalg.eig(Hamiltonian(k_step)) #evalues and evectors (slow)
-                eValues = np.linalg.eigvalsh(Hamiltonian(k_step))   #just evalues
+                eValues = np.linalg.eigvalsh(this.gen_layer_hamiltonian(k_step))   #just evalues
                 eValues.sort()
             
                 for i in np.arange(0, 6, 1):
@@ -337,10 +368,10 @@ class Lattice:
                     #EigenVectors[i] = np.append(EigenVectors[i], eVectors[i], axis = 1)
 
             k_last += vectors.v
-            print("\nnew k offset = ", k_last/this.RLC)
+            print("\ncurrent point in k = ", k_last/this.RLC)
 
             Path_Offset += vectors.len()
-            print("new x offset = ", Path_Offset)
+            print("total x axis 'distance' travelled = ", Path_Offset)
 
         this.eValues = Energy
         this.eVectors = EigenVectors
@@ -360,7 +391,6 @@ class Lattice:
                 marker = 'o',
                 color = 'black',
                 markersize = 2)
-
 
         ax.plot(0,0, marker = 'o', color = 'red')
         ax.plot(this.Gamma_to_M.v[0]/this.RLC,this.Gamma_to_M.v[1]/this.RLC, marker = 'o', color = 'red')
@@ -405,15 +435,35 @@ class Lattice:
 
         plt.show()
 
+# Test lattice class from start to finish
 
-# Test lattices from start to finish
-
-myLattice = Lattice(PLC, PLV_1, PLV_2, np.pi/4)   #no rotation, defaults
+myLattice = Lattice(PLC, PLV_1, PLV_2, 0, 0)   #no rotation, defaults
 
 myLattice.gen_reciprocal_lattice()
 myLattice.gen_brilloin_zone_vectors()
 myLattice.gen_brilloin_zone_path()
+print("lattice 1 evalues")
 myLattice.get_eigenvalues()
 
+#plot
+#myLattice.plot_brillouin_zone_path()
+#myLattice.plot_eigenvalues()
+
+#move these somewhere else - just stick to radians probably
+def degrees(radians):
+    return 0
+
+def radians(degrees):
+    return degrees * 2*np.pi/360
+
+myLattice_2 = Lattice(PLC, PLV_1, PLV_2, radians(63), 1)
+myLattice_2.gen_reciprocal_lattice()
+myLattice_2.gen_brilloin_zone_vectors()
+myLattice_2.gen_brilloin_zone_path()
+myLattice_2.get_eigenvalues()
+
 myLattice.plot_brillouin_zone_path()
+myLattice_2.plot_brillouin_zone_path()
+
 myLattice.plot_eigenvalues()
+myLattice_2.plot_eigenvalues()
