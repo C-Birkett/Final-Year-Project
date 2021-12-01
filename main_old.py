@@ -79,10 +79,10 @@ PLV_2 = Vector([-np.sqrt(3)*PLC/2, PLC/2])
 
 # define alpha and beta from the wavevector k
 
-def alpha(k: np.array):
+def alpha(k):
     return 1/2*k[0]*PLC
 
-def beta(k: np.array):
+def beta(k):
     return (math.sqrt(3)/2)*k[1]*PLC
 
 """
@@ -200,7 +200,7 @@ def Hamiltonian(k: np.array):
 
 # rotation matrix for wavenumber vector to compensate for rotation of layers
 # turns out this is equaivalent to rotating the opposite direction with the normal rotation matrix, so may remove this at some point later
-def k_rotation(k: np.array, phi):
+def k_rotation(k, phi):
     rot_mat = np.array([[math.cos(phi), math.sin(phi)],
                         [-math.sin(phi), math.cos(phi)]])
     return np.matmul(rot_mat, k)
@@ -208,280 +208,30 @@ def k_rotation(k: np.array, phi):
 # Class to manage the whole system - mostly for constructing the hamiltonian of the whole system (2 layers) and its eigenvalues
 class Heterostructure:
 
-    # heterostructure of lattices
-    def __init__(this, plv1: Vector, plv2: Vector, plc, angle):
+    # heterostructure has some # of layers each one has its own hamiltonian
+    def __init__(this, plv1: Vector):
+        this.layers = []
+        this.layer_hamiltonians = []
+        this.layer_rotations = []
+        this.numlayers = 0
         
-        # The lattices that make up the van der waals heterostructure
-        this.lattices = np.array([])
-
-        this.rotation = angle
-
-        #primitive lattice vectors for 'universal k coordinate system'
-        this.PLV_1 = plv1
-        this.PLV_2 = plv2
-    
-        #primitive lattice constant
-        this.PLC = plc
-        this.RLC = (4*np.pi)/(np.sqrt(3)*this.PLC)
-
-        four_pi_over_rt_three_RLC_sqrd = (4*np.pi)/(np.sqrt(3)*this.PLC*this.PLC)
-        this.RLV_1 = Vector(four_pi_over_rt_three_RLC_sqrd*this.PLV_1.v)
-        this.RLV_2 = Vector(-four_pi_over_rt_three_RLC_sqrd*this.PLV_2.v)
-
     def gen_lattices(this):
-
-        # create our two lattice layers, one rotated
-        this.lattices = np.append(this.lattices, Lattice(this.PLC, this.PLV_1, this.PLV_2, 0, 0))
-        this.lattices = np.append(this.lattices, Lattice(this.PLC, this.PLV_1, this.PLV_2, this.rotation, 1))
-
-        # alternate rotation system - doesn't work currently
-        #this.lattices = np.append(this.lattices, Lattice(this.PLC, this.PLV_1, this.PLV_2, -1/2*this.rotation, 0))
-        #this.lattices = np.append(this.lattices, Lattice(this.PLC, this.PLV_1, this.PLV_2, 1/2*this.rotation, 1))
-
-        # generates the reciprocal lattice & brilloin zone for each layer
-        for lattice in this.lattices:
-    
-            # Generate each lattice by itself
-            lattice.gen_reciprocal_lattice()
-            lattice.gen_brilloin_zone_vectors()
-            lattice.gen_brilloin_zone_path()
-
-            # hamiltonian and evalues of each layer
-            #lattice.get_eigenvalues()
-            #lattice.Hamiltonian_array()
-
-            # plot the individual graphs for each layer
-            #lattice.plot_brillouin_zone_path()
-            #lattice.plot_eigenvalues()
-
-    def gen_hamiltonian(this, k: np.array):
-        #this generates a 12x12 matrix using gen_layer_hamiltonian() for each lattice then combine using an inner product
-        hamiltonian = np.kron(top_left, this.lattices[0].gen_layer_hamiltonian(k)) + np.kron(bottom_right, this.lattices[1].gen_layer_hamiltonian(k_rotation(k, this.rotation)))
-        return hamiltonian
-
-    # Brilloin zone in our 'universal' k coordinate system
-    def gen_brilloin_zone_vectors(this):
-
-        this.Gamma_to_M = Vector((1.0/2.0)*this.RLV_1.v)
-
-        this.Gamma_to_K_prime = Vector((1.0/3.0) * (this.RLV_1.v + this.RLV_2.v))
-
-        this.M_to_K_prime = Vector((-1.0/6.0)*this.RLV_1.v + (1.0/3.0)*this.RLV_2.v)
-
-        this.M_to_K = Vector((1.0/6.0)*this.RLV_1.v - (1.0/3.0)*this.RLV_2.v)
-
-        #to avoid rotating twice
-        this.K_prime_to_M = Vector(this.M_to_K.v)
-
-        this.Gamma_to_K = Vector((2.0/3.0)*this.RLV_1.v - (1.0/3.0)*this.RLV_2.v)
-
-        this.K_to_Gamma = Vector((-2.0/3.0)*this.RLV_1.v + (1.0/3.0)*this.RLV_2.v)
+        # generate each lattice with some rotation etc
         return 0
 
-    # equilateral triangle path in brilloin zone
-    def gen_brilloin_zone_path(this):
-        this.M_to_M = [this.M_to_K,
-                        this.K_to_Gamma,
-                        this.Gamma_to_K_prime,
-                        this.K_prime_to_M]
-        """
-        # test these make a closed loop - returns 10-7 error in x, which is negligible
-        tmp = np.array([0.0,0.0])
-        print("\ntmp = ", tmp)
-        for v in M_to_M:
-            tmp += v.v
-            print("\nvector = ", v.v)
-            print("\ntmp = ", tmp)
+    # need to combine all of the hamiltionians with an inner product
+    # will need to evaluate individual hamiltionians at k, then combine into large one for evalues
+    def gen_full_hamiltonian(this, k):
+        #something like this
+        #for lattice in layer:
+        #   this.layer_hamiltonians[lattice.layer_index] = lattice.gen_layer_hamiltonian
 
-        print("this should be equal to zero: ", tmp)
-        """
+        return 0
 
-    def gen_eigenvalues(this):
-        # this is not great but it doesn't work otherwise (numpy)
-        Energy_1 = np.array([])
-        Energy_2 = np.array([])
-        Energy_3 = np.array([])
-        Energy_4 = np.array([])
-        Energy_5 = np.array([])
-        Energy_6 = np.array([])
-        Energy_7 = np.array([])
-        Energy_8 = np.array([])
-        Energy_9 = np.array([])
-        Energy_10 = np.array([])
-        Energy_11 = np.array([])
-        Energy_12 = np.array([])
-        Energy = [Energy_1,Energy_2,Energy_3,Energy_4,Energy_5,Energy_6, Energy_7, Energy_8, Energy_9, Energy_10, Energy_11, Energy_12]
-
-        Path_x = np.array([])
-        Path_y = np.array([])
-
-        # 'Path' is the x axis in the energy band graph
-        Path = np.array([])
-
-        Path_Offset = 0 #for plotting x axis
-        #assuming starting from point M
-        k_last = this.Gamma_to_M.v
-        print("\nstarting position (M) = ", k_last/this.RLC)
-        Path_Offset += np.linalg.norm(k_last)
-        print("\ninitial x axis 'distance' travelled = ", Path_Offset)
-
-        for vectors in this.M_to_M:
-            print("\nmoving along vector: ", vectors.v)
-            for x in np.arange(0, 1, 0.01):
-
-                k_step = x*vectors.v + k_last
-
-                # for plotting the path in the brillouin zone
-                Path_x = np.append(Path_x, k_step[0])
-                Path_y = np.append(Path_y, k_step[1])
-
-                Path = np.append(Path, x*vectors.len() + Path_Offset)
-                eValues = np.linalg.eigvalsh(this.gen_hamiltonian(k_step))   #just evalues
-                eValues.sort()
-            
-                for i in np.arange(0, 12, 1):
-                    Energy[i] = np.append(Energy[i], eValues[i].real)
-
-            k_last += vectors.v
-
-            Path_Offset += vectors.len()
-            print("total x axis 'distance' travelled = ", Path_Offset)
-
-        this.eValues = Energy
-        this.path = Path
-        this.path_x = Path_x
-        this.path_y = Path_y
-
-        return Energy, Path, Path_x, Path_y
-
-    # plot the path in k that is taken
-    def plot_brillouin_zone_path(this):
-        fig = plt.figure(figsize=(6,6))
-        ax = fig.add_subplot(111)
-
-        ax.plot(this.path_x, 
-                this.path_y,
-                marker = 'o',
-                color = 'black',
-                markersize = 2)
-
-        ax.plot(0,0, marker = 'o', color = 'red')
-        ax.plot(this.Gamma_to_M.v[0],this.Gamma_to_M.v[1], marker = 'o', color = 'red')
-        ax.plot(this.Gamma_to_K.v[0],this.Gamma_to_K.v[1], marker = 'o', color = 'red')
-        ax.plot(this.Gamma_to_K_prime.v[0],this.Gamma_to_K_prime.v[1], marker = 'o', color = 'red')
-
-        plt.axhline(y=0, xmin=-2, xmax=2, color = 'green')
-        plt.axvline(x=0, ymin=-2, ymax=2, color = 'green')
-
-        plt.xlim(-2*RLC,2*RLC)
-        plt.ylim(-2*RLC,2*RLC)
-
-        plt.show()
-
-    # plot the eigenvalues (electronic bands)
-    def plot_eigenvalues(this):
-        fig = plt.figure(figsize=(8,8))
-        ax = fig.add_subplot(111)
-
-        for i in np.arange(0,12,1):
-            if (i % 2) == 0:
-                colour = 'red'
-            else:
-                colour = 'blue'
-
-            ax.plot(this.path,
-                    this.eValues[i].real,
-                    #xerr = ,
-                    #yerr = ,
-                    #capsize = ,
-                    #marker = 'o',
-                    #markersize = 2,
-                    color = colour,
-                    markerfacecolor = 'black',
-                    #linestyle = '-',
-                    #label = 'asdef'
-                    )
-
-        plt.xlim(0,this.RLC*10)
-        plt.xlim(this.path[0],this.path[-1])
-        plt.ylim(-1,4)
-
-        plt.show()
-
-    def gen_surface_evalues(this, lattice_index):
-        # x,y is a plane described by the RLVs
-        # find evalues for each k = (x,y), need to sort for lowest? evalues
-        # return 3 vector? (x,y,E)
-
-        Energy = np.array([])
-        kx = np.array([])
-        ky = np.array([])
-        
-        k = Vector([0,0])
-
-        for rlv_1 in np.arange(0,1,0.02):
-            for rlv_2 in np.arange (0,1,0.02):
-
-                k = (rlv_1 * this.RLV_1.v) + (rlv_2 * this.RLV_2.v)
-
-                hamiltonian = this.lattices[lattice_index].gen_layer_hamiltonian(k)
-                eValues = np.linalg.eigvalsh(hamiltonian)
-                eValues.sort()
-
-                Energy = np.append(Energy, eValues[0].real)
-                kx = np.append(kx, k[0])
-                ky = np.append(ky, k[1])
-        
-        return [kx, ky, Energy]
-
-    def surface_z(this, xx, yy, lattice_index):
-        z = np.empty((np.shape(xx)[0],np.shape(xx)[1]))
-
-        for i in range(np.shape(xx)[1]):
-            for j in range(np.shape(xx)[0]):
-                k = np.array([xx[j,i], yy[j,i]])
-                #hamiltonian = this.lattices[0].gen_layer_hamiltonian(k)
-                hamiltonian = this.lattices[lattice_index].gen_layer_hamiltonian(k)
-                #hamiltonian = this.gen_hamiltonian(k)
-                eValues = np.linalg.eigvalsh(hamiltonian)
-                eValues.sort()
-                z[j,i] = eValues[0]
-        return z
-
-    def plot_surface(this):
-
-        # define space to plot surface in
-        kx = np.linspace(0, this.RLC, 100)
-        ky = np.linspace(0, this.RLC, 100)
-
-        #kx = np.linspace(-this.RLC, this.RLC, 100)
-        #ky = np.linspace(-this.RLC, this.RLC, 100)
-
-        # create a mesh grid in kx, ky
-        xx, yy = np.meshgrid(kx, ky)
-
-        # returns z as a function of the grid
-        z_1 = this.surface_z(xx, yy, 0)
-        z_2 = this.surface_z(xx, yy, 1)
-
-        fig = plt.figure(figsize = (8,8))
-        ax = plt.axes(projection = '3d')
-
-        ax.plot_surface(xx, yy, z_1, cmap = 'viridis', zorder = 1)
-        ax.plot_surface(xx, yy, z_2, cmap = 'magma', zorder = 1)
-
-        # plots a surface using 1d arrays for values & polygons - THIS IS WRONG!
-        #surface_evalues_1 = this.gen_surface_evalues(0)
-        #surface_evalues_2 = this.gen_surface_evalues(1)
-        #ax.plot_trisurf(surface_evalues_1[0], surface_evalues_1[1], surface_evalues_1[2], cmap = 'viridis')
-        #ax.plot_trisurf(surface_evalues_2[0], surface_evalues_2[1], surface_evalues_2[2], cmap = 'magma')
-
-        # Plot the evalues just along the path like original plots
-        #ax.plot(this.path_x, this.path_y, this.eValues[0]+0.5, color = 'red', markersize = 5, zorder = 2)
-
-        ax.set_title('Lowest energy electronic band surface in brilloin zone')
-        plt.show()
-
+    def find_eigenvalues(this, k):
+        # for k in path, gen_full_hamiltonian(k) at each k_step
+        # get evalues like for just 1 layer
+        return 0
 
 # --- Lattice ---
 
@@ -502,12 +252,13 @@ class Lattice:
         this.PLV_1 = plv_1
         this.PLV_2 = plv_2
 
-        #rotates lattice vectors accordingly - maybe move to lattice
-        this.PLV_1.rotate(this.rotation)
-        this.PLV_2.rotate(this.rotation)
-
         print("\nLattice constant = ", this.PLC)
         print("Lattice vectors = ", this.PLV_1.v, this.PLV_2.v)
+
+        if angle != 0:
+            this.PLV_1.rotate(angle)
+            this.PLV_2.rotate(angle)
+            print("Primitive lattice vectors rotated by ", angle, " radians to ", this.PLV_1, this.PLV_2)
 
 
     def gen_reciprocal_lattice(this):
@@ -561,10 +312,12 @@ class Lattice:
         """
 
     #generate a nearest neighbors hamiltonian, must rotate k input to be of perspective of the layer (k_prime)
-    # this is equaivalent to rotating the coordinate system (kx, ky) -> (k'x, k'y)
     def gen_layer_hamiltonian(this, k: np.array):
-        k_prime = k_rotation(k, -this.rotation)
-        return Hamiltonian(k_prime)
+        #phi = np.arctan(k[1]/k[0])  #try and relate this to rotation of the whole layer?
+        # difference in angle = phi - rotation
+        #k_prime = np.matmul(k_rotation(-this.rotation), k)
+        #return Hamiltonian(k_prime)
+        return Hamiltonian(k)
 
     #get eigenvalues for one layer
     def get_eigenvalues(this):
@@ -603,6 +356,11 @@ class Lattice:
 
                 k_step = x*vectors.v + k_last
 
+                # IMPORTANT rotates k to k', by rotating in the opposite direction to the rotation of the lattice
+                # this is equaivalent to rotating the coordinate system (kx, ky) -> (k'x, k'y)
+                #probably a tidier way of doing this - in the hamiltonian generation
+                k_step = k_rotation(k_step, this.rotation)
+
                 # for plotting the path in the brillouin zone
                 Path_x = np.append(Path_x, k_step[0]/this.RLC)
                 Path_y = np.append(Path_y, k_step[1]/this.RLC)
@@ -610,11 +368,10 @@ class Lattice:
                 Path = np.append(Path, x*vectors.len() + Path_Offset)
                 eValues = np.linalg.eigvalsh(this.gen_layer_hamiltonian(k_step))   #just evalues
                 eValues.sort()
-
-                this.Hamiltonian_array.append(this.gen_layer_hamiltonian(k_step))
             
                 for i in np.arange(0, 6, 1):
                     Energy[i] = np.append(Energy[i], eValues[i].real)
+                    #EigenVectors[i] = np.append(EigenVectors[i], eVectors[i], axis = 1)
 
             k_last += vectors.v
             print("\ncurrent point in k = ", k_last/this.RLC)
@@ -635,7 +392,7 @@ class Lattice:
         fig = plt.figure(figsize=(6,6))
         ax = fig.add_subplot(111)
 
-        ax.plot(this.path_x, 
+        ax.plot(this.path_x,
                 this.path_y,
                 marker = 'o',
                 color = 'black',
@@ -684,23 +441,35 @@ class Lattice:
 
         plt.show()
 
+# Test lattice class from start to finish
+
+myLattice = Lattice(PLC, PLV_1, PLV_2, 0, 0)   #no rotation, defaults
+
+myLattice.gen_reciprocal_lattice()
+myLattice.gen_brilloin_zone_vectors()
+myLattice.gen_brilloin_zone_path()
+print("lattice 1 evalues")
+myLattice.get_eigenvalues()
+
+#plot
+#myLattice.plot_brillouin_zone_path()
+#myLattice.plot_eigenvalues()
+
 #move these somewhere else - just stick to radians probably
 def degrees(radians):
-    return radians * 360 / (2 *np.pi)
+    return 0
 
 def radians(degrees):
     return degrees * 2*np.pi/360
 
-#using the heterostructres class
+myLattice_2 = Lattice(PLC, PLV_1, PLV_2, radians(63), 1)
+myLattice_2.gen_reciprocal_lattice()
+myLattice_2.gen_brilloin_zone_vectors()
+myLattice_2.gen_brilloin_zone_path()
+myLattice_2.get_eigenvalues()
 
-myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,radians(258))
-myTwistedBilayer.gen_lattices()
-myTwistedBilayer.gen_brilloin_zone_vectors()
-myTwistedBilayer.gen_brilloin_zone_path()
-myTwistedBilayer.gen_eigenvalues()
-#myTwistedBilayer.plot_brillouin_zone_path()
-#myTwistedBilayer.plot_eigenvalues()
+myLattice.plot_brillouin_zone_path()
+myLattice_2.plot_brillouin_zone_path()
 
-myTwistedBilayer.plot_surface()
-
-
+myLattice.plot_eigenvalues()
+myLattice_2.plot_eigenvalues()
