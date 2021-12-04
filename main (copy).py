@@ -6,12 +6,11 @@
 
 # tuesday 7th 10:00 meeting
 
-# This is the main file for self project
+# This is the main file for this project
 
 import numpy as np
 import cmath
 import math
-import copy
 import matplotlib.pyplot as plt
 
 # --- Constants ---
@@ -58,24 +57,24 @@ def rotation_matrix_90(theta):
 # A simple vector class to cut down on the amount of messy numpy array syntax & to keep methods such as rotation etc in one place
 # these vectors are dimensionless, each element is assumed to be a function of some other value (i.e wavevector k)
 class Vector:
-    def __init__(self, vec: np.array):
-        self.v = np.array(vec)
+    def __init__(this, vec: np.array):
+        this.v = np.array(vec)
     
-    def rotate(self, theta):
-        self.v = np.matmul(rotation_matrix(theta), self.v)
-        return self.v
+    def rotate(this, theta):
+        this.v = np.matmul(rotation_matrix(theta), this.v)
+        return this.v
 
-    def rotate90(self, theta):
-        self.v = np.matmul(rotation_matrix_90(theta), self.v)
-        return self.v
+    def rotate90(this, theta):
+        this.v = np.matmul(rotation_matrix_90(theta), this.v)
+        return this.v
 
-    def len(self):
-        return np.linalg.norm(self.v)
+    def len(this):
+        return np.linalg.norm(this.v)
 
-    def k(self, k: np.array):   # evaluate at some wavevector k, just an elementwise product
-        return np.array([self.v[0] * k[0], self.v[1] * k[1]])
+    def k(this, k: np.array):   # evaluate at some wavevector k, just an elementwise product
+        return np.array([this.v[0] * k[0], this.v[1] * k[1]])
 
-# for simplicity we will define the "default" primitive and reciprocal lattice vectors the same way they were defined before (before weekend of 13/11/21), self can be easily changed in the future if need be.
+# for simplicity we will define the "default" primitive and reciprocal lattice vectors the same way they were defined before (before weekend of 13/11/21), this can be easily changed in the future if need be.
 
 # Primitive lattice constant
 PLC = 3.45e-10
@@ -208,7 +207,7 @@ def Hamiltonian(k: np.array):
     return np.kron(sigma_0, Hamiltonian_nearest_neighbors(k)) + np.kron(sigma_z, (1/2)*lambda_SOC*L_z)
 
 # rotation matrix for wavenumber vector to compensate for rotation of layers
-# turns out self is equaivalent to rotating the opposite direction with the normal rotation matrix, so may remove self at some point later
+# turns out this is equaivalent to rotating the opposite direction with the normal rotation matrix, so may remove this at some point later
 def k_rotation(k: np.array, phi):
     rot_mat = np.array([[math.cos(phi), math.sin(phi)],
                         [-math.sin(phi), math.cos(phi)]])
@@ -218,39 +217,37 @@ def k_rotation(k: np.array, phi):
 class Heterostructure:
 
     # heterostructure of lattices
-    def __init__(self, plv1: Vector, plv2: Vector, plc, angle):
+    def __init__(this, plv1: Vector, plv2: Vector, plc, angle):
         
         # The lattices that make up the van der waals heterostructure
-        self.lattices = np.array([])
+        this.lattices = np.array([])
 
-        self.rotation = angle
+        this.rotation = angle
 
         #primitive lattice vectors for 'universal k coordinate system'
-        self.PLV_1 = plv1
-        self.PLV_2 = plv2
+        this.PLV_1 = plv1
+        this.PLV_2 = plv2
     
         #primitive lattice constant
-        self.PLC = plc
-        self.RLC = (4*np.pi)/(np.sqrt(3)*self.PLC)
+        this.PLC = plc
+        this.RLC = (4*np.pi)/(np.sqrt(3)*this.PLC)
 
-        four_pi_over_rt_three_RLC_sqrd = (4*np.pi)/(np.sqrt(3)*self.PLC*self.PLC)
-        self.RLV_1 = Vector(four_pi_over_rt_three_RLC_sqrd*self.PLV_1.v)
-        self.RLV_2 = Vector(-four_pi_over_rt_three_RLC_sqrd*self.PLV_2.v)
+        four_pi_over_rt_three_RLC_sqrd = (4*np.pi)/(np.sqrt(3)*this.PLC*this.PLC)
+        this.RLV_1 = Vector(four_pi_over_rt_three_RLC_sqrd*this.PLV_1.v)
+        this.RLV_2 = Vector(-four_pi_over_rt_three_RLC_sqrd*this.PLV_2.v)
 
-    def gen_lattices(self):
+    def gen_lattices(this):
 
         # create our two lattice layers, one rotated
-        self.lattices = np.append(self.lattices, Lattice(self.PLC, self.PLV_1, self.PLV_2, 0, 0))
-        print(self.PLV_1.v, self.PLV_2.v)
-        self.lattices = np.append(self.lattices, Lattice(self.PLC, self.PLV_1, self.PLV_2, self.rotation, 1))
-        print(self.PLV_1.v, self.PLV_2.v)
+        this.lattices = np.append(this.lattices, Lattice(this.PLC, this.PLV_1, this.PLV_2, 0, 0))
+        this.lattices = np.append(this.lattices, Lattice(this.PLC, this.PLV_1, this.PLV_2, this.rotation, 1))
 
         # alternate rotation system - doesn't work currently
-        #self.lattices = np.append(self.lattices, Lattice(self.PLC, self.PLV_1, self.PLV_2, -1/2*self.rotation, 0))
-        #self.lattices = np.append(self.lattices, Lattice(self.PLC, self.PLV_1, self.PLV_2, 1/2*self.rotation, 1))
+        #this.lattices = np.append(this.lattices, Lattice(this.PLC, this.PLV_1, this.PLV_2, -1/2*this.rotation, 0))
+        #this.lattices = np.append(this.lattices, Lattice(this.PLC, this.PLV_1, this.PLV_2, 1/2*this.rotation, 1))
 
         # generates the reciprocal lattice & brilloin zone for each layer
-        for lattice in self.lattices:
+        for lattice in this.lattices:
     
             # Generate each lattice by itself
             lattice.gen_reciprocal_lattice()
@@ -265,47 +262,49 @@ class Heterostructure:
             #lattice.plot_brillouin_zone_path()
             #lattice.plot_eigenvalues()
 
-    def gen_hamiltonian(self, k: np.array):
-        # Generates a 12x12 matrix using gen_layer_hamiltonian() for each lattice then combine using an inner product
-        hamiltonian = np.kron(top_left, self.lattices[0].gen_layer_hamiltonian(k)) + np.kron(bottom_right, self.lattices[1].gen_layer_hamiltonian(k))
+    def gen_hamiltonian(this, k: np.array):
+        #this generates a 12x12 matrix using gen_layer_hamiltonian() for each lattice then combine using an inner product
+        hamiltonian = np.kron(top_left, this.lattices[0].gen_layer_hamiltonian(k)) + np.kron(bottom_right, this.lattices[1].gen_layer_hamiltonian(k_rotation(k, this.rotation)))
         return hamiltonian
 
     # Brilloin zone in our 'universal' k coordinate system
-    def gen_brilloin_zone_vectors(self):
+    def gen_brilloin_zone_vectors(this):
 
-        self.Gamma_to_M = Vector((1.0/2.0)*self.RLV_1.v)
+        this.Gamma_to_M = Vector((1.0/2.0)*this.RLV_1.v)
 
-        self.Gamma_to_K_prime = Vector((1.0/3.0) * (self.RLV_1.v + self.RLV_2.v))
+        this.Gamma_to_K_prime = Vector((1.0/3.0) * (this.RLV_1.v + this.RLV_2.v))
 
-        self.M_to_K_prime = Vector((-1.0/6.0)*self.RLV_1.v + (1.0/3.0)*self.RLV_2.v)
+        this.M_to_K_prime = Vector((-1.0/6.0)*this.RLV_1.v + (1.0/3.0)*this.RLV_2.v)
 
-        self.M_to_K = Vector((1.0/6.0)*self.RLV_1.v - (1.0/3.0)*self.RLV_2.v)
+        this.M_to_K = Vector((1.0/6.0)*this.RLV_1.v - (1.0/3.0)*this.RLV_2.v)
 
         #to avoid rotating twice
-        self.K_prime_to_M = Vector(self.M_to_K.v)
+        this.K_prime_to_M = Vector(this.M_to_K.v)
 
-        self.Gamma_to_K = Vector((2.0/3.0)*self.RLV_1.v - (1.0/3.0)*self.RLV_2.v)
+        this.Gamma_to_K = Vector((2.0/3.0)*this.RLV_1.v - (1.0/3.0)*this.RLV_2.v)
 
-        self.K_to_Gamma = Vector((-2.0/3.0)*self.RLV_1.v + (1.0/3.0)*self.RLV_2.v)
+        this.K_to_Gamma = Vector((-2.0/3.0)*this.RLV_1.v + (1.0/3.0)*this.RLV_2.v)
         return 0
 
     # equilateral triangle path in brilloin zone
-    def gen_brilloin_zone_path(self):
-        self.brillouin_path = self.lattices[0].Gamma_to_Gamma + self.lattices[1].Gamma_to_Gamma
-
+    def gen_brilloin_zone_path(this):
+        this.M_to_M = [this.M_to_K,
+                        this.K_to_Gamma,
+                        this.Gamma_to_K_prime,
+                        this.K_prime_to_M]
         """
         # test these make a closed loop - returns 10-7 error in x, which is negligible
         tmp = np.array([0.0,0.0])
         print("\ntmp = ", tmp)
-        for v in self.path:
+        for v in M_to_M:
             tmp += v.v
             print("\nvector = ", v.v)
             print("\ntmp = ", tmp)
 
-        print("self should be equal to zero: ", tmp)
+        print("this should be equal to zero: ", tmp)
         """
 
-    def gen_eigenvalues(self):
+    def gen_eigenvalues(this):
         # this is not great but it doesn't work otherwise (numpy)
         Energy_1 = np.array([])
         Energy_2 = np.array([])
@@ -329,14 +328,12 @@ class Heterostructure:
 
         Path_Offset = 0 #for plotting x axis
         #assuming starting from point M
-        #k_last = self.Gamma_to_M.v
-
-        k_last = np.array([0.0,0.0])
-        print("\nstarting position (M) = ", k_last/self.RLC)
+        k_last = this.Gamma_to_M.v
+        print("\nstarting position (M) = ", k_last/this.RLC)
         Path_Offset += np.linalg.norm(k_last)
         print("\ninitial x axis 'distance' travelled = ", Path_Offset)
 
-        for vectors in self.brillouin_path:
+        for vectors in this.M_to_M:
             print("\nmoving along vector: ", vectors.v)
             for x in np.arange(0, 1, 0.01):
 
@@ -347,8 +344,8 @@ class Heterostructure:
                 Path_y = np.append(Path_y, k_step[1])
 
                 Path = np.append(Path, x*vectors.len() + Path_Offset)
-                eValues = np.linalg.eigvalsh(self.gen_hamiltonian(k_step))   #just evalues
-                #eValues.sort()
+                eValues = np.linalg.eigvalsh(this.gen_hamiltonian(k_step))   #just evalues
+                eValues.sort()
             
                 for i in np.arange(0, 12, 1):
                     Energy[i] = np.append(Energy[i], eValues[i].real)
@@ -358,53 +355,50 @@ class Heterostructure:
             Path_Offset += vectors.len()
             print("total x axis 'distance' travelled = ", Path_Offset)
 
-        self.eValues = Energy
-        self.path = Path
-        self.path_x = Path_x
-        self.path_y = Path_y
+        this.eValues = Energy
+        this.path = Path
+        this.path_x = Path_x
+        this.path_y = Path_y
 
         return Energy, Path, Path_x, Path_y
 
     # plot the path in k that is taken
-    def plot_brillouin_zone_path(self):
+    def plot_brillouin_zone_path(this):
         fig = plt.figure(figsize=(6,6))
         ax = fig.add_subplot(111)
 
-        ax.plot(self.path_x, 
-                self.path_y,
+        ax.plot(this.path_x, 
+                this.path_y,
                 marker = 'o',
                 color = 'black',
                 markersize = 2)
 
         ax.plot(0,0, marker = 'o', color = 'red')
-        ax.plot(self.Gamma_to_M.v[0],self.Gamma_to_M.v[1], marker = 'o', color = 'red')
-        ax.plot(self.Gamma_to_K.v[0],self.Gamma_to_K.v[1], marker = 'o', color = 'red')
-        ax.plot(self.Gamma_to_K_prime.v[0],self.Gamma_to_K_prime.v[1], marker = 'o', color = 'red')
+        ax.plot(this.Gamma_to_M.v[0],this.Gamma_to_M.v[1], marker = 'o', color = 'red')
+        ax.plot(this.Gamma_to_K.v[0],this.Gamma_to_K.v[1], marker = 'o', color = 'red')
+        ax.plot(this.Gamma_to_K_prime.v[0],this.Gamma_to_K_prime.v[1], marker = 'o', color = 'red')
 
         plt.axhline(y=0, xmin=-2, xmax=2, color = 'green')
         plt.axvline(x=0, ymin=-2, ymax=2, color = 'green')
 
-        plt.xlim(-2*self.RLC,2*self.RLC)
-        plt.ylim(-2*self.RLC,2*self.RLC)
+        plt.xlim(-2*RLC,2*RLC)
+        plt.ylim(-2*RLC,2*RLC)
 
         plt.show()
 
     # plot the eigenvalues (electronic bands)
-    def plot_eigenvalues(self):
+    def plot_eigenvalues(this):
         fig = plt.figure(figsize=(8,8))
         ax = fig.add_subplot(111)
 
-        for i in np.arange(0,4,1):
-            '''
+        for i in np.arange(0,12,1):
             if (i % 2) == 0:
                 colour = 'red'
             else:
                 colour = 'blue'
-            '''
-            colour = 'blue'
 
-            ax.plot(self.path,
-                    self.eValues[i].real,
+            ax.plot(this.path,
+                    this.eValues[i].real,
                     #xerr = ,
                     #yerr = ,
                     #capsize = ,
@@ -416,14 +410,13 @@ class Heterostructure:
                     #label = 'asdef'
                     )
 
-        plt.xlim(0,self.RLC*10)
-        plt.xlim(self.path[0],self.path[-1])
-        plt.ylim(-1,1)
+        plt.xlim(0,this.RLC*10)
+        plt.xlim(this.path[0],this.path[-1])
+        plt.ylim(-1,4)
 
         plt.show()
 
-    """ Not relevant right now
-    def gen_surface_evalues(self, lattice_index):
+    def gen_surface_evalues(this, lattice_index):
         # x,y is a plane described by the RLVs
         # find evalues for each k = (x,y), need to sort for lowest? evalues
         # return 3 vector? (x,y,E)
@@ -437,9 +430,9 @@ class Heterostructure:
         for rlv_1 in np.arange(0,1,0.02):
             for rlv_2 in np.arange (0,1,0.02):
 
-                k = (rlv_1 * self.RLV_1.v) + (rlv_2 * self.RLV_2.v)
+                k = (rlv_1 * this.RLV_1.v) + (rlv_2 * this.RLV_2.v)
 
-                hamiltonian = self.lattices[lattice_index].gen_layer_hamiltonian(k)
+                hamiltonian = this.lattices[lattice_index].gen_layer_hamiltonian(k)
                 eValues = np.linalg.eigvalsh(hamiltonian)
                 eValues.sort()
 
@@ -448,36 +441,36 @@ class Heterostructure:
                 ky = np.append(ky, k[1])
         
         return [kx, ky, Energy]
-    """
 
-    def surface_z(self, xx, yy, lattice_index):
+    def surface_z(this, xx, yy, lattice_index):
         z = np.empty((np.shape(xx)[0],np.shape(xx)[1]))
 
         for i in range(np.shape(xx)[1]):
             for j in range(np.shape(xx)[0]):
                 k = np.array([xx[j,i], yy[j,i]])
-                hamiltonian = self.lattices[lattice_index].gen_layer_hamiltonian(k)
-                #hamiltonian = self.gen_hamiltonian(k)
+                #hamiltonian = this.lattices[0].gen_layer_hamiltonian(k)
+                hamiltonian = this.lattices[lattice_index].gen_layer_hamiltonian(k)
+                #hamiltonian = this.gen_hamiltonian(k)
                 eValues = np.linalg.eigvalsh(hamiltonian)
                 eValues.sort()
                 z[j,i] = eValues[0]
         return z
 
-    def plot_surface(self):
+    def plot_surface(this):
 
         # define space to plot surface in
-        #kx = np.linspace(0, self.RLC, 100)
-        #ky = np.linspace(0, self.RLC, 100)
+        #kx = np.linspace(0, this.RLC, 100)
+        #ky = np.linspace(0, this.RLC, 100)
 
-        kx = np.linspace(-self.RLC, self.RLC, 100)
-        ky = np.linspace(-self.RLC, self.RLC, 100)
+        kx = np.linspace(-this.RLC, this.RLC, 100)
+        ky = np.linspace(-this.RLC, this.RLC, 100)
 
         # create a mesh grid in kx, ky
         xx, yy = np.meshgrid(kx, ky)
 
         # returns z as a function of the grid
-        z_1 = self.surface_z(xx, yy, 0)
-        z_2 = self.surface_z(xx, yy, 1)
+        z_1 = this.surface_z(xx, yy, 0)
+        z_2 = this.surface_z(xx, yy, 1)
 
         fig = plt.figure(figsize = (8,8))
         ax = plt.axes(projection = '3d')
@@ -485,8 +478,14 @@ class Heterostructure:
         #ax.plot_surface(xx, yy, z_1, cmap = 'viridis', zorder = 1)
         #ax.plot_surface(xx, yy, z_2, cmap = 'magma', zorder = 1)
 
+        # plots a surface using 1d arrays for values & polygons - THIS IS WRONG!
+        #surface_evalues_1 = this.gen_surface_evalues(0)
+        #surface_evalues_2 = this.gen_surface_evalues(1)
+        #ax.plot_trisurf(surface_evalues_1[0], surface_evalues_1[1], surface_evalues_1[2], cmap = 'viridis')
+        #ax.plot_trisurf(surface_evalues_2[0], surface_evalues_2[1], surface_evalues_2[2], cmap = 'magma')
+
         # Plot the evalues just along the path like original plots
-        ax.plot(self.path_x, self.path_y, self.eValues[0], color = 'red', markersize = 5, zorder = 2)
+        ax.plot(this.path_x, this.path_y, this.eValues[0], color = 'red', markersize = 5, zorder = 2)
 
         ax.set_title('Lowest energy electronic band surface in brilloin zone')
         plt.show()
@@ -497,75 +496,66 @@ class Heterostructure:
 # Class that describes a lattice, can generate reciprocal lattice & hamiltonian.
 class Lattice:
 
-    def __init__(self, plc, plv_1: Vector, plv_2: Vector, angle, layer_index):
+    def __init__(this, plc, plv_1: Vector, plv_2: Vector, angle, layer_index):
         print("\n= Generating lattice... =")
 
         #important for heterostructure
-        self.rotation = angle
-        self.layerindex = layer_index
+        this.rotation = angle
+        this.layerindex = layer_index
 
         #primitive lattice constant
-        self.PLC = plc
+        this.PLC = plc
 
         #primitive lattice vectors
-        self.PLV_1 = copy.copy(plv_1)
-        self.PLV_2 = copy.copy(plv_2)
+        this.PLV_1 = plv_1
+        this.PLV_2 = plv_2
 
-        #rotates lattice vectors accordingly
-        if angle != 0:
-            self.PLV_1.rotate(self.rotation)
-            self.PLV_2.rotate(self.rotation)
+        #rotates lattice vectors accordingly - maybe move to lattice
+        this.PLV_1.rotate(this.rotation)
+        this.PLV_2.rotate(this.rotation)
 
-        print("\nLattice constant = ", self.PLC)
-        print("Lattice vectors = ", self.PLV_1.v, self.PLV_2.v)
+        print("\nLattice constant = ", this.PLC)
+        print("Lattice vectors = ", this.PLV_1.v, this.PLV_2.v)
 
 
-    def gen_reciprocal_lattice(self):
+    def gen_reciprocal_lattice(this):
         print("\n= Generating reciprocal lattice... =")
 
         # reciprocal lattice constant
-        self.RLC = (4*np.pi)/(np.sqrt(3)*self.PLC)
+        this.RLC = (4*np.pi)/(np.sqrt(3)*this.PLC)
 
         # reciprocal lattice vectors
         # conditions to generate RLVs: ai dot bj = 2Pi delta(i,j)
-        four_pi_over_rt_three_RLC_sqrd = (4*np.pi)/(np.sqrt(3)*self.PLC*self.PLC)
-        self.RLV_1 = Vector(four_pi_over_rt_three_RLC_sqrd*self.PLV_1.v)
-        self.RLV_2 = Vector(-four_pi_over_rt_three_RLC_sqrd*self.PLV_2.v)
+        four_pi_over_rt_three_RLC_sqrd = (4*np.pi)/(np.sqrt(3)*this.PLC*this.PLC)
+        this.RLV_1 = Vector(four_pi_over_rt_three_RLC_sqrd*this.PLV_1.v)
+        this.RLV_2 = Vector(-four_pi_over_rt_three_RLC_sqrd*this.PLV_2.v)
 
-        print("\nReciprocal lattice constant = ", self.RLC)
-        print("Reciprocal lattice vectors = ", self.RLV_1.v, self.RLV_2.v)
+        print("\nReciprocal lattice constant = ", this.RLC)
+        print("Reciprocal lattice vectors = ", this.RLV_1.v, this.RLV_2.v)
         
     # Define the vectors that describe the paths for points Gamma, K, K', M in the brillouin zone
-    def gen_brilloin_zone_vectors(self):
+    def gen_brilloin_zone_vectors(this):
 
-        self.Gamma_to_M = Vector((1.0/2.0)*self.RLV_1.v)
+        this.Gamma_to_M = Vector((1.0/2.0)*this.RLV_1.v)
 
-        self.Gamma_to_K_prime = Vector((1.0/3.0) * (self.RLV_1.v + self.RLV_2.v))
+        this.Gamma_to_K_prime = Vector((1.0/3.0) * (this.RLV_1.v + this.RLV_2.v))
 
-        self.M_to_K_prime = Vector((-1.0/6.0)*self.RLV_1.v + (1.0/3.0)*self.RLV_2.v)
+        this.M_to_K_prime = Vector((-1.0/6.0)*this.RLV_1.v + (1.0/3.0)*this.RLV_2.v)
 
-        self.M_to_K = Vector((1.0/6.0)*self.RLV_1.v - (1.0/3.0)*self.RLV_2.v)
+        this.M_to_K = Vector((1.0/6.0)*this.RLV_1.v - (1.0/3.0)*this.RLV_2.v)
 
         #to avoid rotating twice
-        self.K_prime_to_M = Vector(self.M_to_K.v)
+        this.K_prime_to_M = Vector(this.M_to_K.v)
 
-        self.K_prime_to_K = Vector(2*self.K_prime_to_M.v)
+        this.Gamma_to_K = Vector((2.0/3.0)*this.RLV_1.v - (1.0/3.0)*this.RLV_2.v)
 
-        self.Gamma_to_K = Vector((2.0/3.0)*self.RLV_1.v - (1.0/3.0)*self.RLV_2.v)
+        this.K_to_Gamma = Vector((-2.0/3.0)*this.RLV_1.v + (1.0/3.0)*this.RLV_2.v)
 
-        self.K_to_Gamma = Vector((-2.0/3.0)*self.RLV_1.v + (1.0/3.0)*self.RLV_2.v)
-
-    def gen_brilloin_zone_path(self):
-        self.Gamma_to_Gamma = [self.Gamma_to_K_prime,
-                                self.K_prime_to_K,
-                                self.K_to_Gamma,]
-
-        """old path M->M
-        self.M_to_M = [self.M_to_K,
-                        self.K_to_Gamma,
-                        self.Gamma_to_K_prime,
-                        self.K_prime_to_M]
-        """
+    def gen_brilloin_zone_path(this):
+        this.M_to_M = [this.M_to_K,
+                        this.K_to_Gamma,
+                        this.Gamma_to_K_prime,
+                        this.K_prime_to_M]
         """
         # test these make a closed loop - returns 10-7 error in x, which is negligible
         tmp = np.array([0.0,0.0])
@@ -575,20 +565,17 @@ class Lattice:
             print("\nvector = ", v.v)
             print("\ntmp = ", tmp)
 
-        print("self should be equal to zero: ", tmp)
+        print("this should be equal to zero: ", tmp)
         """
 
     #generate a nearest neighbors hamiltonian, must rotate k input to be of perspective of the layer (k_prime)
     # this is equaivalent to rotating the coordinate system (kx, ky) -> (k'x, k'y)
-    def gen_layer_hamiltonian(self, k: np.array):
-        if self.rotation != 0:
-            k_prime = k_rotation(k, self.rotation)
-        else:
-            k_prime = k
+    def gen_layer_hamiltonian(this, k: np.array):
+        k_prime = k_rotation(k, -this.rotation)
         return Hamiltonian(k_prime)
 
     #get eigenvalues for one layer
-    def get_eigenvalues(self):
+    def get_eigenvalues(this):
         # this is not great but it doesn't work otherwise (numpy)
         Energy_1 = np.array([])
         Energy_2 = np.array([])
@@ -612,59 +599,60 @@ class Lattice:
 
         Path_Offset = 0 #for plotting x axis
         #assuming starting from point M - should rotate with the rest
-        #k_last = self.Gamma_to_M.v
-        k_last = np.array([0.0,0.0])
-        print("\nstarting position (M) = ", k_last/self.RLC)
+        k_last = this.Gamma_to_M.v
+        #k_last = Gamma_to_M.v
+        print("\nstarting position (M) = ", k_last/this.RLC)
         Path_Offset += np.linalg.norm(k_last)
         print("\ninitial x axis 'distance' travelled = ", Path_Offset)
 
-        for vectors in self.Gamma_to_Gamma:
+        for vectors in this.M_to_M:
             print("\nmoving along vector: ", vectors.v)
             for x in np.arange(0, 1, 0.01):
 
                 k_step = x*vectors.v + k_last
 
                 # for plotting the path in the brillouin zone
-                Path_x = np.append(Path_x, k_step[0]/self.RLC)
-                Path_y = np.append(Path_y, k_step[1]/self.RLC)
+                Path_x = np.append(Path_x, k_step[0]/this.RLC)
+                Path_y = np.append(Path_y, k_step[1]/this.RLC)
 
                 Path = np.append(Path, x*vectors.len() + Path_Offset)
-                eValues = np.linalg.eigvalsh(self.gen_layer_hamiltonian(k_step))   #just evalues
+                eValues = np.linalg.eigvalsh(this.gen_layer_hamiltonian(k_step))   #just evalues
                 eValues.sort()
 
+                this.Hamiltonian_array.append(this.gen_layer_hamiltonian(k_step))
             
                 for i in np.arange(0, 6, 1):
                     Energy[i] = np.append(Energy[i], eValues[i].real)
 
             k_last += vectors.v
-            print("\ncurrent point in k = ", k_last/self.RLC)
+            print("\ncurrent point in k = ", k_last/this.RLC)
 
             Path_Offset += vectors.len()
             print("total x axis 'distance' travelled = ", Path_Offset)
 
-        self.eValues = Energy
-        self.eVectors = EigenVectors
-        self.path = Path
-        self.path_x = Path_x
-        self.path_y = Path_y
+        this.eValues = Energy
+        this.eVectors = EigenVectors
+        this.path = Path
+        this.path_x = Path_x
+        this.path_y = Path_y
 
         return Energy, Path, EigenVectors, Path_x, Path_y
         
     # plot the path in k that is taken
-    def plot_brillouin_zone_path(self):
+    def plot_brillouin_zone_path(this):
         fig = plt.figure(figsize=(6,6))
         ax = fig.add_subplot(111)
 
-        ax.plot(self.path_x, 
-                self.path_y,
+        ax.plot(this.path_x, 
+                this.path_y,
                 marker = 'o',
                 color = 'black',
                 markersize = 2)
 
         ax.plot(0,0, marker = 'o', color = 'red')
-        ax.plot(self.Gamma_to_M.v[0]/self.RLC,self.Gamma_to_M.v[1]/self.RLC, marker = 'o', color = 'red')
-        ax.plot(self.Gamma_to_K.v[0]/self.RLC,self.Gamma_to_K.v[1]/self.RLC, marker = 'o', color = 'red')
-        ax.plot(self.Gamma_to_K_prime.v[0]/self.RLC,self.Gamma_to_K_prime.v[1]/self.RLC, marker = 'o', color = 'red')
+        ax.plot(this.Gamma_to_M.v[0]/this.RLC,this.Gamma_to_M.v[1]/this.RLC, marker = 'o', color = 'red')
+        ax.plot(this.Gamma_to_K.v[0]/this.RLC,this.Gamma_to_K.v[1]/this.RLC, marker = 'o', color = 'red')
+        ax.plot(this.Gamma_to_K_prime.v[0]/this.RLC,this.Gamma_to_K_prime.v[1]/this.RLC, marker = 'o', color = 'red')
 
         plt.axhline(y=0, xmin=-2, xmax=2, color = 'green')
         plt.axvline(x=0, ymin=-2, ymax=2, color = 'green')
@@ -675,7 +663,7 @@ class Lattice:
         plt.show()
 
     # plot the eigenvalues (electronic bands)
-    def plot_eigenvalues(self):
+    def plot_eigenvalues(this):
         fig = plt.figure(figsize=(6,6))
         ax = fig.add_subplot(111)
 
@@ -685,8 +673,8 @@ class Lattice:
             else:
                 colour = 'blue'
 
-            ax.plot(self.path,
-                    self.eValues[i].real,
+            ax.plot(this.path,
+                    this.eValues[i].real,
                     #xerr = ,
                     #yerr = ,
                     #capsize = ,
@@ -698,8 +686,8 @@ class Lattice:
                     #label = 'asdef'
                     )
 
-        plt.xlim(0,self.RLC*10)
-        plt.xlim(self.path[0],self.path[-1])
+        plt.xlim(0,this.RLC*10)
+        plt.xlim(this.path[0],this.path[-1])
         plt.ylim(-1,4)
 
         plt.show()
@@ -718,10 +706,9 @@ myTwistedBilayer.gen_lattices()
 myTwistedBilayer.gen_brilloin_zone_vectors()
 myTwistedBilayer.gen_brilloin_zone_path()
 myTwistedBilayer.gen_eigenvalues()
+#myTwistedBilayer.plot_brillouin_zone_path()
+#myTwistedBilayer.plot_eigenvalues()
 
-myTwistedBilayer.plot_brillouin_zone_path()
-myTwistedBilayer.plot_eigenvalues()
-
-#myTwistedBilayer.plot_surface()
+myTwistedBilayer.plot_surface()
 
 
