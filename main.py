@@ -1,10 +1,13 @@
 # TODO
 
-# Check if evalues are exactly degenerate - compensating for the rotation is too much rotation
-# take a path that is Gamma->K->K'->Gamma for one layer, then immediately the same path for the other layer, plot all on one graph 'left & right side'
 # restrict surface plot to first brillouin zone
 
-# tuesday 7th 10:00 meeting
+# fix graph, check vectors
+# coupling between same spin different layer - layer 1 to 2 and reverse
+# use same value in all
+
+# friday 10th 15:00 to 16:00
+# monday 13th 15:30 to 16:30
 
 # This is the main file for self project
 
@@ -106,36 +109,36 @@ def beta(k):
 # define the 'hops' for each state (in order d_(z^2), d(x^2-y^2), d_(xy))
 def V_0(k):
     tmp = epsilon_1
-    tmp += 2*t_0*(2*math.cos(alpha(k))*math.cos(beta(k))+math.cos(2*alpha(k)))
-    tmp += 2*r_0*(2*math.cos(3*alpha(k))*math.cos(beta(k))+math.cos(2*beta(k)))
-    tmp += 2*u_0*(2*math.cos(2*alpha(k))*math.cos(2*beta(k))+math.cos(4*alpha(k)))
+    tmp += 2*t_0 * (2*math.cos(alpha(k))*math.cos(beta(k)) + math.cos(2*alpha(k)))
+    tmp += 2*r_0 * (2*math.cos(3*alpha(k))*math.cos(beta(k)) + math.cos(2*beta(k)))
+    tmp += 2*u_0 * (2*math.cos(2*alpha(k))*math.cos(2*beta(k)) + math.cos(4*alpha(k)))
     return tmp
 
 def Re_V_1(k):
-    tmp = -2*math.sqrt(3)*t_2*math.sin(alpha(k))*math.sin(beta(k))
-    tmp += 2*(r_1+r_2)*math.sin(3*alpha(k))*math.sin(beta(k))
-    tmp += -2*math.sqrt(3)*u_2*math.sin(2*alpha(k))*math.sin(2*beta(k)) 
+    tmp = -2*math.sqrt(3)*t_2 * math.sin(alpha(k))*math.sin(beta(k))
+    tmp += 2*(r_1+r_2) * math.sin(3*alpha(k))*math.sin(beta(k))
+    tmp += -2*math.sqrt(3)*u_2 * math.sin(2*alpha(k))*math.sin(2*beta(k)) 
     return tmp
 
 def Im_V_1(k):
-    tmp = 2*t_1*math.sin(alpha(k))*(2*math.cos(alpha(k))+math.cos(beta(k)))
-    tmp += 2*(r_1-r_2)*math.sin(3*alpha(k))*math.cos(beta(k))
-    tmp += 2*u_1*math.sin(2*alpha(k))*(2*math.cos(2*alpha(k))+math.cos(2*beta(k)))
+    tmp = 2*t_1 * math.sin(alpha(k))*(2*math.cos(alpha(k)) + math.cos(beta(k)))
+    tmp += 2*(r_1-r_2) * math.sin(3*alpha(k))*math.cos(beta(k))
+    tmp += 2*u_1 * math.sin(2*alpha(k))*(2*math.cos(2*alpha(k)) + math.cos(2*beta(k)))
     return tmp
 
 def V_1(k):
     return complex(Re_V_1(k), Im_V_1(k))
 
 def Re_V_2(k):
-    tmp = 2*t_2*(math.cos(2*alpha(k))-math.cos(alpha(k))*math.cos(beta(k)))
-    tmp += (-2/math.sqrt(3))*(r_1 + r_2)*(math.cos(3*alpha(k))*math.cos(beta(k))-math.cos(2*beta(k)))
-    tmp += 2*u_2*(math.cos(4*alpha(k))-math.cos(2*alpha(k))*math.cos(2*beta(k)))
+    tmp = 2*t_2 * (math.cos(2*alpha(k)) - math.cos(alpha(k))*math.cos(beta(k)))
+    tmp += (-2/math.sqrt(3))*(r_1 + r_2) * (math.cos(3*alpha(k))*math.cos(beta(k)) - math.cos(2*beta(k)))
+    tmp += 2*u_2 * (math.cos(4*alpha(k)) - math.cos(2*alpha(k))*math.cos(2*beta(k)))
     return tmp
 
 def Im_V_2(k):
-    tmp = 2*math.sqrt(3)*t_1*math.cos(alpha(k))*math.sin(beta(k))
-    tmp += (2/math.sqrt(3))*(r_1-r_2)*math.sin(beta(k))*(math.cos(3*alpha(k))+2*math.cos(beta(k)))
-    tmp += 2*math.sqrt(3)*u_1*math.cos(2*alpha(k))*math.sin(2*beta(k))
+    tmp = 2*math.sqrt(3)*t_1 * math.cos(alpha(k))*math.sin(beta(k))
+    tmp += (2/math.sqrt(3))*(r_1-r_2) * math.sin(beta(k))*(math.cos(3*alpha(k)) + 2*math.cos(beta(k)))
+    tmp += 2*math.sqrt(3)*u_1 * math.cos(2*alpha(k))*math.sin(2*beta(k))
     return tmp
 
 def V_2(k):
@@ -143,23 +146,23 @@ def V_2(k):
 
 def V_11(k):
     tmp = epsilon_2
-    tmp += (t_11 + 3*t_22)*math.cos(alpha(k))*math.cos(beta(k))
-    tmp += 2*t_11*math.cos(2*alpha(k))
-    tmp += 4*r_11*math.cos(3*alpha(k))*math.cos(beta(k))
-    tmp += 2*(r_11+math.sqrt(3)*r_12)*math.cos(2*beta(k))
-    tmp += (u_11+3*u_22)*math.cos(2*alpha(k))*math.cos(2*beta(k))
-    tmp += 2*u_11*math.cos(4*alpha(k))
+    tmp += (t_11 + 3*t_22) * math.cos(alpha(k))*math.cos(beta(k))
+    tmp += 2*t_11 * math.cos(2*alpha(k))
+    tmp += 4*r_11 * math.cos(3*alpha(k))*math.cos(beta(k))
+    tmp += 2*(r_11 + math.sqrt(3)*r_12) * math.cos(2*beta(k))
+    tmp += (u_11 + 3*u_22) * math.cos(2*alpha(k))*math.cos(2*beta(k))
+    tmp += 2*u_11 * math.cos(4*alpha(k))
     return tmp
 
 def Re_V_12(k):
-    tmp = math.sqrt(3)*(t_22-t_11)*math.sin(alpha(k))*math.sin(beta(k))
-    tmp += 4*r_12*math.sin(3*alpha(k))*math.sin(beta(k))
-    tmp += math.sqrt(3)*(u_22-u_11)*math.sin(2*alpha(k))*math.sin(2*beta(k))
+    tmp = math.sqrt(3)*(t_22-t_11) * math.sin(alpha(k))*math.sin(beta(k))
+    tmp += 4*r_12 * math.sin(3*alpha(k))*math.sin(beta(k))
+    tmp += math.sqrt(3)*(u_22-u_11) * math.sin(2*alpha(k))*math.sin(2*beta(k))
     return tmp
 
 def Im_V_12(k):
-    tmp = 4*t_12*math.sin(alpha(k))*(math.cos(alpha(k))-math.cos(beta(k)))
-    tmp += 4*u_12*math.sin(2*alpha(k))*(math.cos(2*alpha(k))-math.cos(2*beta(k)))
+    tmp = 4*t_12 * math.sin(alpha(k))*(math.cos(alpha(k)) - math.cos(beta(k)))
+    tmp += 4*u_12 * math.sin(2*alpha(k))*(math.cos(2*alpha(k)) - math.cos(2*beta(k)))
     return tmp
 
 def V_12(k):
@@ -167,12 +170,12 @@ def V_12(k):
 
 def V_22(k) :
     tmp = epsilon_2
-    tmp += ((3*t_11)+t_22)*math.cos(alpha(k))*math.cos(beta(k))
-    tmp += 2*t_22*math.cos(2*alpha(k))
-    tmp += 2*r_11*((2*math.cos(3*alpha(k))*math.cos(beta(k)))+math.cos(2*beta(k)))
-    tmp += (2/math.sqrt(3))*r_12*((4*math.cos(3*alpha(k))*math.cos(beta(k)))-math.cos(2*beta(k)))
-    tmp += ((3*u_11)+u_22)*math.cos(2*alpha(k))*math.cos(2*beta(k))
-    tmp += 2*u_22*math.cos(4*alpha(k))
+    tmp += ((3*t_11) + t_22) * math.cos(alpha(k))*math.cos(beta(k))
+    tmp += 2*t_22 * math.cos(2*alpha(k))
+    tmp += 2*r_11 * ((2*math.cos(3*alpha(k))*math.cos(beta(k))) + math.cos(2*beta(k)))
+    tmp += (2/math.sqrt(3))*r_12 * ((4*math.cos(3*alpha(k))*math.cos(beta(k))) - math.cos(2*beta(k)))
+    tmp += ((3*u_11) + u_22) * math.cos(2*alpha(k))*math.cos(2*beta(k))
+    tmp += 2*u_22 * math.cos(4*alpha(k))
     return tmp
 
 # --- Components of Hamiltonian ---
@@ -273,23 +276,23 @@ class Heterostructure:
     # Brilloin zone in our 'universal' k coordinate system
     def gen_brilloin_zone_vectors(self):
 
-        self.Gamma_to_M = Vector((1.0/2.0)*self.RLV_1.v)
+        self.Gamma_to_M = Vector((1.0/2.0) * self.RLV_1.v)
 
-        self.Gamma_to_K_prime = Vector((1.0/3.0) * (self.RLV_1.v + self.RLV_2.v))
+        self.Gamma_to_K = Vector((1.0/3.0) * (self.RLV_1.v + self.RLV_2.v))
 
-        self.M_to_K_prime = Vector((-1.0/6.0)*self.RLV_1.v + (1.0/3.0)*self.RLV_2.v)
+        self.M_to_K = Vector((-1.0/6.0)*self.RLV_1.v + (1.0/3.0)*self.RLV_2.v)
 
-        self.M_to_K = Vector((1.0/6.0)*self.RLV_1.v - (1.0/3.0)*self.RLV_2.v)
+        self.M_to_K_prime = Vector((1.0/6.0)*self.RLV_1.v - (1.0/3.0)*self.RLV_2.v)
 
         #to avoid rotating twice
-        self.K_prime_to_M = Vector(self.M_to_K.v)
+        self.K_to_M = Vector(self.M_to_K_prime.v)
 
-        self.Gamma_to_K = Vector((2.0/3.0)*self.RLV_1.v - (1.0/3.0)*self.RLV_2.v)
+        self.Gamma_to_K_prime = Vector((2.0/3.0)*self.RLV_1.v - (1.0/3.0)*self.RLV_2.v)
 
-        self.K_to_Gamma = Vector((-2.0/3.0)*self.RLV_1.v + (1.0/3.0)*self.RLV_2.v)
+        self.K_prime_to_Gamma = Vector((-2.0/3.0)*self.RLV_1.v + (1.0/3.0)*self.RLV_2.v)
         return 0
 
-    # equilateral triangle path in brilloin zone
+    # equilateral triangles path in brilloin zone
     def gen_brilloin_zone_path(self):
         self.brillouin_path = self.lattices[0].Gamma_to_Gamma + self.lattices[1].Gamma_to_Gamma
 
@@ -305,7 +308,7 @@ class Heterostructure:
         print("self should be equal to zero: ", tmp)
         """
 
-    def gen_eigenvalues(self):
+    def gen_eigenvalues(self, brillouin_path):
         # this is not great but it doesn't work otherwise (numpy)
         Energy_1 = np.array([])
         Energy_2 = np.array([])
@@ -332,6 +335,7 @@ class Heterostructure:
         #k_last = self.Gamma_to_M.v
 
         k_last = np.array([0.0,0.0])
+        self.plot_corners = np.array([])
         print("\nstarting position (M) = ", k_last/self.RLC)
         Path_Offset += np.linalg.norm(k_last)
         print("\ninitial x axis 'distance' travelled = ", Path_Offset)
@@ -348,7 +352,7 @@ class Heterostructure:
 
                 Path = np.append(Path, x*vectors.len() + Path_Offset)
                 eValues = np.linalg.eigvalsh(self.gen_hamiltonian(k_step))   #just evalues
-                #eValues.sort()
+                eValues.sort()
             
                 for i in np.arange(0, 12, 1):
                     Energy[i] = np.append(Energy[i], eValues[i].real)
@@ -356,6 +360,7 @@ class Heterostructure:
             k_last += vectors.v
 
             Path_Offset += vectors.len()
+            self.plot_corners = np.append(self.plot_corners, Path_Offset)
             print("total x axis 'distance' travelled = ", Path_Offset)
 
         self.eValues = Energy
@@ -377,15 +382,17 @@ class Heterostructure:
                 markersize = 2)
 
         ax.plot(0,0, marker = 'o', color = 'red')
-        ax.plot(self.Gamma_to_M.v[0],self.Gamma_to_M.v[1], marker = 'o', color = 'red')
-        ax.plot(self.Gamma_to_K.v[0],self.Gamma_to_K.v[1], marker = 'o', color = 'red')
-        ax.plot(self.Gamma_to_K_prime.v[0],self.Gamma_to_K_prime.v[1], marker = 'o', color = 'red')
+
+        for lattice in self.lattices:
+            ax.plot(lattice.Gamma_to_M.v[0],lattice.Gamma_to_M.v[1], marker = 'o', color = 'red')
+            ax.plot(lattice.Gamma_to_K.v[0],lattice.Gamma_to_K.v[1], marker = 'o', color = 'red')
+            ax.plot(lattice.Gamma_to_K_prime.v[0],lattice.Gamma_to_K_prime.v[1], marker = 'o', color = 'red')
 
         plt.axhline(y=0, xmin=-2, xmax=2, color = 'green')
         plt.axvline(x=0, ymin=-2, ymax=2, color = 'green')
 
-        plt.xlim(-2*self.RLC,2*self.RLC)
-        plt.ylim(-2*self.RLC,2*self.RLC)
+        plt.xlim(-self.RLC,self.RLC)
+        plt.ylim(-self.RLC,self.RLC)
 
         plt.show()
 
@@ -394,6 +401,14 @@ class Heterostructure:
         fig = plt.figure(figsize=(8,8))
         ax = fig.add_subplot(111)
 
+        # plot position of corners in triangular path taken
+        for vline in self.plot_corners:
+            plt.axvline(x=vline, ymin=-1, ymax=1, color = 'green')
+
+        # plot fermi level
+        plt.axhline(xmin = self.path[0], xmax = self.path[-1], y = 0, color = 'red')
+
+        # only plot first 4 evalues (fermi level)
         for i in np.arange(0,4,1):
             '''
             if (i % 2) == 0:
@@ -415,7 +430,7 @@ class Heterostructure:
                     #linestyle = '-',
                     #label = 'asdef'
                     )
-
+        
         plt.xlim(0,self.RLC*10)
         plt.xlim(self.path[0],self.path[-1])
         plt.ylim(-1,1)
@@ -450,43 +465,52 @@ class Heterostructure:
         return [kx, ky, Energy]
     """
 
-    def surface_z(self, xx, yy, lattice_index):
+    def surface_z(self, xx, yy, lattice_index, evalue_num):
         z = np.empty((np.shape(xx)[0],np.shape(xx)[1]))
 
         for i in range(np.shape(xx)[1]):
             for j in range(np.shape(xx)[0]):
                 k = np.array([xx[j,i], yy[j,i]])
-                hamiltonian = self.lattices[lattice_index].gen_layer_hamiltonian(k)
-                #hamiltonian = self.gen_hamiltonian(k)
+                #hamiltonian = self.lattices[lattice_index].gen_layer_hamiltonian(k)
+                hamiltonian = self.gen_hamiltonian(k)
                 eValues = np.linalg.eigvalsh(hamiltonian)
                 eValues.sort()
-                z[j,i] = eValues[0]
+                z[j,i] = eValues[evalue_num]
         return z
 
-    def plot_surface(self):
+    def plot_surface(self, plot_type, evalue_num):
 
         # define space to plot surface in
-        #kx = np.linspace(0, self.RLC, 100)
-        #ky = np.linspace(0, self.RLC, 100)
+        kx = np.linspace(0, self.RLC, 100)
+        ky = np.linspace(0, self.RLC, 100)
 
-        kx = np.linspace(-self.RLC, self.RLC, 100)
-        ky = np.linspace(-self.RLC, self.RLC, 100)
+        # bounded by side length of triangle path
+        #kx = np.linspace(0, self.Gamma_to_K.len(), 100)
+        #ky = np.linspace(0, self.Gamma_to_K.len(), 100)
+
+        # full brilloin zone
+        #kx = np.linspace(-self.RLC, self.RLC, 100)
+        #ky = np.linspace(-self.RLC, self.RLC, 100)
 
         # create a mesh grid in kx, ky
         xx, yy = np.meshgrid(kx, ky)
 
         # returns z as a function of the grid
-        z_1 = self.surface_z(xx, yy, 0)
-        z_2 = self.surface_z(xx, yy, 1)
+        z_1 = self.surface_z(xx, yy, 0, evalue_num)
+        z_2 = self.surface_z(xx, yy, 1, evalue_num)
 
         fig = plt.figure(figsize = (8,8))
         ax = plt.axes(projection = '3d')
 
-        #ax.plot_surface(xx, yy, z_1, cmap = 'viridis', zorder = 1)
-        #ax.plot_surface(xx, yy, z_2, cmap = 'magma', zorder = 1)
+        if plot_type == 1 or plot_type == 3:
+            ax.plot_surface(xx, yy, z_1, cmap = 'viridis', zorder = 1)
+            #ax.plot_surface(xx, yy, z_2, cmap = 'magma', zorder = 1)
 
         # Plot the evalues just along the path like original plots
-        ax.plot(self.path_x, self.path_y, self.eValues[0], color = 'red', markersize = 5, zorder = 2)
+        if plot_type == 2:
+            ax.plot(self.path_x, self.path_y, self.eValues[evalue_num], color = 'red', markersize = 5, zorder = 2)
+        elif plot_type == 3:
+            ax.plot(self.path_x, self.path_y, self.eValues[evalue_num]+0.5, color = 'red', markersize = 5, zorder = 2)
 
         ax.set_title('Lowest energy electronic band surface in brilloin zone')
         plt.show()
@@ -540,25 +564,26 @@ class Lattice:
 
         self.Gamma_to_M = Vector((1.0/2.0)*self.RLV_1.v)
 
-        self.Gamma_to_K_prime = Vector((1.0/3.0) * (self.RLV_1.v + self.RLV_2.v))
+        self.Gamma_to_K = Vector((1.0/3.0) * (self.RLV_1.v + self.RLV_2.v))
 
-        self.M_to_K_prime = Vector((-1.0/6.0)*self.RLV_1.v + (1.0/3.0)*self.RLV_2.v)
+        self.M_to_K = Vector((-1.0/6.0)*self.RLV_1.v + (1.0/3.0)*self.RLV_2.v)
 
-        self.M_to_K = Vector((1.0/6.0)*self.RLV_1.v - (1.0/3.0)*self.RLV_2.v)
+        self.M_to_K_prime = Vector((1.0/6.0)*self.RLV_1.v - (1.0/3.0)*self.RLV_2.v)
 
         #to avoid rotating twice
-        self.K_prime_to_M = Vector(self.M_to_K.v)
+        self.K_to_M = Vector(-self.M_to_K.v)
 
-        self.K_prime_to_K = Vector(2*self.K_prime_to_M.v)
+        self.K_to_K_prime = Vector(2*self.K_to_M.v)
 
-        self.Gamma_to_K = Vector((2.0/3.0)*self.RLV_1.v - (1.0/3.0)*self.RLV_2.v)
+        self.Gamma_to_K_prime = Vector((2.0/3.0)*self.RLV_1.v - (1.0/3.0)*self.RLV_2.v)
 
-        self.K_to_Gamma = Vector((-2.0/3.0)*self.RLV_1.v + (1.0/3.0)*self.RLV_2.v)
+        self.K_prime_to_Gamma = Vector((-2.0/3.0)*self.RLV_1.v + (1.0/3.0)*self.RLV_2.v)
 
     def gen_brilloin_zone_path(self):
-        self.Gamma_to_Gamma = [self.Gamma_to_K_prime,
-                                self.K_prime_to_K,
-                                self.K_to_Gamma,]
+        self.Gamma_to_Gamma = [self.Gamma_to_K,
+                                self.K_to_M,
+                                self.K_to_M,
+                                self.K_prime_to_Gamma,]
 
         """old path M->M
         self.M_to_M = [self.M_to_K,
@@ -717,11 +742,14 @@ myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,radians(15))
 myTwistedBilayer.gen_lattices()
 myTwistedBilayer.gen_brilloin_zone_vectors()
 myTwistedBilayer.gen_brilloin_zone_path()
-myTwistedBilayer.gen_eigenvalues()
+myTwistedBilayer.gen_eigenvalues(1)
 
 myTwistedBilayer.plot_brillouin_zone_path()
 myTwistedBilayer.plot_eigenvalues()
 
-#myTwistedBilayer.plot_surface()
+for i in np.arange(0,2,1):
+    print(myTwistedBilayer.eValues[i][50])
+
+myTwistedBilayer.plot_surface(1, 0)
 
 
