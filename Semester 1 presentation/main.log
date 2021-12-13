@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2021.8.29)  9 DEC 2021 18:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2021.8.29)  13 DEC 2021 21:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -778,15 +778,15 @@ LaTeX Info: Redefining \_ on input line 43.
 )
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 23.
+(hyperref)                removing `math shift' on input line 40.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 23.
+(hyperref)                removing `subscript' on input line 40.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 23.
+(hyperref)                removing `math shift' on input line 40.
 
 (/home/conan/texlive/2021/texmf-dist/tex/latex/beamer/beamerpatchparalist.sty)
 (/home/conan/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
@@ -797,24 +797,24 @@ File: l3backend-pdftex.def 2021-08-04 L3 backend support: PDF output (pdfTeX)
 (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -871,7 +871,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 23.
+Package hyperref Info: Link coloring OFF on input line 40.
 
 (/home/conan/texlive/2021/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
@@ -885,65 +885,65 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count345
 )
-LaTeX Info: Redefining \ref on input line 23.
-LaTeX Info: Redefining \pageref on input line 23.
-LaTeX Info: Redefining \nameref on input line 23.
+LaTeX Info: Redefining \ref on input line 40.
+LaTeX Info: Redefining \pageref on input line 40.
+LaTeX Info: Redefining \nameref on input line 40.
  (./main.out) (./main.out)
 \@outlinefile=\write5
 \openout5 = `main.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 23.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 40.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 23.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 40.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 23.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 23.
+(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 40.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 23.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 23.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 23.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 40.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 23.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 23.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 23.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 40.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 23.
+(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 23.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 23.
+(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 40.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 23.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 23.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 40.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 23.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 40.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 23.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/b/n --> OT1/cmr/b/n on input line 23.
+(Font)                  OT1/cmss/b/n --> OT1/cmr/b/n on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmss/b/n --> OT1/cmss/b/n on input line 23.
+(Font)                  OT1/cmss/b/n --> OT1/cmss/b/n on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 23.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 23.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/b/n on input line 23.
-LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 23.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/b/n on input line 40.
+LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 40.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `normal'
-(Font)                  OT1/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 2
-3.
+(Font)                  OT1/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 4
+0.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/b/it --> OT1/mathkerncmss/m/sl on input line 2
-3.
+(Font)                  OT1/cmss/b/it --> OT1/mathkerncmss/m/sl on input line 4
+0.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/mathkerncmss/m/sl --> OT1/mathkerncmss/bx/sl on inp
-ut line 23.
+ut line 40.
 
 (/home/conan/texlive/2021/texmf-dist/tex/latex/translator/translator-basic-dict
 ionary-English.dict
@@ -973,20 +973,20 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
  (./main.nav)
-LaTeX Font Info:    Trying to load font information for U+msa on input line 27.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 44.
 
 
 (/home/conan/texlive/2021/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 27.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 44.
 
 
 (/home/conan/texlive/2021/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Trying to load font information for OT1+mathkerncmss on inp
-ut line 27.
+ut line 44.
 
 (/home/conan/texlive/2021/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.f
 d
@@ -1001,100 +1001,167 @@ thkerncmss.
 
 ]
 LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <9> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 60.
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 90.
 LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <6> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 60.
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 90.
 LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <5> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 60.
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 90.
 
 ! Display math should end with $$.
 <to be read again> 
                     
-l.60 \end{frame}
+l.90 \end{frame}
                 
 ? 
 ! You can't use `\eqno' in math mode.
 \endmathdisplay@a ...\df@tag \@empty \else \veqno 
                                                   \alt@tag \df@tag \fi \ifx ...
-l.60 \end{frame}
+l.90 \end{frame}
                 
 ? 
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.60 \end{frame}
+l.90 \end{frame}
                 
 ? 
 [4
 
-] [5
-
 ]
-<./Habara_NN.png, id=157, 414.54875pt x 393.47pt>
+<./Habara_NN.png, id=130, 414.54875pt x 393.47pt>
 File: ./Habara_NN.png Graphic file (type png)
 <use ./Habara_NN.png>
-Package pdftex.def Info: ./Habara_NN.png  used on input line 98.
-(pdftex.def)             Requested size: 414.54773pt x 393.46902pt.
- [6
+Package pdftex.def Info: ./Habara_NN.png  used on input line 107.
+(pdftex.def)             Requested size: 138.2795pt x 131.24438pt.
+<./Habara_side_view.png, id=131, 229.60782pt x 132.495pt>
+File: ./Habara_side_view.png Graphic file (type png)
+<use ./Habara_side_view.png>
+Package pdftex.def Info: ./Habara_side_view.png  used on input line 107.
+(pdftex.def)             Requested size: 138.2795pt x 79.79681pt.
+ [5
 
- <./Habara_NN.png>]
-<1st_BZ.png, id=184, 441.65pt x 435.6275pt>
+ <./Habara_NN.png> <./Habara_side_view.PNG>] [6
+
+]
+<1st_BZ.png, id=187, 426.59375pt x 432.61626pt>
 File: 1st_BZ.png Graphic file (type png)
 <use 1st_BZ.png>
-Package pdftex.def Info: 1st_BZ.png  used on input line 109.
-(pdftex.def)             Requested size: 441.64891pt x 435.62643pt.
+Package pdftex.def Info: 1st_BZ.png  used on input line 158.
+(pdftex.def)             Requested size: 426.5927pt x 432.6152pt.
  [7
 
  <./1st_BZ.png>]
-<evalues_1.png, id=215, 433.62pt x 433.62pt>
-File: evalues_1.png Graphic file (type png)
-<use evalues_1.png>
-Package pdftex.def Info: evalues_1.png  used on input line 127.
+<unrotated_evalues.png, id=217, 433.62pt x 433.62pt>
+File: unrotated_evalues.png Graphic file (type png)
+<use unrotated_evalues.png>
+Package pdftex.def Info: unrotated_evalues.png  used on input line 180.
 (pdftex.def)             Requested size: 138.2795pt x 138.27823pt.
-<unrotated_surface.png, id=216, 578.16pt x 578.16pt>
+<unrotated_surface.png, id=218, 578.16pt x 578.16pt>
 File: unrotated_surface.png Graphic file (type png)
 <use unrotated_surface.png>
-Package pdftex.def Info: unrotated_surface.png  used on input line 127.
+Package pdftex.def Info: unrotated_surface.png  used on input line 180.
 (pdftex.def)             Requested size: 138.2795pt x 138.27602pt.
- [8
 
- <./evalues_1.png> <./unrotated_surface.png>] [9
-
-]
-<twisted_mono_surface.png, id=271, 803.0pt x 694.595pt>
-File: twisted_mono_surface.png Graphic file (type png)
-<use twisted_mono_surface.png>
-Package pdftex.def Info: twisted_mono_surface.png  used on input line 143.
-(pdftex.def)             Requested size: 802.99805pt x 694.5933pt.
-
-Overfull \vbox (3.75966pt too high) detected at line 143
+Overfull \vbox (2.89671pt too high) detected at line 180
  []
 
-[10
+[8
 
- <./twisted_mono_surface.png>] [11
+ <./unrotated_evalues.png> <./unrotated_surface.png>]
+<Habara_evalues.png, id=246, 399.74344pt x 240.9pt>
+File: Habara_evalues.png Graphic file (type png)
+<use Habara_evalues.png>
+Package pdftex.def Info: Habara_evalues.png  used on input line 201.
+(pdftex.def)             Requested size: 138.2795pt x 83.33113pt.
+<our_Habara_evalues.png, id=247, 433.62pt x 433.62pt>
+File: our_Habara_evalues.png Graphic file (type png)
+<use our_Habara_evalues.png>
+Package pdftex.def Info: our_Habara_evalues.png  used on input line 201.
+(pdftex.def)             Requested size: 138.2795pt x 138.27823pt.
+ [9
+
+ <./Habara_evalues.PNG> <./our_Habara_evalues.png>] [10
 
 ]
-<evalues_2.png, id=324, 578.16pt x 578.16pt>
-File: evalues_2.png Graphic file (type png)
-<use evalues_2.png>
-Package pdftex.def Info: evalues_2.png  used on input line 164.
-(pdftex.def)             Requested size: 578.15858pt x 578.15858pt.
+<twisted_triangles.png, id=302, 569.12625pt x 438.63875pt>
+File: twisted_triangles.png Graphic file (type png)
+<use twisted_triangles.png>
+Package pdftex.def Info: twisted_triangles.png  used on input line 221.
+(pdftex.def)             Requested size: 569.12486pt x 438.63766pt.
+ [11
+
+ <./twisted_triangles.png>]
+<heterostructure_BZ_path.png, id=329, 426.59375pt x 433.62pt>
+File: heterostructure_BZ_path.png Graphic file (type png)
+<use heterostructure_BZ_path.png>
+Package pdftex.def Info: heterostructure_BZ_path.png  used on input line 229.
+(pdftex.def)             Requested size: 426.5927pt x 433.61894pt.
  [12
 
- <./evalues_2.png>]
-<d_orbitals.png, id=351, 341.275pt x 356.33125pt>
-File: d_orbitals.png Graphic file (type png)
-<use d_orbitals.png>
-Package pdftex.def Info: d_orbitals.png  used on input line 174.
-(pdftex.def)             Requested size: 341.27415pt x 356.33037pt.
+ <./heterostructure_BZ_path.png>]
+<twisted_evalues_1.png, id=356, 433.62pt x 433.62pt>
+File: twisted_evalues_1.png Graphic file (type png)
+<use twisted_evalues_1.png>
+Package pdftex.def Info: twisted_evalues_1.png  used on input line 237.
+(pdftex.def)             Requested size: 433.61894pt x 433.61894pt.
  [13
 
- <./d_orbitals.png>] [14
+ <./twisted_evalues_1.png>]
+<twisted_mono_surface.png, id=385, 803.0pt x 694.595pt>
+File: twisted_mono_surface.png Graphic file (type png)
+<use twisted_mono_surface.png>
+Package pdftex.def Info: twisted_mono_surface.png  used on input line 245.
+(pdftex.def)             Requested size: 802.99805pt x 694.5933pt.
+ [14
 
-] [15
+ <./twisted_mono_surface.png>]
+<twisted_evalues_2.png, id=412, 433.62pt x 433.62pt>
+File: twisted_evalues_2.png Graphic file (type png)
+<use twisted_evalues_2.png>
+Package pdftex.def Info: twisted_evalues_2.png  used on input line 253.
+(pdftex.def)             Requested size: 433.61894pt x 433.61894pt.
+ [15
 
-] [16
+ <./twisted_evalues_2.png>] [16
+
+]
+<heterostructure_evalues.png, id=465, 578.16pt x 578.16pt>
+File: heterostructure_evalues.png Graphic file (type png)
+<use heterostructure_evalues.png>
+Package pdftex.def Info: heterostructure_evalues.png  used on input line 279.
+(pdftex.def)             Requested size: 578.15858pt x 578.15858pt.
+ [17
+
+ <./heterostructure_evalues.png>] [18
+
+]
+<d_orbitals.png, id=518, 341.275pt x 356.33125pt>
+File: d_orbitals.png Graphic file (type png)
+<use d_orbitals.png>
+Package pdftex.def Info: d_orbitals.png  used on input line 302.
+(pdftex.def)             Requested size: 341.27415pt x 356.33037pt.
+ [19
+
+ <./d_orbitals.png>] [20
+
+] [21
+
+]
+<coupled_heterostructure_evalues.png, id=598, 578.16pt x 578.16pt>
+File: coupled_heterostructure_evalues.png Graphic file (type png)
+<use coupled_heterostructure_evalues.png>
+Package pdftex.def Info: coupled_heterostructure_evalues.png  used on input lin
+e 362.
+(pdftex.def)             Requested size: 578.15858pt x 578.15858pt.
+
+Overfull \vbox (11.433pt too high) detected at line 362
+ []
+
+[22
+
+ <./coupled_heterostructure_evalues.png>] [23
+
+] [24
 
 ]
 \tf@nav=\write6
@@ -1111,13 +1178,13 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 22513 strings out of 478599
- 418274 string characters out of 5853599
- 708173 words of memory out of 5000000
- 39865 multiletter control sequences out of 15000+600000
+ 22637 strings out of 478599
+ 421377 string characters out of 5853599
+ 710173 words of memory out of 5000000
+ 39965 multiletter control sequences out of 15000+600000
  421482 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 128i,14n,124p,491b,583s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 128i,14n,124p,461b,590s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/home/conan/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc
 }</home/conan/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmbsy
 6.pfb></home/conan/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cmextra/
@@ -1138,10 +1205,10 @@ b></home/conan/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 </home/conan/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10
 .pfb></home/conan/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfso0900.
 pfb>
-Output written on main.pdf (16 pages, 911942 bytes).
+Output written on main.pdf (24 pages, 1309576 bytes).
 PDF statistics:
- 541 PDF objects out of 1000 (max. 8388607)
- 462 compressed objects within 5 object streams
- 34 named destinations out of 1000 (max. 500000)
- 78 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 765 PDF objects out of 1000 (max. 8388607)
+ 660 compressed objects within 7 object streams
+ 50 named destinations out of 1000 (max. 500000)
+ 118 words of extra memory for PDF output out of 10000 (max. 10000000)
 

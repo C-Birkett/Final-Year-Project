@@ -50,7 +50,7 @@
       \item Adding a twist
       \item Constructing a heterostructure
       \item What's next? - Layer coupling and perturbation theory
-      \item Questions
+      \item References
   \end{itemize}
 \end{frame}
 
@@ -68,7 +68,7 @@
   \begin{itemize}
     \item For our model of NbSe$_2$ we employ a multi-orbital tight binding model from R. Habara and K. Wakabayashi $^{[3]}$.
 
-    \item It uses the $d_{z^2}$, $d_{xy}$ and $d_{x^2-y^2}$ orbitals of Nb atoms up to third nearest neighbor sites as a basis set to describe the electronic states of the NbSe$_2$ monolayer.
+    \item It uses the $d_{z^2}$, $d_{xy}$ and $d_{x^2-y^2}$ orbitals of Nb atoms up to third nearest neighbor sites with spin up and down as a basis set to describe the electronic states of the NbSe$_2$ monolayer near the Fermi level.
 
     \item{The eigenvalue equation for the TBM is
       \begin{equation}
@@ -86,6 +86,7 @@
 
       where $(\cdots)^T$ indicates the transpose of the vector and $c_{nk\tau s}$ is the amplitude at atomic orbital $\tau$ with spin $s$ for the $n$th energy band at $k$.
       }
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{TBM Nearest Neighbors (NN)}{Modelling NbSe$_2$}
@@ -136,7 +137,7 @@
       \end{equation}
     }
 
-  \item $\hat{\sigma}_0$ and $\hat{\sigma}_z$ are pauli matrices and $\lambda_{\text{SOC}}=0.0784$ eV is the Ising-type spin orbit coupling parameter. $V_0 \cdots V_{22}$ are functions of $k$ $^{[3]}$
+  \item $\hat{\sigma}_0$ and $\hat{\sigma}_z$ are pauli matrices and $\lambda_{\text{SOC}}=0.0784$ eV is the Ising-type spin orbit coupling parameter. $V_0 \cdots V_{22}$ are functions of $k$ $^{[3]}$.
   \end{itemize}
 \end{frame}
 
@@ -152,7 +153,7 @@
   \begin{figure}
     \centering
     \resizebox{4cm}{!}{\includegraphics{1st_BZ.png}}
-    \caption{The first brillouin zone of the NbSe$_2$ lattice. $\Gamma, K, K' \text{ and } M$ are the standard critical points. $\vec{b_1}, \vec{b_2}$ are the reciprocal lattice vectors, shown in red is the slice $\Gamma \rightarrow K \rightarrow M \rightarrow K' \rightarrow \Gamma$}
+    \caption{The first brillouin zone of the NbSe$_2$ lattice. $\Gamma, K, K' \text{ and } M$ are the standard critical points. $\vec{b_1}, \vec{b_2}$ are the reciprocal lattice vectors, shown in red is the slice $\Gamma \rightarrow K \rightarrow M \rightarrow K' \rightarrow \Gamma$.}
   \end{figure}
 \end{frame}
 
@@ -168,21 +169,21 @@
   \begin{minipage}{.5\textwidth}
     \centering
     \includegraphics[width=.9\linewidth]{unrotated_evalues.png}
-    \captionof{figure}{Energy band structure taken across slice $\Gamma \rightarrow K \rightarrow M \rightarrow K' \rightarrow \Gamma$. Critical points are shown in green and the Fermi level (red) is set to 0 eV}
+    \captionof{figure}{Energy band structure taken across slice $\Gamma \rightarrow K \rightarrow M \rightarrow K' \rightarrow \Gamma$. Critical points are shown in green and the Fermi level (red) is set to 0 eV.}
   \end{minipage}%
   \begin{minipage}{.5\textwidth}
     \centering
     \includegraphics[width=.9\linewidth]{unrotated_surface.png}
-    \captionof{figure}{A plot of the surface of the lowest energy state in the same region. The same peaks can be seen at critical points $\Gamma, K, \text{and} K'$}
+    \captionof{figure}{A plot of the surface of the lowest energy state in the same region. The same peaks can be seen at critical points $\Gamma, K, \text{and} K'$.}
   \end{minipage}
   \end{figure}
 \end{frame}
 
 \begin{frame}{Habara FIG 1. (d)}{Modelling NbSe$_2$}
   \begin{itemize}
-    \item If we instead take the same slice but insead from $M \rightarrow M$ we can retrieve FIG. 1. (d) from Habara et al$^{[1]}$
+    \item If we instead take the same slice but insead from $M \rightarrow M$ we can retrieve FIG. 1. (d) from Habara et al$^{[1]}$.
 
-    \item In the rest of our analysis we use $\Gamma \rightarrow \Gamma$ as Gamma is the axis of rotation
+    \item In the rest of our analysis we use $\Gamma \rightarrow \Gamma$ as $\Gamma$ is the axis of rotation.
   \end{itemize}
 
   \begin{figure}
@@ -195,7 +196,7 @@
     \centering
     \includegraphics[width=.9\linewidth]{our_Habara_evalues.png}
   \end{minipage}
-  \captionof{figure}{Habara et al$^{[1]}$ FIG. 1. (d), Energy band structure and DOS taken across slice $M \rightarrow K' \rightarrow \Gamma \rightarrow K \rightarrow M$. Note they have taken $K$ and $K'$ to have opposite meanings. Our recreation is shown on the right for comparison}
+  \captionof{figure}{Habara et al$^{[1]}$ FIG. 1. (d), Energy band structure and DOS taken across slice $M \rightarrow K' \rightarrow \Gamma \rightarrow K \rightarrow M$. Note they have taken $K$ and $K'$ to have opposite meanings. Our recreation is shown on the right for comparison.}
   \end{figure}
 \end{frame}
 
@@ -203,51 +204,51 @@
   \begin{itemize}
     \item In order to construct a twisted bilayer, we must first figure out how to describe a twisted monolayer.
 
-    \item A simple rotation in primitive lattice vectors $a_1, a_2 -> a_1', a_2'$ corresponds to the same rotation in reciprocal lattice vectors $b_1, b_2 -> b_1', b_2'$
+    \item A simple rotation in primitive lattice vectors $a_1, a_2 -> a_1', a_2'$ corresponds to the same rotation in reciprocal lattice vectors $b_1, b_2 -> b_1', b_2'$.
 
-    \item We can consider this a rotation of the whole coordinate system in $k$ space to coordinates in $(k_x', k_y')$. Then all of the physics remains the same
+    \item We can consider this a rotation of the whole coordinate system in $k$ space to coordinates in $(k_x', k_y')$.
 
-    \item The result of this is that in order to describe a vector $(k_x', k_y')$ in rotated $k$ space (such as $Gamma, K$ etc) in terms of our unrotated coordinate system $k_x, k_y$ it has to be rotated \textit{inversely} to the rotation of the layer
+    \item The result of this is that in order to describe a vector $\vec{k'}$ in rotated $k$ space (such as $Gamma, K$ etc) in terms of our unrotated coordinate system $(k_x, k_y)$ it has to be rotated \textit{inversely} to the rotation of the layer.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Twisted triangles}{Adding a twist}
   \begin{figure}
   \centering
-    \resizebox{8cm}{!}{\includegraphics{twisted_triangles.png}}
-    \caption{The effect of rotating the layer on the path $\Gamma \rightarrow \Gamma$ and the correction that must be made to $k$}
+    \resizebox{6cm}{!}{\includegraphics{twisted_triangles.png}}
+    \caption{The effect of rotating the layer on the path $\Gamma \rightarrow \Gamma$ and the correction that must be made to $\vec{k}$. Because of the rotation of $(k_x, k_y)$ to $(k_x', k_y')$ by $\theta$, in order for for vector $\vec{k}$ in $k'$ space to be represented in $k$ space it must be rotated clockwise by $\theta$.}
   \end{figure}
 \end{frame}
 
 \begin{frame}{Two triangle path}{Adding a twist}
   \begin{figure}
   \centering
-    \resizebox{8cm}{!}{\includegraphics{heterostructure_BZ_path.png}}
-    \caption{It is convenient to construct a path consisting of an unrotated path $\Gamma \rightarrow K_1 \rightarrow M_1 \rightarrow K_1' \rightarrow \Gamma$ followed by a rotated path (here at 15$^\circ$)  $\Gamma \rightarrow K_2 \rightarrow M_2 \rightarrow K_2' \rightarrow \Gamma$ that allows us to consider the eigenvalues of a lattice from two perspectives consecutively. We will call this path $\Gamma \rightarrow \Gamma \rightarrow \Gamma$.}
+    \resizebox{6cm}{!}{\includegraphics{heterostructure_BZ_path.png}}
+    \caption{It is convenient to construct a path consisting of an unrotated path $\Gamma \rightarrow K_1 \rightarrow M_1 \rightarrow K_1' \rightarrow \Gamma$ followed by a rotated path (here at 15$^\circ$)  $\Gamma \rightarrow K_2 \rightarrow M_2 \rightarrow K_2' \rightarrow \Gamma$. This allows us to consider the eigenvalues of a lattice from two perspectives consecutively. We will call this path $\Gamma \rightarrow \Gamma \rightarrow \Gamma$.}
   \end{figure}
 \end{frame}
 
 \begin{frame}{Twisted eigenvalues}{Adding a twist}
   \begin{figure}
   \centering
-    \resizebox{8cm}{!}{\includegraphics{twisted_evalues_1.png}}
-    \caption{Our original plot of eigenvalues on the new path $\Gamma \rightarrow \Gamma \rightarrow \Gamma$ There is clearly a substantial effect on the electronic band structure}
+    \resizebox{6cm}{!}{\includegraphics{twisted_evalues_1.png}}
+    \caption{Our original plot of eigenvalues of an 'unrotated' layer on the new path $\Gamma \rightarrow \Gamma \rightarrow \Gamma$. There is clearly a substantial effect on the electronic band structure across the rotated portion of the path.}
   \end{figure}
 \end{frame}
 
 \begin{frame}{Twisted surface}{Adding a twist}
   \begin{figure}
     \centering
-    \resizebox{8cm}{!}{\includegraphics{twisted_mono_surface.png}}
-    \caption{A surface of the lowest energy state plotted against unrotated $k_x, k_y$ axes. A twist of 15$^\circ$ is applied to the surface counter clockwise. The plot has been extended to an area encompassing the first brillouin zone to show this more clearly}
+    \resizebox{6cm}{!}{\includegraphics{twisted_mono_surface.png}}
+    \caption{A surface of the lowest energy state plotted against unrotated $k_x, k_y$ axes. A twist of 15$^\circ$ is applied to the surface counter clockwise. The plot has been extended to an area encompassing the first brillouin zone to show this more clearly.}
   \end{figure}
 \end{frame}
 
 \begin{frame}{Un-twisted eigenvalues}{Adding a twist}
   \begin{figure}
   \centering
-    \resizebox{8cm}{!}{\includegraphics{twisted_evalues_2.png}}
-    \caption{The eigenvalues of our 15$^\circ$ twisted lattice on the path $\Gamma \rightarrow \Gamma \rightarrow \Gamma$}
+    \resizebox{6cm}{!}{\includegraphics{twisted_evalues_2.png}}
+    \caption{The eigenvalues of our 15$^\circ$ twisted lattice on the path $\Gamma \rightarrow \Gamma \rightarrow \Gamma$. It is mirror symmetric to our unrotated lattices eigenvalues through $\Gamma$.}
   \end{figure}
 \end{frame}
 
@@ -265,7 +266,7 @@
       
       Where $\hat{H_1}(\boldsymbol{k})$ and $\hat{H_2}(\boldsymbol{k'})$ are the Hamiltonians of the unrotated and rotated layers respectively.
       }
-    \item Note that $\hat{H_2}(\boldsymbol{k'})$ is a function of $k'$ which means that an implementation of this matrix of this function must rotate the $k$ input (as described previously) before it is input into $\hat{H_2}(\boldsymbol{k'})$
+    \item Note that $\hat{H_2}(\boldsymbol{k'})$ is a function of $k'$ which means that an implementation of this matrix of this function must rotate the $k$ input (as described previously) before it is input into $\hat{H}(\boldsymbol{k})$.
   \end{itemize}
 \end{frame}
 
@@ -273,15 +274,15 @@
   \begin{figure}
     \centering
     \resizebox{6cm}{!}{\includegraphics{heterostructure_evalues.png}}
-    \caption{The four lowest energy eigenvalues of the heterostructure with a twist of 15$^\circ$ applied to the second layer. This plot is taken in the path $\Gamma \rightarrow K \rightarrow M \rightarrow K' \rightarrow \Gamma$ in the unrotated layer and then the same points from the rotated layer. For now, we are only looking at these eigenvalues because they are at the Fermi level, and the corresponding Fermi-surface will describe the electronic properties of the material}
+    \caption{The four lowest energy eigenvalues of the heterostructure with a twist of 15$^\circ$ applied to the second layer. This plot is taken in the path $\Gamma \rightarrow \Gamma \rightarrow \Gamma$. For now, we are only looking at these eigenstates because they have energy near the Fermi level, and the corresponding Fermi-surface will describe the electronic properties of the material. The other eigenvalues are still computed.}
   \end{figure}
 \end{frame}
 
 \begin{frame}{Varying the angle}{Constructing a heterostructure}
   \begin{itemize}
-    \item GIF of eigenvalues at varying angles
-    \item \hyperlink{file://./Animation.gif}
-    \item Notice that the intersection of energy bands varies with angle as a consequence.
+    \item GIF of eigenvalues at varying angles (PDF).
+    %\item \hyperlink{file://./Animation.gif}
+    \item Notice that the intersection of energy bands varies with the angle of rotation.
     \item This will become very important in our work next semester when we apply perturbation theory to a model of coupled layers!
   \end{itemize}
 \end{frame}
@@ -296,7 +297,7 @@
   \begin{figure}
     \centering
     \resizebox{4cm}{!}{\includegraphics{d_orbitals.png}}
-    \caption{Depictions of the $d$ orbitals from lumenlearning.com [4], note the projection of the $d_{z^2}$ orbital into the $z$ axis}
+    \caption{Depictions of the $d$ orbitals from lumenlearning.com$^{[4]}$, note the projection of the $d_{z^2}$ orbital into the $z$ axis.}
   \end{figure}
 \end{frame}
 
@@ -315,7 +316,7 @@
         \item $d_{z^2, \uparrow, 2} \rightarrow d_{z^2, \uparrow, 1}$
       \end{enumerate}
 
-      where $d_{z^2, s, i}$ is the $d_{z^2}$ orbital with spin $s$ on layer $i$ (we will use $i=2$ as the rotated layer)
+      where $d_{z^2, s, i}$ is the $d_{z^2}$ orbital with spin $s$ on layer $i$ (we take $i=2$ as the rotated layer).
       }
 
     \item All of these processes should have the same transition energy, the next step is to try and model them.
@@ -343,44 +344,43 @@
         \end{array}\right)
       \end{equation}
 
-      Where $T$ is a 6 by 6 matrix containing our coupling term, the nature of which we are yet to model.
+      Where $T$ is a 6 by 6 matrix containing our coupling term, the nature of which we are yet to determine.
       }
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Coupling}{What's next}
   \begin{itemize}
-    \item We construct a 'toy model' where we will set the term in $T$ to be a constant. For now we have chosen 0.3 eV, just to see what the effect could look like on our band structure
+    \item We construct a 'toy model' where we will set the term in $T$ to be a constant. For now we have chosen 0.3 eV, just to see what the effect could look like on our band structure.
   \end{itemize}
 
   \begin{figure}
     \centering
     \resizebox{6cm}{!}{\includegraphics{coupled_heterostructure_evalues.png}}
-    \caption{The four lowest energy eigenvalues of the heterostructure with a twist of 15$^\circ$ applied to the second layer. The 'toy model' coupling term is applied, there is a resulting effect on the electron bands that were previously unaffected by rotation}
+    \caption{The four lowest energy eigenvalues of the heterostructure with a twist of 15$^\circ$ applied to the second layer. The 'toy model' coupling term is applied, there is a resulting effect on the electron bands that were previously unaffected by rotation.}
   \end{figure}
-
-  \begin{itemize}
-    \item This also manages to naively predict the splitting of energy levels at $\Gamma$, a result that we expect from perturbation theory.
-  \end{itemize}
 \end{frame}
 
 \begin{frame}{Flattening bands}{What's next}
   \begin{itemize}
+
+
     \item Our coupling terms in our more complex heterostructure Hamiltonian will naturally result in a splitting of energy levels at degenerate eigenvalues as a consequence of perturbation theory.
 
-    \item It might look something like this
+    \item The previous graph manages to naively predict the splitting of energy levels at $\Gamma$.
 
-    \item A natural consequence of this is that electron bands become "flatter" that is, they have a lower bandwidth.
+    \item A consequence of this is that electron bands become "flatter" that is, they have a lower bandwidth.
 
-    \item This results in a higher density of states, with lower transition energies between them around certain energy levels
+    \item This results in a higher density of states at certain energy levels, with lower transition energies between them.
 
     \item Things get especially interesting when this flattening happens around the Fermi level, and will be the focus of our work going into next semester.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Questions}
-
-
+\begin{frame}{References}
+  \begin{enumerate}
+      \item asdasd
+  \end{enumerate}
 \end{frame}
 
 \end{document}

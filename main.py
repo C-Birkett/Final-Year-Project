@@ -500,7 +500,8 @@ class Heterostructure:
         
         plt.xlim(0,self.RLC*10)
         plt.xlim(self.path[0],self.path[-1])
-        plt.ylim(-1,1)
+        #plt.ylim(-1,1)
+        plt.ylim(-0.5, 1)
 
         ax.set_xlabel('Distance along path in $k$ space [m$^{-1}$]')
         ax.set_ylabel('Energy [eV]')
@@ -774,10 +775,11 @@ class Lattice:
 
         Path_Offset = 0 #for plotting x axis
 
+        k_last = np.array([0.0,0.0])
+
         #assuming starting from point M - should rotate with the rest
         #k_last = self.Gamma_to_M.v
 
-        k_last = np.array([0.0,0.0])
 
         self.plot_corners = np.array([])
         Path_Offset += np.linalg.norm(k_last)
@@ -877,8 +879,8 @@ class Lattice:
 
         plt.xlim(0,self.RLC*10)
         plt.xlim(self.path[0],self.path[-1])
-        #plt.ylim(-1,4)
-        plt.ylim(-1,1)
+        plt.ylim(-1,4)
+        #plt.ylim(-1,1)
 
         ax.set_xlabel('Distance along path in $k$ space [m$^{-1}$]')
         ax.set_ylabel('Energy [eV]')
@@ -887,7 +889,7 @@ class Lattice:
         plt.show()
 
 #using the heterostructres class
-myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(60))
+myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(15))
 myTwistedBilayer.set_coupling(0.3)
 myTwistedBilayer.gen_lattices()
 myTwistedBilayer.gen_brilloin_zone_vectors()
@@ -895,8 +897,8 @@ myTwistedBilayer.gen_brilloin_zone_path()
 myTwistedBilayer.gen_eigenvalues(myTwistedBilayer.brillouin_path)
 #myTwistedBilayer.plot_brillouin_zone_path()
 #myTwistedBilayer.gen_seperate_layer_evalues(myTwistedBilayer.brillouin_path)
-#myTwistedBilayer.plot_eigenvalues()
-myTwistedBilayer.animate(5)
+myTwistedBilayer.plot_eigenvalues()
+#myTwistedBilayer.animate(5)
 #myTwistedBilayer.plot_surface(1, 3)
 #myTwistedBilayer.plot_surface(2, 3)
 
