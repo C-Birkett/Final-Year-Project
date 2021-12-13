@@ -16,6 +16,7 @@ import cmath
 import math
 import copy
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation, PillowWriter
 
 # --- Constants ---
 
@@ -202,6 +203,9 @@ L_z = np.array([[0,0,0],
 sigma_0 = np.array([[1,0],
                     [0,1]])
 
+sigma_x = np.array([[0,1],
+                    [1,0]])
+
 sigma_z = np.array([[1,0],
                     [0,-1]])
 
@@ -248,6 +252,10 @@ class Heterostructure:
         self.RLV_1 = Vector(four_pi_over_rt_three_RLC_sqrd*self.PLV_1.v)
         self.RLV_2 = Vector(-four_pi_over_rt_three_RLC_sqrd*self.PLV_2.v)
 
+        # Initialise with uncoupled lattices
+        self.is_coupled = False
+        self.coupling = 0
+
     def gen_lattices(self):
 
         # create our two lattice layers, one rotated
@@ -274,9 +282,26 @@ class Heterostructure:
             #lattice.plot_brillouin_zone_path()
             #lattice.plot_eigenvalues()
 
+    def set_coupling(self, cpl):
+        if cpl != 0:
+            self.is_coupled = True
+            self.coupling = cpl
+        else:
+            self.is_coupled = False
+            self.coupling = 0
+
     def gen_hamiltonian(self, k: np.array):
         # Generates a 12x12 matrix using gen_layer_hamiltonian() for each lattice then combine using an inner product
         hamiltonian = np.kron(top_left, self.lattices[0].gen_layer_hamiltonian(k)) + np.kron(bottom_right, self.lattices[1].gen_layer_hamiltonian(k))
+        
+        # Add coupling correction
+        if self.is_coupled:
+            T = np.zeros((3,3))
+            T[0][0] = self.coupling
+            T = np.kron(sigma_0, T)
+            T = np.kron(sigma_x, T)
+            hamiltonian = hamiltonian + T
+
         return hamiltonian
 
     # Brilloin zone in our 'universal' k coordinate system
@@ -300,8 +325,8 @@ class Heterostructure:
 
     # equilateral triangles path in brilloin zone
     def gen_brilloin_zone_path(self):
-        #self.brillouin_path = self.lattices[0].Gamma_to_Gamma + self.lattices[1].Gamma_to_Gamma
-        self.brillouin_path = self.lattices[0].M_to_M + self.lattices[1].M_to_M
+        self.brillouin_path = self.lattices[0].Gamma_to_Gamma + self.lattices[1].Gamma_to_Gamma
+        #self.brillouin_path = self.lattices[0].M_to_M + self.lattices[1].M_to_M
 
         """
         # test these make a closed loop - returns 10-7 error in x, which is negligible
@@ -338,11 +363,11 @@ class Heterostructure:
         Path = np.array([])
 
         Path_Offset = 0 #for plotting x axis
+
         #assuming starting from point M
+        #k_last = self.Gamma_to_M.v
 
-        k_last = self.Gamma_to_M.v
-
-        #k_last = np.array([0.0,0.0])
+        k_last = np.array([0.0,0.0])
 
         self.plot_corners = np.array([])
         Path_Offset += np.linalg.norm(k_last)
@@ -377,7 +402,7 @@ class Heterostructure:
         self.path_x = Path_x
         self.path_y = Path_y
 
-        return Energy, Path, Path_x, Path_y
+        return Energy, Path
 
     #generates evalues for each layer individually then combines
     def gen_seperate_layer_evalues(self, brillouin_path):
@@ -570,6 +595,63 @@ class Heterostructure:
         ax.set_title('Lowest energy electronic band surface in brilloin zone')
         plt.show()
 
+    def animate(self, intrvl):
+        
+        fig, ax = plt.subplots()
+
+        # Array to store line2D objects
+        evalue_plots = [0,0,0,0]
+        
+        # Store rotation in degrees before manipulation
+        rtn = round(to_degrees(self.rotation))
+
+        def anim(i):
+            self.rotation = float(to_radians(i))
+            self.lattices = np.array([])
+            self.gen_lattices()
+            self.gen_brilloin_zone_vectors()
+            self.gen_brilloin_zone_path()
+            plt_y, plt_x = self.gen_eigenvalues(self.brillouin_path)
+
+            # On first run initialise plots
+            if i == 0:
+                for j in np.arange(0,4,1):
+                    tmp, = ax.plot(plt_x,
+                                    plt_y[j].real,
+                                    color = 'blue',
+                                    markerfacecolor = 'black',
+                                    )
+
+                    evalue_plots[j] = tmp
+            else:
+                for j in np.arange(0,4,1):
+                    evalue_plots[j].set_ydata(plt_y[j].real)
+
+            return evalue_plots
+
+        ani = FuncAnimation(fig, anim, np.arange(0, rtn+1, intrvl), blit = True, interval = 50)
+
+        # plot position of corners in triangular path taken
+        for vline in self.plot_corners:
+            plt.axvline(x=vline, ymin=-1, ymax=1, color = 'green')
+
+        # plot fermi level
+        plt.axhline(xmin = self.path[0], xmax = self.path[-1], y = 0, color = 'red')
+
+        plt.xlim(0,self.RLC*10)
+        plt.xlim(self.path[0],self.path[-1])
+        plt.ylim(-1,1)
+
+        ax.set_xlabel('Distance along path in $k$ space [m$^{-1}$]')
+        ax.set_ylabel('Energy [eV]')
+        ax.set_title(f"Energy band structure of bilayer NbSe$_2$ with twist {round(to_degrees(self.rotation))}$^\circ$")
+
+        # Save as GIF
+        writer = PillowWriter(fps=10)
+        ani.save("Animation.gif", writer = writer)
+
+        plt.show()
+
 
 # --- Lattice ---
 
@@ -577,7 +659,7 @@ class Heterostructure:
 class Lattice:
 
     def __init__(self, plc, plv_1: Vector, plv_2: Vector, angle, layer_index):
-        print("\n= Generating lattice... =")
+        #print("\n= Generating lattice... =")
 
         #important for heterostructure
         self.rotation = angle
@@ -595,12 +677,12 @@ class Lattice:
             self.PLV_1.rotate(self.rotation)
             self.PLV_2.rotate(self.rotation)
 
-        print("\nLattice constant = ", self.PLC)
-        print("Lattice vectors = ", self.PLV_1.v, self.PLV_2.v)
+        #print("\nLattice constant = ", self.PLC)
+        #print("Lattice vectors = ", self.PLV_1.v, self.PLV_2.v)
 
 
     def gen_reciprocal_lattice(self):
-        print("\n= Generating reciprocal lattice... =")
+        #print("\n= Generating reciprocal lattice... =")
 
         # reciprocal lattice constant
         self.RLC = (4*np.pi)/(np.sqrt(3)*self.PLC)
@@ -611,8 +693,8 @@ class Lattice:
         self.RLV_1 = Vector(four_pi_over_rt_three_RLC_sqrd*self.PLV_1.v)
         self.RLV_2 = Vector(-four_pi_over_rt_three_RLC_sqrd*self.PLV_2.v)
 
-        print("\nReciprocal lattice constant = ", self.RLC)
-        print("Reciprocal lattice vectors = ", self.RLV_1.v, self.RLV_2.v)
+        #print("\nReciprocal lattice constant = ", self.RLC)
+        #print("Reciprocal lattice vectors = ", self.RLV_1.v, self.RLV_2.v)
         
     # Define the vectors that describe the paths for points Gamma, K, K', M in the brillouin zone
     def gen_brilloin_zone_vectors(self):
@@ -660,7 +742,9 @@ class Lattice:
     # generate a nearest neighbors hamiltonian, must rotate k input to be of perspective of the layer (k_prime)
     # this is equaivalent to rotating the coordinate system (kx, ky) -> (k'x, k'y)
     def gen_layer_hamiltonian(self, k: np.array):
-        #k_prime = k_rotation(k, np.angle(complex(k[0], k[1]))-self.rotation)
+        phi = np.angle(complex(k[0], k[1]))
+        #k_prime = k_rotation(k, phi-self.rotation)
+        #k_prime = k_rotation(k, phi)
         k_prime = k_rotation(k, self.rotation)
         return Hamiltonian(k_prime)
         #return Hamiltonian(k)
@@ -689,9 +773,12 @@ class Lattice:
         Path = np.array([])
 
         Path_Offset = 0 #for plotting x axis
+
         #assuming starting from point M - should rotate with the rest
-        k_last = self.Gamma_to_M.v
-        #k_last = np.array([0.0,0.0])
+        #k_last = self.Gamma_to_M.v
+
+        k_last = np.array([0.0,0.0])
+
         self.plot_corners = np.array([])
         Path_Offset += np.linalg.norm(k_last)
         #print("\nstarting position (M) = ", k_last/self.RLC)
@@ -790,7 +877,8 @@ class Lattice:
 
         plt.xlim(0,self.RLC*10)
         plt.xlim(self.path[0],self.path[-1])
-        plt.ylim(-1,4)
+        #plt.ylim(-1,4)
+        plt.ylim(-1,1)
 
         ax.set_xlabel('Distance along path in $k$ space [m$^{-1}$]')
         ax.set_ylabel('Energy [eV]')
@@ -799,29 +887,32 @@ class Lattice:
         plt.show()
 
 #using the heterostructres class
-
-myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(15))
+myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(60))
+myTwistedBilayer.set_coupling(0.3)
 myTwistedBilayer.gen_lattices()
 myTwistedBilayer.gen_brilloin_zone_vectors()
 myTwistedBilayer.gen_brilloin_zone_path()
 myTwistedBilayer.gen_eigenvalues(myTwistedBilayer.brillouin_path)
+#myTwistedBilayer.plot_brillouin_zone_path()
 #myTwistedBilayer.gen_seperate_layer_evalues(myTwistedBilayer.brillouin_path)
-myTwistedBilayer.plot_brillouin_zone_path()
-myTwistedBilayer.plot_eigenvalues()
+#myTwistedBilayer.plot_eigenvalues()
+myTwistedBilayer.animate(5)
 #myTwistedBilayer.plot_surface(1, 3)
 #myTwistedBilayer.plot_surface(2, 3)
 
 l1 = myTwistedBilayer.lattices[0]
 l2 = myTwistedBilayer.lattices[1]
 
-l1.gen_eigenvalues(l1.M_to_M)
-l1.plot_eigenvalues()
+#l1.gen_eigenvalues(l1.M_to_M)
+#l1.gen_eigenvalues(myTwistedBilayer.brillouin_path)
+#l1.plot_eigenvalues()
 
-l2.gen_eigenvalues(l1.M_to_M)
-l2.plot_eigenvalues()
+#l2.gen_eigenvalues(l1.M_to_M)
+#l2.gen_eigenvalues(myTwistedBilayer.brillouin_path)
+#l2.plot_eigenvalues()
 
-l2.gen_eigenvalues(l1.Gamma_to_Gamma)
-l2.plot_eigenvalues()
+#l2.gen_eigenvalues(l1.Gamma_to_Gamma)
+#l2.plot_eigenvalues()
 
 
 
