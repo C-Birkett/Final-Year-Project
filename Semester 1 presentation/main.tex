@@ -56,17 +56,17 @@
 
 \begin{frame}{Introduction}
   \begin{itemize}
-    \item In 2018 Jarillo-Herrero et al realised unconventional superconductivity in 'magic-angle' twisted bilayer graphene$^{[1]}$, previously predicted in 2011 by R. Bistritzer and A. MacDonald$^{[2]}$.
+    \item In 2018 Cao Y. et al realised unconventional superconductivity in 'magic-angle' twisted bilayer graphene$^{[1]}$, previously predicted in 2011 by R. Bistritzer and A. MacDonald$^{[2]}$.
 
-    \item This has prompted a wave of research in the newly dubbed field of 'Twistronics', the study of the electronic properties of twisted bilayer heterostructures.
+    \item This has prompted a wave of research in the newly dubbed field of 'Twistronics', the study of the electronic properties of twisted Van der Waals heterostructures$^{[3][4]}$.
 
-    \item Our project examines a Van der Waals heterostructure of 2H-NbSe$_2$ layers. Our objective is to determine if a magic angle exists in this material, and if so to offer an interpretation of the resulting electronic band structure.
+    \item Our project examines a Van der Waals heterostructure of two 2H-NbSe$_2$ layers. Our objective is to determine if a magic angle exists in this material, and if so to offer an interpretation of the resulting electronic band structure.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Tight binding model with spin orbit coupling}{Modelling NbSe$_2$}
   \begin{itemize}
-    \item For our model of NbSe$_2$ we employ a multi-orbital tight binding model from R. Habara and K. Wakabayashi $^{[3]}$.
+    \item For our model of NbSe$_2$ we employ a multi-orbital tight binding model from R. Habara and K. Wakabayashi $^{[5]}$.
 
     \item It uses the $d_{z^2}$, $d_{xy}$ and $d_{x^2-y^2}$ orbitals of Nb atoms up to third nearest neighbor sites with spin up and down as a basis set to describe the electronic states of the NbSe$_2$ monolayer near the Fermi level.
 
@@ -101,7 +101,7 @@
       \centering
       \includegraphics[width=.9\linewidth]{./Habara_side_view.png}
     \end{minipage}
-    \captionof{figure}{FIG. 1. (a) and (b) from Habara et al$^{[3]}$ Displaying a top-down view and side view of the structure of monolayer NbSe$_2$ consisting of Nb (black) and Se(yellow) atoms. The first, second and third nearest neighbor sites are shown in green, red and blue respectively. $a$ is the lattice constant.}
+    \captionof{figure}{FIG. 1. (a) and (b) from Habara et al$^{[5]}$ Displaying a top-down view and side view of the structure of monolayer NbSe$_2$ consisting of Nb (black) and Se (yellow) atoms. The first, second and third nearest neighbor sites are shown in green, red and blue respectively. $a$ is the primitive lattice constant.}
   \end{figure}
 
 \end{frame}
@@ -137,17 +137,17 @@
       \end{equation}
     }
 
-  \item $\hat{\sigma}_0$ and $\hat{\sigma}_z$ are pauli matrices and $\lambda_{\text{SOC}}=0.0784$ eV is the Ising-type spin orbit coupling parameter. $V_0 \cdots V_{22}$ are functions of $k$ $^{[3]}$.
+  \item $\hat{\sigma}_0$ and $\hat{\sigma}_z$ are pauli matrices and $\lambda_{\text{SOC}}=0.0784$ eV is the Ising-type spin orbit coupling parameter. $V_0 \cdots V_{22}$ are functions of $k$ $^{[5]}$.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{1st Brillouin zone (BZ)}{Modelling NbSe$_2$}
   \begin{itemize}
-    \item The result is a 6 by 6 Hamiltonian that is a function of wavevector $k$.
+    \item The result is a 6 by 6 block-diagonal Hamiltonian that is a function of wavevector $k$.
 
-    \item From our eigenvalue equation \eqref{TBM_evalue_eqn} we can then determine the energy of the 6 electronic (eigen-)states at a given point in $k$-space.
+    \item From our eigenvalue equation \eqref{TBM_evalue_eqn} we can then determine the energy (eigenvalues) of the 6 electronic (eigen-)states at a given point in $k$-space.
 
-    \item Specifically, we can take slices in the first brillouin zone along the standard critical points, and even a surface over $k$ space.
+    \item Specifically, we can take $k$ from slices in the first brillouin zone along the standard critical points, and even a surface over $k$ space.
   \end{itemize}
 
   \begin{figure}
@@ -181,7 +181,7 @@
 
 \begin{frame}{Habara FIG 1. (d)}{Modelling NbSe$_2$}
   \begin{itemize}
-    \item If we instead take the same slice but insead from $M \rightarrow M$ we can retrieve FIG. 1. (d) from Habara et al$^{[1]}$.
+    \item If we instead take the same slice but insead from $M \rightarrow M$ we can retrieve FIG. 1. (d) from Habara et al$^{[5]}$.
 
     \item In the rest of our analysis we use $\Gamma \rightarrow \Gamma$ as $\Gamma$ is the axis of rotation.
   \end{itemize}
@@ -196,7 +196,7 @@
     \centering
     \includegraphics[width=.9\linewidth]{our_Habara_evalues.png}
   \end{minipage}
-  \captionof{figure}{Habara et al$^{[1]}$ FIG. 1. (d), Energy band structure and DOS taken across slice $M \rightarrow K' \rightarrow \Gamma \rightarrow K \rightarrow M$. Note they have taken $K$ and $K'$ to have opposite meanings. Our recreation is shown on the right for comparison.}
+  \captionof{figure}{Habara et al$^{[5]}$ FIG. 1. (d), Energy band structure and DOS taken across slice $M \rightarrow K' \rightarrow \Gamma \rightarrow K \rightarrow M$. Note they have taken $K$ and $K'$ to have opposite meanings. Our recreation is shown on the right for comparison.}
   \end{figure}
 \end{frame}
 
@@ -216,7 +216,7 @@
   \begin{figure}
   \centering
     \resizebox{6cm}{!}{\includegraphics{twisted_triangles.png}}
-    \caption{The effect of rotating the layer on the path $\Gamma \rightarrow \Gamma$ and the correction that must be made to $\vec{k}$. Because of the rotation of $(k_x, k_y)$ to $(k_x', k_y')$ by $\theta$, in order for for vector $\vec{k}$ in $k'$ space to be represented in $k$ space it must be rotated clockwise by $\theta$.}
+    \caption{The effect of rotating the layer on the path $\Gamma \rightarrow \Gamma$ and the correction that must be made to $\vec{k}$. Because of the rotation of $(k_x, k_y)$ to $(k_x', k_y')$ by $\theta$, in order for for vector $\vec{k}$ in $k'$ space to be represented in the unrotated $k$ space it must be rotated clockwise by $\theta$.}
   \end{figure}
 \end{frame}
 
@@ -248,7 +248,7 @@
   \begin{figure}
   \centering
     \resizebox{6cm}{!}{\includegraphics{twisted_evalues_2.png}}
-    \caption{The eigenvalues of our 15$^\circ$ twisted lattice on the path $\Gamma \rightarrow \Gamma \rightarrow \Gamma$. It is mirror symmetric to our unrotated lattices eigenvalues through $\Gamma$.}
+    \caption{The eigenvalues of our 15$^\circ$ twisted lattice on the path $\Gamma \rightarrow \Gamma \rightarrow \Gamma$. It is flipped in the $x$ axis when compared with the eigenvalues of the unrotated lattice.}
   \end{figure}
 \end{frame}
 
@@ -280,10 +280,9 @@
 
 \begin{frame}{Varying the angle}{Constructing a heterostructure}
   \begin{itemize}
-    \item GIF of eigenvalues at varying angles (PDF).
-    %\item \hyperlink{file://./Animation.gif}
+    \item Animation of eigenvalues at varying angles (PDF).
     \item Notice that the intersection of energy bands varies with the angle of rotation.
-    \item This will become very important in our work next semester when we apply perturbation theory to a model of coupled layers!
+    \item This will become very important in our work next semester when we apply perturbation theory to a model of coupled layers.
   \end{itemize}
 \end{frame}
 
@@ -291,19 +290,19 @@
   \begin{itemize}
     \item Currently, we are assuming no interaction between the electronic states on different layers.
 
-    \item Looking at the $d$ orbitals that we're modelling with the TBM. the $d_{z^2}$ orbital actually projects out (substantially) in the $z$ axis. It is therefore a good candidate for describing at inter-layer coupling effects.
+    \item Looking at the $d$ orbitals that we're modelling with the TBM, the $d_{z^2}$ orbital actually projects out (substantially) in the $z$ axis. It is therefore a good candidate for describing at inter-layer coupling effects.
   \end{itemize}
 
   \begin{figure}
     \centering
     \resizebox{4cm}{!}{\includegraphics{d_orbitals.png}}
-    \caption{Depictions of the $d$ orbitals from lumenlearning.com$^{[4]}$, note the projection of the $d_{z^2}$ orbital into the $z$ axis.}
+    \caption{Depictions of the $d$ orbitals from lumenlearning.com$^{[6]}$, note the projection of the $d_{z^2}$ orbital into the $z$ axis.}
   \end{figure}
 \end{frame}
 
 \begin{frame}{Naive steps forwards}{What's next}
   \begin{itemize}
-    \item We will make several assumptions regarding the interaction of orbitals between layers. Firstly, that the influence of the $d_{xy}$ and $d_{x^2-y^2}$ orbitals are restricted in to their corresponding $xy$ planes i.e the layers they exist in.
+    \item We will make several assumptions regarding the interaction of orbitals between layers. Firstly, that the influence of the $d_{xy}$ and $d_{x^2-y^2}$ orbitals is restricted to their corresponding $xy$ planes i.e. their own layers.
 
     \item This leaves the $d_{z^2}$ orbital. There is no quantum process that will allow for the transition into states of different spin.
 
@@ -344,14 +343,14 @@
         \end{array}\right)
       \end{equation}
 
-      Where $T$ is a 6 by 6 matrix containing our coupling term, the nature of which we are yet to determine.
+      Where $T$ is a 6 by 6 matrix containing our coupling term at (col, row) = (1,1) and (4,4); see the eigenvector. The nature of this coupling term $t(k, \theta)$ we are yet to determine.
       }
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Coupling}{What's next}
   \begin{itemize}
-    \item We construct a 'toy model' where we will set the term in $T$ to be a constant. For now we have chosen 0.3 eV, just to see what the effect could look like on our band structure.
+    \item We construct a 'toy model' where we will set the coupling term in $T$ to be a constant. For now we have chosen 0.3 eV, just to see what the effect could look like on our band structure.
   \end{itemize}
 
   \begin{figure}
@@ -363,8 +362,6 @@
 
 \begin{frame}{Flattening bands}{What's next}
   \begin{itemize}
-
-
     \item Our coupling terms in our more complex heterostructure Hamiltonian will naturally result in a splitting of energy levels at degenerate eigenvalues as a consequence of perturbation theory.
 
     \item The previous graph manages to naively predict the splitting of energy levels at $\Gamma$.
@@ -373,13 +370,18 @@
 
     \item This results in a higher density of states at certain energy levels, with lower transition energies between them.
 
-    \item Things get especially interesting when this flattening happens around the Fermi level, and will be the focus of our work going into next semester.
+    \item Things get especially interesting when this flattening happens around the Fermi level, and will be the focus of our work going into the next semester.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{References}
   \begin{enumerate}
-      \item asdasd
+    \item Cao, Y., Fatemi, V., Fang, S. et al, 2018. Unconventional superconductivity in magic-angle graphene superlattices. \textit{Nature}, 556, pp.43–50. DOI: 10.1038/nature26160.
+    \item Bistritzer, R. MacDonald, A. H., 2011. Moiré bands in twisted double-layer graphene. \textit{Proceedings of the National Academy of Sciences}, 108(30), pp.12233-12237. DOI: 10.1073/pnas.1108174108
+    \item Geim, A., Grigorieva, I., 2013. Van der Waals heterostructures. \textit{Nature}, 499, pp.419–425. DOI: doi.org/10.1038/nature12385.
+    \item Freedman, D. H., 2019. With a Simple Twist, a ‘Magic’ Material Is Now the Big Thing in Physics. \textit{Quanta magazine} [Online]. Available from: https://www.quantamagazine.org/how-twisted-graphene-became-the-big-thing-in-physics-20190430/ [Accessed 13 December 2021].
+    \item Habara, R. Wakabayashi, K., 2021. Optically induced spin current in monolayer ${\mathrm{NbSe}}_{2}$. \textit{PhysRevB}, 103(16), L161410. DOI: 10.1103/PhysRevB.103.L161410.
+    \item  Orbitals, 2021. \textit{Lumen Chemistry for Non-Majors} [Online]. Available from: https://courses.lumenlearning.com/cheminter/chapter/orbitals/ [Accessed 13 December 2021].
   \end{enumerate}
 \end{frame}
 
