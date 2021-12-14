@@ -16,7 +16,7 @@ import cmath
 import math
 import copy
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation, PillowWriter
+from matplotlib.animation import FuncAnimation, PillowWriter, ImageMagickWriter
 
 # --- Constants ---
 
@@ -648,7 +648,7 @@ class Heterostructure:
         ax.set_title(f"Energy band structure of bilayer NbSe$_2$ with twist {round(to_degrees(self.rotation))}$^\circ$")
 
         # Save as GIF
-        writer = PillowWriter(fps=10)
+        writer = ImageMagickWriter(fps=10)
         ani.save("Animation.gif", writer = writer)
 
         plt.show()
@@ -889,7 +889,7 @@ class Lattice:
         plt.show()
 
 #using the heterostructres class
-myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(15))
+myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(60))
 myTwistedBilayer.set_coupling(0.3)
 myTwistedBilayer.gen_lattices()
 myTwistedBilayer.gen_brilloin_zone_vectors()
@@ -897,8 +897,8 @@ myTwistedBilayer.gen_brilloin_zone_path()
 myTwistedBilayer.gen_eigenvalues(myTwistedBilayer.brillouin_path)
 #myTwistedBilayer.plot_brillouin_zone_path()
 #myTwistedBilayer.gen_seperate_layer_evalues(myTwistedBilayer.brillouin_path)
-myTwistedBilayer.plot_eigenvalues()
-#myTwistedBilayer.animate(5)
+#myTwistedBilayer.plot_eigenvalues()
+myTwistedBilayer.animate(5)
 #myTwistedBilayer.plot_surface(1, 3)
 #myTwistedBilayer.plot_surface(2, 3)
 
