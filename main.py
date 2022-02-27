@@ -6,15 +6,13 @@
 # coupling between same spin different layer - layer 1 to 2 and reverse
 # use same value in all
 
-# friday 10th 15:00 to 16:00
-# monday 13th 15:30 to 16:30
-
 # This is the main file for self project
 
 import numpy as np
 import cmath
 import math
 import copy
+import time
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter, ImageMagickWriter
 
@@ -647,8 +645,11 @@ class Heterostructure:
         ax.set_ylabel('Energy [eV]')
         ax.set_title(f"Energy band structure of bilayer NbSe$_2$ with twist {round(to_degrees(self.rotation))}$^\circ$")
 
+        #plt.show()
+
         # Save as GIF
         writer = ImageMagickWriter(fps=10)
+        #writer = PillowWriter(fps=10)
         ani.save("Animation.gif", writer = writer)
 
         plt.show()
@@ -897,7 +898,7 @@ myTwistedBilayer.gen_brilloin_zone_path()
 myTwistedBilayer.gen_eigenvalues(myTwistedBilayer.brillouin_path)
 #myTwistedBilayer.plot_brillouin_zone_path()
 #myTwistedBilayer.gen_seperate_layer_evalues(myTwistedBilayer.brillouin_path)
-#myTwistedBilayer.plot_eigenvalues()
+myTwistedBilayer.plot_eigenvalues()
 myTwistedBilayer.animate(5)
 #myTwistedBilayer.plot_surface(1, 3)
 #myTwistedBilayer.plot_surface(2, 3)
