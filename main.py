@@ -13,8 +13,13 @@ import cmath
 import math
 import copy
 import time
+import tkinter
+#import matplotlib
+#matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter, ImageMagickWriter
+import collections
+
 
 # --- Constants ---
 
@@ -187,7 +192,7 @@ def V_22(k) :
 # --- Components of Hamiltonian ---
 
 # Next we define the hamiltonian matrix of nearest neighbors TBM
-def Hamiltonian_nearest_neighbors(k):
+def Hamiltonian_nearest_neighbors(k: np.array):
     return np.array([[V_0(k), V_1(k), V_2(k)],
                     [V_1(k).conjugate(), V_11(k), V_12(k)],
                     [V_2(k).conjugate(), V_12(k).conjugate(), V_22(k)]])
@@ -272,14 +277,6 @@ class Heterostructure:
             lattice.gen_brilloin_zone_vectors()
             lattice.gen_brilloin_zone_path()
 
-            # hamiltonian and evalues of each layer
-            #lattice.get_eigenvalues()
-            #lattice.Hamiltonian_array()
-
-            # plot the individual graphs for each layer
-            #lattice.plot_brillouin_zone_path()
-            #lattice.plot_eigenvalues()
-
     def set_coupling(self, cpl):
         if cpl != 0:
             self.is_coupled = True
@@ -288,11 +285,38 @@ class Heterostructure:
             self.is_coupled = False
             self.coupling = 0
 
-    def gen_hamiltonian(self, k: np.array):
-        # Generates a 12x12 matrix using gen_layer_hamiltonian() for each lattice then combine using an inner product
-        hamiltonian = np.kron(top_left, self.lattices[0].gen_layer_hamiltonian(k)) + np.kron(bottom_right, self.lattices[1].gen_layer_hamiltonian(k))
+    # find Gm from RLV of each layer, there are 7
+    def gen_coupling_vectors(self):
         
-        # Add coupling correction
+        G11 = self.lattices[0].RLV_1.v
+        G12 = self.lattices[1].RLV_1.v
+        G21 = self.lattices[0].RLV_2.v
+        G22 = self.lattices[1].RLV_2.v
+
+        GM0 = np.array([0,0])
+        GM1 = np.array(G11 - G12)
+        GM2 = np.array(G21 - G22)
+        GM3 = np.array(GM2 - GM1)
+        self.Gm = [GM0, GM1, GM2, GM3, -GM1, -GM2, -GM3]
+
+    # Generate k' on other layer that a given k can couple to by k' = k + G - G' = k + Gm
+    def gen_coupling_k(self, k: np.array):
+        couple_k = np.array([np.empty(2)])
+        for Gm in self.Gm:
+            couple_k = np.concatenate((couple_k, np.array([k + Gm])))
+
+        couple_k = np.delete(couple_k, 0, 0)
+        return couple_k
+
+    # Generates coupling hamiltonian between two k points on different layers, these are 12x12 matrices combined for the whole hamiltonian
+    def gen_coupling_hamiltonian(self, k1: np.array, k2: np.array):
+        # Generates a 12x12 matrix using gen_layer_hamiltonian() for each lattice then combine using an inner product only if k1 = k2 (diagonal 12x12 blocks)
+        if np.array_equal(k1, k2):
+            hamiltonian = np.kron(top_left, self.lattices[0].gen_layer_hamiltonian(k1)) + np.kron(bottom_right, self.lattices[1].gen_layer_hamiltonian(k1))
+        else:
+            hamiltonian = np.zeros((12,12))
+        
+        # Add interlayer coupling term
         if self.is_coupled:
             T = np.zeros((3,3))
             T[0][0] = self.coupling
@@ -301,6 +325,23 @@ class Heterostructure:
             hamiltonian = hamiltonian + T
 
         return hamiltonian
+
+    def gen_hamiltonian(self, k: np.array):
+        kc = self.gen_coupling_k(k)
+        gch = self.gen_coupling_hamiltonian
+        zero = np.zeros((12,12))
+        hamiltonian = np.block([
+                    [gch(kc[0],kc[0]),  gch(kc[0],kc[1]),   gch(kc[0],kc[2]),   gch(kc[0],kc[3]),   gch(kc[0],kc[4]),   gch(kc[0],kc[5]),   gch(kc[0],kc[6])],
+                    [gch(kc[1],kc[0]),  gch(kc[1],kc[1]),   gch(kc[1],kc[2]),   zero,               zero,               zero,               gch(kc[1],kc[6])],
+                    [gch(kc[2],kc[0]),  gch(kc[2],kc[1]),   gch(kc[2],kc[2]),   gch(kc[2],kc[3]),   zero,               zero,               zero            ],
+                    [gch(kc[3],kc[0]),  zero,               gch(kc[3],kc[2]),   gch(kc[3],kc[3]),   gch(kc[3],kc[4]),   zero,               zero            ],
+                    [gch(kc[4],kc[0]),  zero,               zero,               gch(kc[4],kc[3]),   gch(kc[4],kc[4]),   gch(kc[4],kc[5]),   zero            ],
+                    [gch(kc[5],kc[0]),  zero,               zero,               zero,               gch(kc[5],kc[4]),   gch(kc[5],kc[5]),   gch(kc[5],kc[6])],
+                    [gch(kc[6],kc[0]),  gch(kc[6],kc[1]),   zero,               zero,               zero,               gch(kc[6],kc[5]),   gch(kc[6],kc[6])]
+                    ])
+
+        #print('created hamiltonian of shape ', np.shape(hamiltonian))
+        return(hamiltonian)
 
     # Brilloin zone in our 'universal' k coordinate system
     def gen_brilloin_zone_vectors(self):
@@ -339,20 +380,12 @@ class Heterostructure:
         """
 
     def gen_eigenvalues(self, brillouin_path):
-        # this is not great but it doesn't work otherwise (numpy)
-        Energy_1 = np.array([])
-        Energy_2 = np.array([])
-        Energy_3 = np.array([])
-        Energy_4 = np.array([])
-        Energy_5 = np.array([])
-        Energy_6 = np.array([])
-        Energy_7 = np.array([])
-        Energy_8 = np.array([])
-        Energy_9 = np.array([])
-        Energy_10 = np.array([])
-        Energy_11 = np.array([])
-        Energy_12 = np.array([])
-        Energy = [Energy_1,Energy_2,Energy_3,Energy_4,Energy_5,Energy_6, Energy_7, Energy_8, Energy_9, Energy_10, Energy_11, Energy_12]
+        # init arrays for evalues of right shape
+        Energy = []
+        for i in np.arange(0,84,1):
+            Energy.append(collections.deque([]))
+
+        #print(np.shape(Energy))
 
         Path_x = np.array([])
         Path_y = np.array([])
@@ -385,17 +418,18 @@ class Heterostructure:
                 Path = np.append(Path, x*vectors.len() + Path_Offset)
                 eValues = np.linalg.eigvalsh(self.gen_hamiltonian(k_step))   #just evalues
                 eValues.sort()
-            
-                for i in np.arange(0, 12, 1):
-                    Energy[i] = np.append(Energy[i], eValues[i].real)
 
+                for i in np.arange(0, np.size(Energy, axis = 0), 1):
+                    #Energy[i] = np.append(Energy[i], eValues[i].real)
+                    Energy[i].append(eValues.real)
+                
             k_last += vectors.v
 
             Path_Offset += vectors.len()
             self.plot_corners = np.append(self.plot_corners, Path_Offset)
             #print("total x axis 'distance' travelled = ", Path_Offset)
 
-        self.eValues = Energy
+        self.eValues = np.asarray(Energy)
         self.path = Path
         self.path_x = Path_x
         self.path_y = Path_y
@@ -473,7 +507,7 @@ class Heterostructure:
         plt.axhline(xmin = self.path[0], xmax = self.path[-1], y = 0, color = 'red')
 
         # only plot first 4 evalues (fermi level)
-        for i in np.arange(0,12,1):
+        for i in np.arange(0, np.size(self.eValues, axis = 0),1):
         #for i in np.arange(0,4,1):
             '''
             if (i % 2) == 0:
@@ -499,7 +533,7 @@ class Heterostructure:
         plt.xlim(0,self.RLC*10)
         plt.xlim(self.path[0],self.path[-1])
         #plt.ylim(-1,1)
-        plt.ylim(-0.5, 1)
+        #plt.ylim(-0.5, 1)
 
         ax.set_xlabel('Distance along path in $k$ space [m$^{-1}$]')
         ax.set_ylabel('Energy [eV]')
@@ -744,7 +778,7 @@ class Lattice:
     # generate a nearest neighbors hamiltonian, must rotate k input to be of perspective of the layer (k_prime)
     # this is equaivalent to rotating the coordinate system (kx, ky) -> (k'x, k'y)
     def gen_layer_hamiltonian(self, k: np.array):
-        phi = np.angle(complex(k[0], k[1]))
+        #phi = np.angle(complex(k[0], k[1]))
         #k_prime = k_rotation(k, phi-self.rotation)
         #k_prime = k_rotation(k, phi)
         k_prime = k_rotation(k, self.rotation)
@@ -890,16 +924,18 @@ class Lattice:
         plt.show()
 
 #using the heterostructres class
-myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(60))
-myTwistedBilayer.set_coupling(0.3)
+myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0))
 myTwistedBilayer.gen_lattices()
+#myTwistedBilayer.set_coupling(0.3)
+myTwistedBilayer.set_coupling(0)
 myTwistedBilayer.gen_brilloin_zone_vectors()
 myTwistedBilayer.gen_brilloin_zone_path()
+myTwistedBilayer.gen_coupling_vectors()
 myTwistedBilayer.gen_eigenvalues(myTwistedBilayer.brillouin_path)
 #myTwistedBilayer.plot_brillouin_zone_path()
 #myTwistedBilayer.gen_seperate_layer_evalues(myTwistedBilayer.brillouin_path)
 myTwistedBilayer.plot_eigenvalues()
-myTwistedBilayer.animate(5)
+#myTwistedBilayer.animate(5)
 #myTwistedBilayer.plot_surface(1, 3)
 #myTwistedBilayer.plot_surface(2, 3)
 
