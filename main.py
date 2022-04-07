@@ -309,12 +309,23 @@ class Heterostructure:
         return couple_k
 
     # Generates coupling hamiltonian between two k points on different layers, these are 12x12 matrices combined for the whole hamiltonian
+    def gen_coupling_hamiltonian_diag(self, k: np.array):
+        # Generates a 12x12 matrix using gen_layer_hamiltonian() for each lattice then combine using an inner product only if k1 = k2 = k (diagonal 12x12 blocks)
+        hamiltonian = np.kron(top_left, self.lattices[0].gen_layer_hamiltonian(k)) + np.kron(bottom_right, self.lattices[1].gen_layer_hamiltonian(k))
+
+        # Add interlayer coupling term
+        if self.is_coupled:
+            T = np.zeros((3,3))
+            T[0][0] = self.coupling
+            T = np.kron(sigma_0, T)
+            T = np.kron(sigma_x, T)
+            hamiltonian = hamiltonian + T
+
+        return hamiltonian
+
+    #off diagonal -> just coupling terms
     def gen_coupling_hamiltonian(self, k1: np.array, k2: np.array):
-        # Generates a 12x12 matrix using gen_layer_hamiltonian() for each lattice then combine using an inner product only if k1 = k2 (diagonal 12x12 blocks)
-        if np.array_equal(k1, k2):
-            hamiltonian = np.kron(top_left, self.lattices[0].gen_layer_hamiltonian(k1)) + np.kron(bottom_right, self.lattices[1].gen_layer_hamiltonian(k1))
-        else:
-            hamiltonian = np.zeros((12,12))
+        hamiltonian = np.zeros((12,12))
         
         # Add interlayer coupling term
         if self.is_coupled:
@@ -329,19 +340,40 @@ class Heterostructure:
     def gen_hamiltonian(self, k: np.array):
         kc = self.gen_coupling_k(k)
         gch = self.gen_coupling_hamiltonian
+        gchd = self.gen_coupling_hamiltonian_diag
         zero = np.zeros((12,12))
         hamiltonian = np.block([
-                    [gch(kc[0],kc[0]),  gch(kc[0],kc[1]),   gch(kc[0],kc[2]),   gch(kc[0],kc[3]),   gch(kc[0],kc[4]),   gch(kc[0],kc[5]),   gch(kc[0],kc[6])],
-                    [gch(kc[1],kc[0]),  gch(kc[1],kc[1]),   gch(kc[1],kc[2]),   zero,               zero,               zero,               gch(kc[1],kc[6])],
-                    [gch(kc[2],kc[0]),  gch(kc[2],kc[1]),   gch(kc[2],kc[2]),   gch(kc[2],kc[3]),   zero,               zero,               zero            ],
-                    [gch(kc[3],kc[0]),  zero,               gch(kc[3],kc[2]),   gch(kc[3],kc[3]),   gch(kc[3],kc[4]),   zero,               zero            ],
-                    [gch(kc[4],kc[0]),  zero,               zero,               gch(kc[4],kc[3]),   gch(kc[4],kc[4]),   gch(kc[4],kc[5]),   zero            ],
-                    [gch(kc[5],kc[0]),  zero,               zero,               zero,               gch(kc[5],kc[4]),   gch(kc[5],kc[5]),   gch(kc[5],kc[6])],
-                    [gch(kc[6],kc[0]),  gch(kc[6],kc[1]),   zero,               zero,               zero,               gch(kc[6],kc[5]),   gch(kc[6],kc[6])]
+                    [gchd(kc[0]),       gch(kc[0],kc[1]),   gch(kc[0],kc[2]),   gch(kc[0],kc[3]),   gch(kc[0],kc[4]),   gch(kc[0],kc[5]),   gch(kc[0],kc[6])],
+                    [gch(kc[1],kc[0]),  gchd(kc[1]),        gch(kc[1],kc[2]),   zero,               zero,               zero,               gch(kc[1],kc[6])],
+                    [gch(kc[2],kc[0]),  gch(kc[2],kc[1]),   gchd(kc[2]),        gch(kc[2],kc[3]),   zero,               zero,               zero            ],
+                    [gch(kc[3],kc[0]),  zero,               gch(kc[3],kc[2]),   gchd(kc[3]),        gch(kc[3],kc[4]),   zero,               zero            ],
+                    [gch(kc[4],kc[0]),  zero,               zero,               gch(kc[4],kc[3]),   gchd(kc[4]),        gch(kc[4],kc[5]),   zero            ],
+                    [gch(kc[5],kc[0]),  zero,               zero,               zero,               gch(kc[5],kc[4]),   gchd(kc[5]),        gch(kc[5],kc[6])],
+                    [gch(kc[6],kc[0]),  gch(kc[6],kc[1]),   zero,               zero,               zero,               gch(kc[6],kc[5]),   gchd(kc[6])     ]
                     ])
 
-        #print('created hamiltonian of shape ', np.shape(hamiltonian))
         return(hamiltonian)
+    
+    #generate set of evectors for each of the 14 k states for projection make 84 long with zeros elsewhere
+    def gen_state_evectors(self, k: np.array):
+        AllEVecs = collections.deque([])
+        kc = self.gen_coupling_k(k)
+        for state in np.arange(0,7,1):
+            for l in np.arange(0,2,1):
+                h = self.lattices[l].gen_layer_hamiltonian(kc[state])
+                EVal, EVecs = np.linalg.eigh(h)
+                pos14Vec = state*2 + l      #position in 14*6 length vector, 0 indexed i.e. 0-13
+                #determine number of zeros before and after to make 84 size vector
+                preZeros = np.zeros((pos14Vec)*6)
+                afterZeros = np.zeros((13 -pos14Vec)*6)
+                
+                for EVec in EVecs:
+                    EVec = np.concatenate((preZeros, EVec), axis=None)
+                    EVec = np.concatenate((EVec, afterZeros), axis=None)
+                    AllEVecs.append(EVec)
+                
+        return np.asarray(AllEVecs)
+        
 
     # Brilloin zone in our 'universal' k coordinate system
     def gen_brilloin_zone_vectors(self):
@@ -382,6 +414,8 @@ class Heterostructure:
     def gen_eigenvalues(self, brillouin_path):
         # init arrays for evalues of right shape
         Energy = []
+        EVec = []
+        SEVec = [] #evectors of individual states for some k
         for i in np.arange(0,84,1):
             Energy.append(collections.deque([]))
 
@@ -416,23 +450,40 @@ class Heterostructure:
                 Path_y = np.append(Path_y, k_step[1])
 
                 Path = np.append(Path, x*vectors.len() + Path_Offset)
-                eValues = np.linalg.eigvalsh(self.gen_hamiltonian(k_step))   #just evalues
-                eValues.sort()
+                eValues, eVectors = np.linalg.eigh(self.gen_hamiltonian(k_step))   #evalues and evectors
+                #eValues.sort()
 
                 for i in np.arange(0, np.size(Energy, axis = 0), 1):
-                    #Energy[i] = np.append(Energy[i], eValues[i].real)
-                    Energy[i].append(eValues.real)
+                    Energy[i].append(eValues.real[i])
                 
+                EVec.append(eVectors)
+                SEVec.append(self.gen_state_evectors(k_step))
+
             k_last += vectors.v
 
             Path_Offset += vectors.len()
             self.plot_corners = np.append(self.plot_corners, Path_Offset)
             #print("total x axis 'distance' travelled = ", Path_Offset)
 
+
         self.eValues = np.asarray(Energy)
+        self.eVectors = EVec
+        self.stateEVectors = SEVec
+
+        self.projection = []
+        for i in np.arange(0, np.shape(self.eVectors)[0]):
+            self.projection.append(np.vdot(self.stateEVectors[i], self.eVectors[i]))
+
+        print (np.shape(self.projection))
+
+
         self.path = Path
         self.path_x = Path_x
         self.path_y = Path_y
+
+        print('Evalues shape: ', np.shape(self.eValues))
+        print('Evectors shape: ', np.shape(self.eVectors))
+        print('individual state Evectors shape: ', np.shape(self.stateEVectors))
 
         return Energy, Path
 
@@ -713,10 +764,6 @@ class Lattice:
             self.PLV_1.rotate(self.rotation)
             self.PLV_2.rotate(self.rotation)
 
-        #print("\nLattice constant = ", self.PLC)
-        #print("Lattice vectors = ", self.PLV_1.v, self.PLV_2.v)
-
-
     def gen_reciprocal_lattice(self):
         #print("\n= Generating reciprocal lattice... =")
 
@@ -729,9 +776,6 @@ class Lattice:
         self.RLV_1 = Vector(four_pi_over_rt_three_RLC_sqrd*self.PLV_1.v)
         self.RLV_2 = Vector(-four_pi_over_rt_three_RLC_sqrd*self.PLV_2.v)
 
-        #print("\nReciprocal lattice constant = ", self.RLC)
-        #print("Reciprocal lattice vectors = ", self.RLV_1.v, self.RLV_2.v)
-        
     # Define the vectors that describe the paths for points Gamma, K, K', M in the brillouin zone
     def gen_brilloin_zone_vectors(self):
 
@@ -778,12 +822,8 @@ class Lattice:
     # generate a nearest neighbors hamiltonian, must rotate k input to be of perspective of the layer (k_prime)
     # this is equaivalent to rotating the coordinate system (kx, ky) -> (k'x, k'y)
     def gen_layer_hamiltonian(self, k: np.array):
-        #phi = np.angle(complex(k[0], k[1]))
-        #k_prime = k_rotation(k, phi-self.rotation)
-        #k_prime = k_rotation(k, phi)
         k_prime = k_rotation(k, self.rotation)
         return Hamiltonian(k_prime)
-        #return Hamiltonian(k)
 
     #get eigenvalues for one layer
     def gen_eigenvalues(self, brillouin_path):
@@ -924,6 +964,7 @@ class Lattice:
         plt.show()
 
 #using the heterostructres class
+#myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(30))
 myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0))
 myTwistedBilayer.gen_lattices()
 #myTwistedBilayer.set_coupling(0.3)
