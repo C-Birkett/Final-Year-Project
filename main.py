@@ -9,11 +9,11 @@
 # This is the main file for self project
 
 import numpy as np
-import cmath
+#import cmath
 import math
 import copy
-import time
-import tkinter
+#import time
+#import tkinter
 #import matplotlib
 #matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
@@ -357,22 +357,30 @@ class Heterostructure:
     #generate set of evectors for each of the 14 k states for projection make 84 long with zeros elsewhere
     def gen_state_evectors(self, k: np.array):
         AllEVecs = collections.deque([])
+        EVals = collections.deque([])
         kc = self.gen_coupling_k(k)
         for state in np.arange(0,7,1):
             for l in np.arange(0,2,1):
                 h = self.lattices[l].gen_layer_hamiltonian(kc[state])
                 EVal, EVecs = np.linalg.eigh(h)
+
+                EVals.append(EVal[0])
+                EVals.append(EVal[1])
+
                 pos14Vec = state*2 + l      #position in 14*6 length vector, 0 indexed i.e. 0-13
                 #determine number of zeros before and after to make 84 size vector
                 preZeros = np.zeros((pos14Vec)*6)
                 afterZeros = np.zeros((13 -pos14Vec)*6)
-                
-                for EVec in EVecs:
+
+                #only get evecs of 2 states at fermi level
+                for EVec in EVecs[:2]:
                     EVec = np.concatenate((preZeros, EVec), axis=None)
                     EVec = np.concatenate((EVec, afterZeros), axis=None)
                     AllEVecs.append(EVec)
                 
-        return np.asarray(AllEVecs)
+        # AllEVecs has shape (28,84) where 28 is from: 7 k states x2 layers x2 states at fermi)
+        # first 4 correspond to k0 on both layers
+        return np.asarray(EVals), np.asarray(AllEVecs)
         
 
     # Brilloin zone in our 'universal' k coordinate system
@@ -415,9 +423,14 @@ class Heterostructure:
         # init arrays for evalues of right shape
         Energy = []
         EVec = []
+        SEVal = []
         SEVec = [] #evectors of individual states for some k
+
         for i in np.arange(0,84,1):
             Energy.append(collections.deque([]))
+
+        for i in np.arange(0,24,1):
+            SEVal.append(collections.deque([]))
 
         #print(np.shape(Energy))
 
@@ -455,9 +468,15 @@ class Heterostructure:
 
                 for i in np.arange(0, np.size(Energy, axis = 0), 1):
                     Energy[i].append(eValues.real[i])
+
                 
                 EVec.append(eVectors)
-                SEVec.append(self.gen_state_evectors(k_step))
+                t1, t2 = self.gen_state_evectors(k_step)
+                SEVec.append(t2)
+                
+                for i in np.arange(0,24,1):
+                    SEVal[i].append(t1.real[i])
+
 
             k_last += vectors.v
 
@@ -465,17 +484,24 @@ class Heterostructure:
             self.plot_corners = np.append(self.plot_corners, Path_Offset)
             #print("total x axis 'distance' travelled = ", Path_Offset)
 
-
         self.eValues = np.asarray(Energy)
         self.eVectors = EVec
+        self.stateEValues = np.asarray(SEVal)
         self.stateEVectors = SEVec
 
+        # for each of 84 evecs: project against the 4 states at fermi level at k0
         self.projection = []
-        for i in np.arange(0, np.shape(self.eVectors)[0]):
-            self.projection.append(np.vdot(self.stateEVectors[i], self.eVectors[i]))
-
-        print (np.shape(self.projection))
-
+        for k in np.arange(0, np.shape(self.eVectors)[0], 1):       #num of k in path = 800
+            tmp1 = []
+            for i in np.arange(0, np.shape(self.eVectors)[1], 1):   #num of states = 84
+                tmp2 = []
+                for j in np.arange(0, 4, 1):                        #num states to project onto = 4
+                #for j in np.arange(0, np.shape(self.stateEVectors)[1], 1):
+                    tmp2.append(np.vdot(self.stateEVectors[k][j], self.eVectors[k][i]))
+            
+                tmp1.append(tmp2)
+            
+            self.projection.append(tmp1)
 
         self.path = Path
         self.path_x = Path_x
@@ -483,7 +509,9 @@ class Heterostructure:
 
         print('Evalues shape: ', np.shape(self.eValues))
         print('Evectors shape: ', np.shape(self.eVectors))
+        print('individual state Evalues shape: ', np.shape(self.stateEValues))
         print('individual state Evectors shape: ', np.shape(self.stateEVectors))
+        print('projections shape: ', np.shape(self.projection))
 
         return Energy, Path
 
@@ -570,6 +598,54 @@ class Heterostructure:
 
             ax.plot(self.path,
                     self.eValues[i].real,
+                    #xerr = ,
+                    #yerr = ,
+                    #capsize = ,
+                    #marker = 'o',
+                    #markersize = 2,
+                    color = colour,
+                    markerfacecolor = 'black',
+                    #linestyle = '-',
+                    #label = 'asdef'
+                    )
+        
+        plt.xlim(0,self.RLC*10)
+        plt.xlim(self.path[0],self.path[-1])
+        #plt.ylim(-1,1)
+        #plt.ylim(-0.5, 1)
+
+        ax.set_xlabel('Distance along path in $k$ space [m$^{-1}$]')
+        ax.set_ylabel('Energy [eV]')
+        ax.set_title(f"Energy band structure of bilayer NbSe$_2$ with twist {round(to_degrees(self.rotation))}$^\circ$")
+
+        plt.show()
+
+    # plot the eigenvalues
+    def plot_eigenvalues_projected(self):
+        fig = plt.figure(figsize=(8,8))
+        ax = fig.add_subplot(111)
+
+        # plot position of corners in triangular path taken
+        for vline in self.plot_corners:
+            plt.axvline(x=vline, ymin=-1, ymax=1, color = 'green')
+
+        # plot fermi level
+        plt.axhline(xmin = self.path[0], xmax = self.path[-1], y = 0, color = 'red')
+
+        # plot first 4 unperterbed evalues
+        #for i in np.arange(0, np.size(self.stateEValues, axis = 0),1):
+        for i in np.arange(0, 4, 1):
+        #for i in np.arange(0,4,1):
+            '''
+            if (i % 2) == 0:
+                colour = 'red'
+            else:
+                colour = 'blue'
+            '''
+            colour = 'green'
+
+            ax.plot(self.path,
+                    self.stateEValues[i],
                     #xerr = ,
                     #yerr = ,
                     #capsize = ,
@@ -964,11 +1040,13 @@ class Lattice:
         plt.show()
 
 #using the heterostructres class
-#myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(30))
-myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0))
+#myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0))
+myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(30))
+#myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(1))
+#myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0.1))
 myTwistedBilayer.gen_lattices()
-#myTwistedBilayer.set_coupling(0.3)
 myTwistedBilayer.set_coupling(0)
+#myTwistedBilayer.set_coupling(0.3)
 myTwistedBilayer.gen_brilloin_zone_vectors()
 myTwistedBilayer.gen_brilloin_zone_path()
 myTwistedBilayer.gen_coupling_vectors()
@@ -976,6 +1054,7 @@ myTwistedBilayer.gen_eigenvalues(myTwistedBilayer.brillouin_path)
 #myTwistedBilayer.plot_brillouin_zone_path()
 #myTwistedBilayer.gen_seperate_layer_evalues(myTwistedBilayer.brillouin_path)
 myTwistedBilayer.plot_eigenvalues()
+myTwistedBilayer.plot_eigenvalues_projected()
 #myTwistedBilayer.animate(5)
 #myTwistedBilayer.plot_surface(1, 3)
 #myTwistedBilayer.plot_surface(2, 3)
