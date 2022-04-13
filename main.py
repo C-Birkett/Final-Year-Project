@@ -1041,12 +1041,13 @@ class Lattice:
 
 #using the heterostructres class
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0))
-myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(30))
+#myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(30))
+myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(5))
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(1))
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0.1))
 myTwistedBilayer.gen_lattices()
-myTwistedBilayer.set_coupling(0)
-#myTwistedBilayer.set_coupling(0.3)
+#myTwistedBilayer.set_coupling(0)
+myTwistedBilayer.set_coupling(0.3)
 myTwistedBilayer.gen_brilloin_zone_vectors()
 myTwistedBilayer.gen_brilloin_zone_path()
 myTwistedBilayer.gen_coupling_vectors()
