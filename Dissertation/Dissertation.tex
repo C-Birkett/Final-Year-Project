@@ -94,33 +94,64 @@
 
   In 2018 Cao Y. et al\cite{Cao_2018} realised unconventional superconductivity in bilayer graphene twisted to the 'magic-angle' of 1.1$^\circ$ 
 
-  The primary mechanism in diffusion-limited aggregation (DLA) systems is Brownian motion - named for early contributor Robert Brown \cite{Pearle_2010} and later studied by Einstein \cite{Einstein_1905}, whereby fluctuations within a medium impart forces on diffuse particles, resulting in seemingly random motion. \textit{Ab-initio} simulation of all of the constituent particles of a diffuse substance in a medium is computationally expensive, however it has been shown by Donsker's theorem that Brownian motion is well approximated by the stochastic Weiner process. The Weiner process can be modelled as a discrete random walk on a lattice in the limit as the lattice constant tends to zero (the scaling limit). Thus, for practical computation a discrete random walk is a sufficient approximation of Brownian motion. Additionally some physical systems have characteristic length scales (e.g. electrodeposition \cite{Shaikh_2022}), further justifying their approximation by a discrete random walk.
-
-  DLA models produce DLA clusters, also known as Brownian trees, fractal objects that grow by adhering random-walking particles to one another. A common initial condition in the study of natural systems is a single initial particle onto which the diffuse particles attach after random walking towards the structure from some starting radius. The single particle initial state model was first proposed by Eden in 1961 \cite{Eden_1961} to describe the growth of bacterial colonies from as a stochastic process. Further developments by Witten and Sander in 1981 \cite{Witten_1981} on metal-particle aggregation introduced clustering by Brownian motion to the Eden model, often referred to as 'classical' DLA. They also show DLA clusters to be critical phenomena arising from irreversible growth processes rather than an equilibrium ensemble. Other studies have extended the model to additional spatial dimensions \cite{Ball_1984}, or varying geometries such as curved \cite{Choi_2011} and spherical \cite{Tenti_2021} surfaces. Furthermore, Laplacian growth theory has succeeded in describing varying DLA systems along with other fractal generating systems under a single universality class \cite{Mathiesen_2005, Carlock_2016}.
-
-  DLA systems and the corresponding fractal geometry of DLA clusters are used to describe many natural phenomena because of their scale independence and self-similar nature. Some well studied applications of DLA include: electrodeposition \cite{Shaikh_2022}, dendrite formation \cite{Li_2008}, dielectric breakdown \cite{Pietronero_1984, Irurzun_2002}, bacterial colony growth \cite{Eden_1961}, biomedical imaging\cite{Choi_2011}, and plant growth \cite{Mandelbrot_1982, Zhang_2007}. The physical interpretation of fractal dimension as relating the growth and density of fractal and self-similar phenomena is valuable to many applications.
-
-  Modifications to specific aspects of the classical DLA model can result in significant changes to the generated DLA clusters. Example modifications include: changing the initial conditions of the system, including placement and quantity of initial particles \cite{Choi_2011}; altering the locations where new particles are introduced before they undergo Brownian motion \cite{Ranguelov_2011}; introducing different species of particles with differing adherence rules \cite{Ranguelov_2011}; or to the adhesion mechanism by altering the probability that a particle will successfully adhere to the cluster on contact \cite{Ranguelov_2011}. The changes in the DLA cluster induced by these modifications can affect the direction of growth (e.g. producing spiral clusters) and significantly, the dimension of the cluster. Ranguelov \textit{et al} \cite{Ranguelov_2011} found that lowering the probability of particles adhering on contact increases the dimension of the DLA cluster. This report aims to verify this finding by determining the fractal dimension of a classical DLA cluster, then comparing it with the dimension of clusters generated with an alternate scheme that varies the probability of adhesion.
 
 \section*{Method}
-  Our work draws on several published methods on NbSe2 and twistronics. In particular we take the multiorbital tight binding model of monolayer NbSe2 from Habara and Wakabayashi\cite{Habara_2021}. to model the bilayer with twist, we employ the method used in the original magic-angle paper by Bistritzer and MacDonald.
+  Our work draws on several published methods on NbSe2 and twistronics. In particular we take the multiorbital tight binding model of monolayer NbSe2 from Habara and Wakabayashi\cite{Habara_2021}. To model the bilayer with twist, we employ the method used in the original magic-angle paper by Bistritzer and MacDonald \cite{Bistritzer_2011}. 
 
 \subsection*{Monolayer NbSe2}
-  Our model of  
+  We employ a multiorbital tight binding model (TBM) of NbSe2 as described by Habara and Wakabayashi \cite{Habara_2021}. We take a basis of the 3 d orbitals of the Nb atoms with spin orbit coupling. These states are dominant in the electronic band near fermi level. We take this as an adequate description of the NbSe$_2$ monolayer for low energy electronic states.
 
-  \begin{enumerate}
-    \item Initialise the system with one particle at the grid origin. $r_{start},$ and $r_{kill}$ are given suitable initial values.
-    \item Create a new particle at a random location on the circle defined by $r_{start}$ and set it as \textit{active}.
-    \item \textbf{while} there is an \textit{active} particle:
-    \begin{itemize}
-      \item \textbf{if} the position of the particle has distance from the origin greater or equal to $r_{kill}$ \textbf{then} the particle is removed.
-      \item \textbf{else if} the position of the particle is adjacent to a particle on the cluster \textbf{and} \textit{checkStick()} \textbf{then} the particle is added to the cluster and becomes \textit{inactive}.
-      \item \textbf{else} the \textit{active} particle performs a discrete random walk.
-    \end {itemize}
-  \item \textbf{if} the cluster is the desired size \textbf{stop}, \textbf{else} \textbf{goto} 2.
-  \end{enumerate}
+  The TBM takes the interactions of these states up to the third nearest neighbour sites.
 
-  There are several things to note about the algorithm and its implementation: In this initial implementation of the DLA system we define the function \textit{checkStick()} to always return \textit{true}, so a particle will always adhere on contact with the cluster; The initial start radius $r_{start} = 5$ is chosen such that the cluster can be generated for several starting particles (otherwise $r_{start}$ as defined would start at 0); The domain of the simulation given by the grid size is predetermined, our simulations were performed in $3200 \times 3200$ grids, these are large enough to generate clusters with $~9\times10^5$ particles; Once $r_{kill}$ reaches half the grid size the simulation stops, our results do not use clusters of more than $2\times10^5$ particles, hence the selected grid size is sufficient.
+  The eigenvalue equation of the TBM is 
+      \begin{equation}
+        \label{TBM_evalue_eqn}
+        \hat{H}(\boldsymbol{k})\left|u_{n k}\right\rangle=E_{n k}\left|u_{n k}\right\rangle,
+      \end{equation}
+
+   where $k=\left(k_{x}, k_{y}\right)$ is the wave-number vector, $E_{nk}$ is the eigenvalue and $n = 1,2,\cdots,6$ is the band index.
+
+   we define the eigenvectors as
+      \begin{equation}
+        \left|u_{n k}\right\rangle=$ $\left(c_{n k, d_{z^{2}}, \uparrow}, c_{n k, d_{x y}, \uparrow}, c_{n k, d_{x^{2}-y^{2}}, \uparrow}, c_{n k, d_{z^{2}}, \downarrow}, c_{n k, d_{x y}, \downarrow}, c_{n k, d_{x^{2}-y^{2}}, \downarrow}\right)^{T}
+      \end{equation}
+
+  where $(\cdots)^T$ indicates the transpose of the vector and $c_{nk\tau s}$ is the amplitude at atomic orbital $\tau$ with spin $s$ for the $n$th energy band at $k$.
+
+  The monolayer hamiltonian $\hat{H}(\boldsymbol{k})$ with spin orbit coupling is then 
+      \begin{equation}
+        \hat{H}(\boldsymbol{k})=\hat{\sigma}_{0} \otimes \hat{H}_{\mathrm{TNN}}(\boldsymbol{k})+\hat{\sigma}_{z} \otimes \frac{1}{2} \lambda_{\mathrm{SOC}} \hat{L}_{z}
+      \end{equation}
+
+      with TBM nearest neighbour hamiltonian
+
+      \begin{equation}
+        \hat{H}_{\mathrm{TNN}}(\boldsymbol{k})=\left(\begin{array}{ccc}
+        V_{0} & V_{1} & V_{2} \\
+        V_{1}^{*} & V_{11} & V_{12} \\
+        V_{2}^{*} & V_{12}^{*} & V_{22}
+        \end{array}\right)
+      \end{equation}
+
+  and spin orbit coupling term
+
+      \begin{equation}
+        \hat{L}_{z}=\left(\begin{array}{ccc}
+        0 & 0 & 0 \\
+        0 & 0 & -2 i \\
+        0 & 2 i & 0
+        \end{array}\right)
+      \end{equation}
+
+  \item $\hat{\sigma}_0$ and $\hat{\sigma}_z$ are pauli matrices and $\lambda_{\text{SOC}}=0.0784$ eV is the Ising-type spin orbit coupling parameter. $V_0 \cdots V_{22}$ are functions of $k$ $^{[5]}$.
+
+    The monolayer hamiltonian is then a 6x6 block diagonal hermitian matrix as a funciton of wavevector $k$.
+
+    the eigenvalues of this hamiltonian correspond to the 6 eigenstates / electronic bands for a given point in reciprocal space $k$ 
+
+  Specifically, we take $k$ from slices in the first brilloin zone along the standard critical points. By Bloch's theorem we can describe the electronic properties of the whole monolayer due to the periodic potentials.
+
+  Further, due to reflectional symmetry the region that fully describes the electronic states can be reduced to the equilateral triangle bounded by $\Gamma \rightarrow K \rightarrow M \rightarrow K' \rightarrow \Gamma$.
 
 \begin{figure}[t]
 \centering

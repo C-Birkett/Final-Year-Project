@@ -23,6 +23,8 @@ _dissertation todo_
 
 == Write up ==
 
+=== FIRST DRAFT TODO ===
+
 - [ ] Title
 
 - [ ] Name, date etc
@@ -67,7 +69,7 @@ _dissertation todo_
     - [ ] tunable band gap
     - [ ] etc
 
-- [ ] Theory / Method
+- [.] Theory / Method
 
   - [ ] Material - NbSe2
     - [ ] structure/description of material
@@ -80,14 +82,14 @@ _dissertation todo_
       - [ ] practical -> production and availability?
     - [ ] comparison with other transition metal dichalcogenides -> results from their twisted bilayers
     
-  - [ ] Tight binding model
-    - [ ] description of basis
-      - [ ] d orbitals of Nb -> bands near fermi level
-        - [ ] why? -> why no Se orbitals?
-    - [ ] monolayer
+  - [o] Tight binding model
+    - [o] description of basis
+      - [X] d orbitals of Nb -> bands near fermi level
+      - [ ] why? -> why no Se orbitals?
+    - [o] monolayer
       - [ ] diagram of nearest neighbors
-      - [ ] description / derivation of fitting parameters from habara
-      - [ ] hamiltonian construction etc
+      - [X] description / derivation of fitting parameters from habara
+      - [X] hamiltonian construction etc
 
   - [ ] Bilayer construction
     - [ ] combining hamiltonians

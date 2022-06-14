@@ -466,7 +466,7 @@ class Heterostructure:
                 eValues, eVectors = np.linalg.eigh(self.gen_hamiltonian(k_step))   #evalues and evectors
                 #eValues.sort()
 
-                for i in np.arange(0, np.size(Energy, axis = 0), 1):
+                for i in np.arange(0, np.shape(Energy)[0], 1):
                     Energy[i].append(eValues.real[i])
 
                 
@@ -502,6 +502,8 @@ class Heterostructure:
                 tmp1.append(tmp2)
             
             self.projection.append(tmp1)
+
+        self.projection = np.absolute(np.asarray(self.projection))
 
         self.path = Path
         self.path_x = Path_x
@@ -622,7 +624,7 @@ class Heterostructure:
 
     # plot the eigenvalues
     def plot_eigenvalues_projected(self):
-        fig = plt.figure(figsize=(8,8))
+        fig = plt.figure(figsize=(16,16))
         ax = fig.add_subplot(111)
 
         # plot position of corners in triangular path taken
@@ -635,17 +637,16 @@ class Heterostructure:
         # plot first 4 unperterbed evalues
         #for i in np.arange(0, np.size(self.stateEValues, axis = 0),1):
         for i in np.arange(0, 4, 1):
-        #for i in np.arange(0,4,1):
             '''
             if (i % 2) == 0:
                 colour = 'red'
             else:
                 colour = 'blue'
             '''
-            colour = 'green'
+            colour = 'blue'
 
             ax.plot(self.path,
-                    self.stateEValues[i],
+                    self.stateEValues[0],
                     #xerr = ,
                     #yerr = ,
                     #capsize = ,
@@ -653,10 +654,26 @@ class Heterostructure:
                     #markersize = 2,
                     color = colour,
                     markerfacecolor = 'black',
+                    linewidth = 4,
                     #linestyle = '-',
                     #label = 'asdef'
                     )
         
+        for i in np.arange(0, 84, 1):
+
+            colour = 'red'
+
+            for j in np.arange(0,800,1):
+
+                ax.plot(self.path[j],
+                        self.eValues[i][j],
+                        alpha = self.projection[j,i,0],
+                        marker = 'o',
+                        markersize = 2,
+                        color = colour,
+                        markerfacecolor = 'black',
+                    )
+
         plt.xlim(0,self.RLC*10)
         plt.xlim(self.path[0],self.path[-1])
         #plt.ylim(-1,1)
