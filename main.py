@@ -354,33 +354,42 @@ class Heterostructure:
 
         return(hamiltonian)
     
-    #generate set of evectors for each of the 14 k states for projection make 84 long with zeros elsewhere
-    def gen_state_evectors(self, k: np.array):
-        AllEVecs = collections.deque([])
-        EVals = collections.deque([])
+    #generate set of evectors for each of the 14 k states for projection make 84 length vectors with zeros elsewhere
+    def gen_unperturbed_state_evectors(self, k: np.array):
         kc = self.gen_coupling_k(k)
         for state in np.arange(0,7,1):
-            for l in np.arange(0,2,1):
-                h = self.lattices[l].gen_layer_hamiltonian(kc[state])
+                h = self.gen_coupling_hamiltonian_diag(kc[state])
                 EVal, EVecs = np.linalg.eigh(h)
 
-                EVals.append(EVal[0])
-                EVals.append(EVal[1])
+                EVecs = np.transpose(EVecs)
 
-                pos14Vec = state*2 + l      #position in 14*6 length vector, 0 indexed i.e. 0-13
+                #pos7Vec = state*2      #position in 7*12 length vector, 0 indexed i.e. 0-6
                 #determine number of zeros before and after to make 84 size vector
-                preZeros = np.zeros((pos14Vec)*6)
-                afterZeros = np.zeros((13 -pos14Vec)*6)
+                preZeros = np.zeros(state*12)
+                afterZeros = np.zeros((6 - state)*12)
 
-                #only get evecs of 2 states at fermi level
-                for EVec in EVecs[:2]:
+                #add zeros for projection
+                AllEVecs = collections.deque([])
+                for EVec in EVecs:
                     EVec = np.concatenate((preZeros, EVec), axis=None)
                     EVec = np.concatenate((EVec, afterZeros), axis=None)
                     AllEVecs.append(EVec)
-                
-        # AllEVecs has shape (28,84) where 28 is from: 7 k states x2 layers x2 states at fermi)
-        # first 4 correspond to k0 on both layers
-        return np.asarray(EVals), np.asarray(AllEVecs)
+
+                # d orbitals should be every 3rd evector
+                # only save evals for k0 orbitals
+                if state == 0:
+
+                    #val, vec = zip(*sorted(zip(EVal, AllEVecs)))
+
+                    d_orbitals = collections.deque([])
+                    EVals = collections.deque([])
+                    for i in np.arange(0,4,1):
+                        d_orbitals.append(AllEVecs[i])
+                        EVals.append(EVal[i])
+                    
+        # AllEVecs has shape (84,84) where 84 is from: 7 k states x2 layers x2 states at fermi)
+
+        return np.asarray(EVals), np.asarray(AllEVecs), np.asarray(d_orbitals)
         
 
     # Brilloin zone in our 'universal' k coordinate system
@@ -425,11 +434,12 @@ class Heterostructure:
         EVec = []
         SEVal = []
         SEVec = [] #evectors of individual states for some k
+        d_orbitals_Evecs = []
 
         for i in np.arange(0,84,1):
             Energy.append(collections.deque([]))
 
-        for i in np.arange(0,24,1):
+        for i in np.arange(0,4,1):
             SEVal.append(collections.deque([]))
 
         #print(np.shape(Energy))
@@ -470,11 +480,12 @@ class Heterostructure:
                     Energy[i].append(eValues.real[i])
 
                 
-                EVec.append(eVectors)
-                t1, t2 = self.gen_state_evectors(k_step)
+                EVec.append(np.transpose(eVectors))
+                t1, t2, t3 = self.gen_unperturbed_state_evectors(k_step)
                 SEVec.append(t2)
+                d_orbitals_Evecs.append(t3)
                 
-                for i in np.arange(0,24,1):
+                for i in np.arange(0,np.shape(t1)[0],1):
                     SEVal[i].append(t1.real[i])
 
 
@@ -485,9 +496,9 @@ class Heterostructure:
             #print("total x axis 'distance' travelled = ", Path_Offset)
 
         self.eValues = np.asarray(Energy)
-        self.eVectors = EVec
+        self.eVectors = np.asarray(EVec)
         self.stateEValues = np.asarray(SEVal)
-        self.stateEVectors = SEVec
+        self.stateEVectors = np.asarray(d_orbitals_Evecs)
 
         # for each of 84 evecs: project against the 4 states at fermi level at k0
         self.projection = []
@@ -495,15 +506,19 @@ class Heterostructure:
             tmp1 = []
             for i in np.arange(0, np.shape(self.eVectors)[1], 1):   #num of states = 84
                 tmp2 = []
-                for j in np.arange(0, 4, 1):                        #num states to project onto = 4
+                for j in np.arange(0, np.shape(self.stateEVectors)[1], 1):                        #num states to project onto = 4
                 #for j in np.arange(0, np.shape(self.stateEVectors)[1], 1):
-                    tmp2.append(np.vdot(self.stateEVectors[k][j], self.eVectors[k][i]))
+                    p = np.power(np.absolute(np.vdot(self.stateEVectors[k][j], self.eVectors[k][i])), 2)
+
+                    if p > 1.0: p=1
+
+                    tmp2.append(p)
             
                 tmp1.append(tmp2)
             
             self.projection.append(tmp1)
 
-        self.projection = np.absolute(np.asarray(self.projection))
+        self.projection = np.asarray(self.projection)
 
         self.path = Path
         self.path_x = Path_x
@@ -656,6 +671,7 @@ class Heterostructure:
                     markerfacecolor = 'black',
                     linewidth = 4,
                     #linestyle = '-',
+                    zorder = 2,
                     #label = 'asdef'
                     )
         
@@ -663,7 +679,8 @@ class Heterostructure:
 
             colour = 'red'
 
-            for j in np.arange(0,800,1):
+            # just do every 10th
+            for j in np.arange(0,800,5):
 
                 ax.plot(self.path[j],
                         self.eValues[i][j],
@@ -672,6 +689,7 @@ class Heterostructure:
                         markersize = 2,
                         color = colour,
                         markerfacecolor = 'black',
+                        zorder = 2.5,
                     )
 
         plt.xlim(0,self.RLC*10)
@@ -831,6 +849,21 @@ class Heterostructure:
         ani.save("Animation.gif", writer = writer)
 
         plt.show()
+
+
+    def print_hamiltonians(self, k: np.array):
+
+        print('unrotated layer hamiltonian: 6x6')
+        print(self.lattices[0].gen_layer_hamiltonian(k))
+    
+        print('bilayer hamiltonian diagonal block for k0 -> k0: 12x12')
+        print(self.gen_coupling_hamiltonian_diag(k))
+
+        print('bilayer hamiltonian diagonal block for k0 -> k0 (just coupling): 12x12') 
+        print(self.gen_coupling_hamiltonian(k, k))
+
+        print('saving full hamiltonian to hamiltonian.csv: 84x84')
+        np.savetxt("hamiltonian.csv", self.gen_hamiltonian(k), delimiter = ',')
 
 
 # --- Lattice ---
@@ -1059,7 +1092,7 @@ class Lattice:
 #using the heterostructres class
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0))
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(30))
-myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(5))
+myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0.8))
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(1))
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0.1))
 myTwistedBilayer.gen_lattices()
@@ -1068,6 +1101,9 @@ myTwistedBilayer.set_coupling(0.3)
 myTwistedBilayer.gen_brilloin_zone_vectors()
 myTwistedBilayer.gen_brilloin_zone_path()
 myTwistedBilayer.gen_coupling_vectors()
+
+#myTwistedBilayer.print_hamiltonians(np.array([0,0]))
+
 myTwistedBilayer.gen_eigenvalues(myTwistedBilayer.brillouin_path)
 #myTwistedBilayer.plot_brillouin_zone_path()
 #myTwistedBilayer.gen_seperate_layer_evalues(myTwistedBilayer.brillouin_path)

@@ -3,12 +3,12 @@ _dissertation todo_
 
 == Work ==
 
-- [ ] Projection onto unperturbed evectors/states
-  - [ ] get the 4 unperturbed d orbital evectors/states at fermi level
-  - [ ] project the 84 evalues (maybe just the bottom 28? or even just 4 at the original k0??) onto the 4 to get the probability - should be < 1
-  - [ ] figure out a way to plot the 4 unperturbed, with the 28 overtop
-    - [ ] 28 overtop should then be greyscaled acccording to projection
-    - [ ] interpret at what k points the electronic band is more or less projected onto the unperturbed state
+- [O] Projection onto unperturbed evectors/states
+  - [X] get the 4 unperturbed d orbital evectors/states at fermi level
+  - [X] project the 84 evalues (maybe just the bottom 28? or even just 4 at the original k0??) onto the 4 to get the probability - should be < 1
+  - [X] figure out a way to plot the 4 unperturbed, with the 28 overtop
+    - [X] 28 overtop should then be greyscaled acccording to projection
+  - [ ] interpret at what k points the electronic band is more or less projected onto the unperturbed state
     - [ ] speak to marcin - interpret results
     - [ ] look at different angles
 
@@ -83,23 +83,26 @@ _dissertation todo_
     - [ ] comparison with other transition metal dichalcogenides -> results from their twisted bilayers
     
   - [o] Tight binding model
-    - [o] description of basis
+    - [.] description of basis
       - [X] d orbitals of Nb -> bands near fermi level
       - [ ] why? -> why no Se orbitals?
+        - [ ] read '3 band tbm for TMDC' paper
     - [o] monolayer
-      - [ ] diagram of nearest neighbors
       - [X] description / derivation of fitting parameters from habara
       - [X] hamiltonian construction etc
+        - [ ] diagram of nearest neighbors
 
-  - [ ] Bilayer construction
-    - [ ] combining hamiltonians
-    - [ ] twisted k axes
+  - [o] Bilayer construction
+    - [X] twisted k axes
+    - [X] combining hamiltonians
     - [ ] (12) electronic bands
+      - [ ] graphs
+      - [ ] interpretation / explanation
 
-  - [ ] interlayer tunneling
-    - [ ] koshino
-    - [ ] theory behind tunneling
-      - [ ] reciprocal lattice vectors G
+  - [.] interlayer tunneling
+    - [X] koshino
+    - [o] theory behind tunneling
+      - [X] reciprocal lattice vectors G
       - [ ] allowed interlayer tunneling points k'
     - [ ] mini brilloin zone due to tunneling
       - [ ] possibly aligns with superlattice

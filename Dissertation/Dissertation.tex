@@ -99,34 +99,34 @@
   Our work draws on several published methods on NbSe2 and twistronics. In particular we take the multiorbital tight binding model of monolayer NbSe2 from Habara and Wakabayashi\cite{Habara_2021}. To model the bilayer with twist, we employ the method used in the original magic-angle paper by Bistritzer and MacDonald \cite{Bistritzer_2011}. 
 
 \subsection*{Monolayer NbSe2}
-  We employ a multiorbital tight binding model (TBM) of NbSe2 as described by Habara and Wakabayashi \cite{Habara_2021}. We take a basis of the 3 d orbitals of the Nb atoms with spin orbit coupling. These states are dominant in the electronic band near fermi level. We take this as an adequate description of the NbSe$_2$ monolayer for low energy electronic states.
+  NbSe$_2$ is a group-V transition metal dichalcogenide (TMDC), it has metallic properties with superconductivity at low temperatures. It also has a strong spin orbit coupling (SOC) field which results in Ising-type spin orbit coupling, i.e. strong effective Zeeman field that holds electron spins in out-of-plane directions. We employ a multiorbital tight binding model (TBM) of NbSe2 as described by Habara and Wakabayashi \cite{Habara_2021}. We take a basis of $d_{z^2}$, $d_{x^2 - y^2}$ and $d_{xy}$ orbitals of the Nb atoms with spin orbit coupling. These states are dominant in the electronic band near fermi level. We take this as an adequate description of the NbSe$_2$ monolayer for low energy electronic states.
 
-  The TBM takes the interactions of these states up to the third nearest neighbour sites.
+  The TBM considers the interactions of these electronic states up to the third nearest neighbour sites.
 
   The eigenvalue equation of the TBM is 
       \begin{equation}
         \label{TBM_evalue_eqn}
-        \hat{H}(\boldsymbol{k})\left|u_{n k}\right\rangle=E_{n k}\left|u_{n k}\right\rangle,
+        \hat{H}(k)\left|u_{n k}\right\rangle=E_{n k}\left|u_{n k}\right\rangle,
       \end{equation}
 
    where $k=\left(k_{x}, k_{y}\right)$ is the wave-number vector, $E_{nk}$ is the eigenvalue and $n = 1,2,\cdots,6$ is the band index.
 
-   we define the eigenvectors as
+   we define the eigenvector as
       \begin{equation}
         \left|u_{n k}\right\rangle=$ $\left(c_{n k, d_{z^{2}}, \uparrow}, c_{n k, d_{x y}, \uparrow}, c_{n k, d_{x^{2}-y^{2}}, \uparrow}, c_{n k, d_{z^{2}}, \downarrow}, c_{n k, d_{x y}, \downarrow}, c_{n k, d_{x^{2}-y^{2}}, \downarrow}\right)^{T}
       \end{equation}
 
   where $(\cdots)^T$ indicates the transpose of the vector and $c_{nk\tau s}$ is the amplitude at atomic orbital $\tau$ with spin $s$ for the $n$th energy band at $k$.
 
-  The monolayer hamiltonian $\hat{H}(\boldsymbol{k})$ with spin orbit coupling is then 
+  The monolayer hamiltonian $\hat{H}(k)$ with spin orbit coupling is then 
       \begin{equation}
-        \hat{H}(\boldsymbol{k})=\hat{\sigma}_{0} \otimes \hat{H}_{\mathrm{TNN}}(\boldsymbol{k})+\hat{\sigma}_{z} \otimes \frac{1}{2} \lambda_{\mathrm{SOC}} \hat{L}_{z}
+        \hat{H}(k)=\hat{\sigma}_{0} \otimes \hat{H}_{\mathrm{TNN}}(k)+\hat{\sigma}_{z} \otimes \frac{1}{2} \lambda_{\mathrm{SOC}} \hat{L}_{z}
       \end{equation}
 
-      with TBM nearest neighbour hamiltonian
+  with the TBM nearest neighbour hamiltonian
 
       \begin{equation}
-        \hat{H}_{\mathrm{TNN}}(\boldsymbol{k})=\left(\begin{array}{ccc}
+        \hat{H}_{\mathrm{TNN}}(k)=\left(\begin{array}{ccc}
         V_{0} & V_{1} & V_{2} \\
         V_{1}^{*} & V_{11} & V_{12} \\
         V_{2}^{*} & V_{12}^{*} & V_{22}
@@ -143,63 +143,96 @@
         \end{array}\right)
       \end{equation}
 
-  \item $\hat{\sigma}_0$ and $\hat{\sigma}_z$ are pauli matrices and $\lambda_{\text{SOC}}=0.0784$ eV is the Ising-type spin orbit coupling parameter. $V_0 \cdots V_{22}$ are functions of $k$ $^{[5]}$.
+  \item $\hat{\sigma}_0$ and $\hat{\sigma}_z$ are pauli matrices and $\lambda_{\text{SOC}}=0.0784$ eV is the Ising-type spin orbit coupling parameter. The potentials $V_0 \cdots V_{22}$ in the TNN hamiltonian are functions of $k$ determined from the nearest neighbour hopping vectors with fitting parameters.
 
-    The monolayer hamiltonian is then a 6x6 block diagonal hermitian matrix as a funciton of wavevector $k$.
+    The resulting monolayer hamiltonian $\hat{H}(k)$ is a 6x6 block diagonal hermitian matrix as a function of wavevector $k$. The eigenvalues of this hamiltonian correspond to the energy of the 6 eigenstates / electronic bands for a given point in reciprocal space $k$. When determining the electronic bands, we take $k$ from slices in the first brilloin zone along the standard critical points: $\Gamma, K, K', M$. By Bloch's theorem we can describe the electronic properties of the whole monolayer by considering the region bounded by these points due to the periodicity of potentials in the lattice and reflectional symmetry. Specifically, $k$ bounded by the equilateral triangle $\Gamma \rightarrow K \rightarrow M \rightarrow K' \rightarrow \Gamma$.
 
-    the eigenvalues of this hamiltonian correspond to the 6 eigenstates / electronic bands for a given point in reciprocal space $k$ 
+\subsection*{Modelling a twist}
 
-  Specifically, we take $k$ from slices in the first brilloin zone along the standard critical points. By Bloch's theorem we can describe the electronic properties of the whole monolayer due to the periodic potentials.
+  Before constructing a twisted bilayer we first consider a monolayer twisted by some angle $theta$. A rotation in primitive lattice vectors $a_1, a_2 \rightarrow a_1', a_2'$ corresponds to the same rotation in reciprocal lattice vectors $b_1, b_2 \rightarrow b_1', b_2'$. We can treat this rotation as a rotation of the coordinate system in $k$ space: $(k_x, k_y) \rightarrow (k_x', k_y')$. Then, for some vector $k' \in (k_x', k_y')$ we can find the same vector $k'$ in our original wavevector basis $(k_x, k_y)$ by rotating it by $-\theta$.
 
-  Further, due to reflectional symmetry the region that fully describes the electronic states can be reduced to the equilateral triangle bounded by $\Gamma \rightarrow K \rightarrow M \rightarrow K' \rightarrow \Gamma$.
+  If we consider the equilateral triangle in reciprocal space $\Gamma \rightarrow K1 \rightarrow M1 \rightarrow K1' \rightarrow \Gamma$ taken on an unrotated basis. We can construct a rotated triangle $\Gamma \rightarrow K2 \rightarrow M2 \rightarrow K2' \rightarrow \Gamma$
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.95\columnwidth]{DLA_diagram.png}
-  \caption{
-    Diagram of the diffusion-limited aggregation (DLA) system. A particle is created at a random point on $r_{start}$ and then undergoes a discrete random walk. If its position exceeds the distance $r_{kill}$ it is removed. If it makes contact with the cluster it is made inactive and joins the cluster. The DLA cluster grows from an initial seed particle located at the origin, its size can be estimated from $r_{max}$.
-  }
-  \label{DLA_diagram}
-\end{figure}
+\subsection*{Twisted bilayer}
 
-  Some approximations are made in this algorithm to improve computational efficiency. The original model described by Witten and Sander \cite{Witten_1981} removes particles when they reach the edge of the grid. However, this can result in significant computation spent on random walking a particle in the domain, only for it to walk to the edge and be removed. Further, if it does random walk back to a point on the circle $r_{start}$ its previous motion away from the cluster will not effect its subsequent motion. We therefore restrict the random walking to within $r_{kill}$ which still allows for some motion away from the cluster while improving overall efficiency. This restriction will have an effect on the resulting DLA cluster. However, we assume the effect is negligible for the reasons outlined.
+  To describe the electronic states in a twisted bilayer we can initially start with a simple model with no interaction between states in different layers. We construct the hamiltonian of the whole system by taking a block diagonal hamiltonian matrix $\hat{H}{k}$ from two monolayer matrices $\hat{H_1}{k}$ and $\hat{H_2}{k'}$
 
-  The random number sampling used for the random walk and the initial positions of particles generated on $r_{start}$ uses pseudo-random number generation to efficiently generate large quantities of random numbers. To ensure that the system does not generate the same cluster every time, a 'true' random number is used as the \textit{seed} of the pseudo-random number generater for each new cluster. This allows for the efficient sampling of many psuedo-random numbers that are independent between simulations, the resulting DLA clusters are consequently independent from one another.
+      \begin{equation}
+        \hat{H}(\boldsymbol{k})=\left(\begin{array}{cc}
+          \hat{H_1}(\boldsymbol{k}) & 0\\
+          0 & \hat{H_2}(\boldsymbol{k'})
+        \end{array}\right)
+      \end{equation}
+      
+  where $\hat{H_2}(k')$ is the Hamiltonian of the second monolayer, which is rotated by angle $\theta$ relative to the first. To find $\hat{H}(k)$ we must rotate $k$ to $k'$ (as described previously) in $\hat{H_2}(k')$.
 
-\subsection*{Modified DLA - random adhesion}
-  Previously we define \textit{checkStick()} to always be \textit{true}. However, in the modified algorithm as described by Ranguelov \textit{et al} \cite{Ranguelov_2011} we redefine \textit{checkStick()} to check against a preset probability of particle adherence $P_{stick}$, retrieving the unmodified algorithm for $P_{stick} = 1$. If the particle fails to adhere to the cluster it will do nothing until the next update where it will perform another random walk. An additional modification is made to the random walk procedure, such that if a particle tries to move into an occupied grid position it will not move and instead \textit{checkStick()} again. This prevents multiple particles from occupying a single grid space, and allows particles to have multiple 'chances' to adhere to the cluster at the same site.
+  continuing, we will denote rotated vectors as $v'$ where the rotation is relative to a vector on the 'unrotated layer' $v$. We will also denote these layers by index, layer 1 is unrotated, layer 2 is rotated relative to layer 1.
 
-\subsection*{Fractal dimension}
-  A definition of dimension suitable to numerical computations of fractal dimension is the Minkowski-Bouligand or 'box-count' dimension: in a Euclidian space, the number of boxes $N$ (or 'density') with side length $a$ that cover a fractal of one dimensional size $R$ are related by
-  \begin{equation}
-      \begin{aligned}
-        & N = (R/a)^{d_f}\\
-        \implies & d_f = \frac{\ln(N)}{\ln(R/a)},
-      \end{aligned}
-      \label{dim_definition}
-  \end{equation}
+\subsection*{Interlayer tunneling}
+  To model inter-layer electron tunneling we follow the method of Bistritzer and MacDonald \cite{Bistritzer_2011} for graphene, which is outlined for a more general case by Koshino \cite{Koshino_2015}.
 
-  where $d_f$ is the fractal dimension. With this definition we can retrieve well known dimensions such as $d_{line} = 1, d_{square} = 2$, etc.
-
-      To determine the fractal dimension of the generated DLA clusters we first set $a=1$ as our DLA system is discrete in the grid, then $N=N_c$ is the number of particles in the cluster. We then assume that $r_{max}$ (the distance of the furthest point in the cluster from the origin) is representative of the one-dimensional size of the cluster with some correction terms $\alpha, \beta$. So our general relation is
+  For reciprocal lattice vectors $b_i, b_i'$ where $b_i'$ is the equivalent reciprocal lattice vector of the rotated layer. We can show that
 
   \begin{equation}
-    \begin{aligned}
-    & N_c(r_{max}) = (\alpha r_{max})^{d_f}+\beta\\
-    \implies & \frac{d(\ln{N_c})}{d(\ln{r_{max}})} = \frac{d_f}{1 + \beta/(\alpha r_{max})^{d_f}}\\
-    \implies & d_f = \lim\limits_{r_{max} \to \infty} \frac{d(\ln{N_c})}{d(\ln{r_{max}})},
-    \end{aligned}
-    \label{dim_relation}
+    k + G = k' + G',
+    \label{inter-layer_k_plus_G}
   \end{equation}
+  where $G = m_1 b_1 + m_2 b_2 \text{ and } G' = m_1 b_1' + m_2 b_2'$ are reciprocal lattice vectors of the unrotated and rotated layers respectively.
 
-  hence for sufficiently large $r_{max}$ relative to the length scale $a = 1$ we can estimate the fractal dimension $d_f$ of a DLA cluster. 
+  This is because a bloch state on layer 1 $\phi_k^{(1)}$ is a summation of $e^{i(k+b)}$ over reciprocal vectors. Similarily, on layer two $\phi_{k'}^{(2)}$ is a sum over $e^{i(k'+b')}$. The system hamiltonian is described by fourier components of $G, G'$. So the matrix element $\langle \phi_{k'}^{(2)} | \hat{H} | \phi_{k}^{(1)}$ is only non-zero if \ref{k_plus_b} holds. The derivation of \ref{k_plus_b} is as follows:
 
-  Two methods are employed in the derivation of $d_f$ for individual DLA clusters: firstly a least squares fit method of the relationship described by (\ref{dim_relation}) is applied to the recorded values of $N_c$ and $r_{max}$ of the cluster, the corresponding $d_f$ is inferred from the fit with error; the second method approximates
+  First we assume that equivalent unit cells in both layers $X$ and $X'$ have multiple atomic orbitals with real space lattice positions
   \begin{equation}
-    d_f \approx \frac{\ln{N_c}}{\ln{r_{max}}}, \quad r_{max} \approx R >> a
-    \label{dim_approx}
+    R_X = n_1 a_1 + n_2 a_2 + \tau_X,
+    R_{X'} = n_1 a_1' + n_2 a_2' + \tau_{X'},
+    \label{inter-layer_real_sublattice_positions}
   \end{equation}
-      by assuming that $r_{max}$ is sufficiently large for some $N_c$. $d_f$ is then found at the largest $N_c$ and corresponding $r_{max}$ that the cluster attains. The efficacy of these methods when applied is discussed with the results of this report.
+
+  for $n_1, n_2 \in \mathrm{N}$ and primitive lattice vectors $a_1, a_2$ and $a_1', a_2'$ in either respectively. $\tau_X$ are the sublattice positions of the atomic states in unit cell $X$
+
+  We define $| R_x \rangle \equiv \phi(r - R_X)$ is the atomic state of sublattice $X$ at localised in real position $R_X$
+
+  The interlayer hamiltonian is then
+  \begin{equation}
+    U = -\sum_{X, X'} T_{X'X}(R_{x'} - R_x) |R_{x'}\rangle \langle R_x|,
+    \label{inter-layer_hamiltonian_elements}
+  \end{equation}
+
+  where the inter-layer transfer potential $-T_{X'X}(R_{x'} - R_x)$ is a function of the real space positions of the atomic orbitals, the specifics of this function we shall discuss later.
+
+  We define the Bloch basis in each layer as the summation over unit cells (therefore primitive lattice vectors)
+
+  \begin{equation}
+    | k,j,l \rangle = \frac{1}{\sqrt{N_l}}\sum_{R_X}e^{ik\cdot(R+\tau_i)}\phi_j(r-R-\tau_j, z-z_l)
+    \label{inter-layer_real_bloch_basis}
+  \end{equation}
+
+  for wavevector $k$, sublattice $j$ and layer index $l$ where $N_l$ is the number of unit cells in layer $l$. $\phi_j (r - R - \tau_j, z-z_l)$ is the wavefunction in 2d real space in the plane and out of plane.
+
+  Our inter-layer hopping Hamiltonian elements are then given by
+
+  \begin{equation}
+  \begin{gathered}
+    \langle k',j',l' | U | k, j, l \rangle = \frac{1}{\sqrt{N_l N_{l'}}} \sum_{R, R'} e^{ik \cdot (R+\tau_j)} e^{-ik' \cdot (R' + \tau_{j'})} \times \\
+    \langle \phi_{j'}(r - R' - \tau_{j'}, z - z_{l'}) | U | \phi_j (r - R - \tau_j, z - z_l) = \\
+    \frac{1}{\sqrt{N_l N_{l'}}} \sum_{R, R'} e^{ik \cdot (R+\tau_j)} e^{-ik' \cdot (R' + \tau_{j'})} t(R'-R +\tau_{j'} - \tau_j, z_l' - z_l),
+    \label{}
+  \end{gathered}
+  \end{equation}
+
+  where we invoke a two centre approximation, the hopping between sites is a function of their distance only. We also assume that the the hopping $t(\vec{r_{2D}}, z)$ does not depend on the direction of $\vec{r_{2D}}$ i.e. $t(\vec{r_{2D}}, z) = t(|r_{2D}|, z)$
+
+  For a large superlattice period, the relative inter atomic positions for every combination of atomic sites are required. It is easier to reconstruct the hamiltonian in reciprocal space.
+
+  By taking a fourier transform (see appendix) we can show that
+  \begin{equation}
+    \langle k',j',l' | U | k, j, l \rangle = \sum_{G, G'} t(k'+G', z) \delta_{k-G, k'+G'},
+    \label{inter-layer_hopping_elements}
+  \end{equation}
+  
+  which yields the result in \ref{inter-layer_k_plus_G}
+  
+
 
 \subsection*{Implementation}
   Please see the appendix for practical details about the specific implementation of the DLA algorithm used for this report.
