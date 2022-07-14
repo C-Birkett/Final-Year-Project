@@ -27,7 +27,7 @@ _dissertation todo_
 
 - [ ] Title
 
-- [ ] Name, date etc
+- [X] Name, date etc
 
 - [ ] Abstract
   - [ ] get results,
@@ -69,46 +69,47 @@ _dissertation todo_
     - [ ] tunable band gap
     - [ ] etc
 
-- [.] Theory / Method
+- [O] Theory / Method
 
-  - [ ] Material - NbSe2
-    - [ ] structure/description of material
-      - [ ] diagram
-    - [ ] why?
-      - [ ] 2d material
-      - [ ] bilayer
-      - [ ] electrical properties
-      - [ ] other details about electronic uses of material
-      - [ ] practical -> production and availability?
-    - [ ] comparison with other transition metal dichalcogenides -> results from their twisted bilayers
+  - [X] Material - NbSe2
+    - [X] structure/description of material
+      - [X] diagram
+    - [X] why?
+      - [X] 2d material
+      - [X] bilayer
+      - [X] electrical properties
     
   - [o] Tight binding model
     - [.] description of basis
       - [X] d orbitals of Nb -> bands near fermi level
       - [ ] why? -> why no Se orbitals?
         - [ ] read '3 band tbm for TMDC' paper
-    - [o] monolayer
+        - [ ] cite & explain
+    - [X] monolayer
       - [X] description / derivation of fitting parameters from habara
       - [X] hamiltonian construction etc
-        - [ ] diagram of nearest neighbors
+        - [X] diagram of nearest neighbors
 
-  - [o] Bilayer construction
+  - [X] Bilayer construction
     - [X] twisted k axes
     - [X] combining hamiltonians
-    - [ ] (12) electronic bands
-      - [ ] graphs
-      - [ ] interpretation / explanation
-
-  - [.] interlayer tunneling
+    
+  - [O] interlayer tunneling
     - [X] koshino
-    - [o] theory behind tunneling
+    - [X] theory behind tunneling
       - [X] reciprocal lattice vectors G
-      - [ ] allowed interlayer tunneling points k'
-    - [ ] mini brilloin zone due to tunneling
+      - [X] allowed interlayer tunneling points k'
+    - [.] mini brilloin zone due to tunneling
+      - [X] in diagram
       - [ ] possibly aligns with superlattice
-    - [ ] tunneling energy
-      - [ ] gaussian
-    - [ ] construction of final 84x84 hamiltonian
+        - [ ] need to discuss with marcin & interpret etc
+    - [X] construction of final 84x84 hamiltonian
+
+    - [.] tunneling potential
+      - [o] gaussian
+        - [X] placeholder
+        - [ ] Need to get this actually right
+      - [ ] why / approximation
 
 - [ ] Implementation in python
   - [ ] why
@@ -130,11 +131,14 @@ _dissertation todo_
 - [ ] Conclusion
   - [ ] 
 
-- [ ] Acknowledgements
+- [X] Acknowledgements
 
 - [ ] References
   - [ ] collate
+    - [ ] mendely
+    - [ ] tidy up refs.bib file
   - [ ] format
+  - [ ] double check
 
 - [ ] Appendix
-  - [ ] derivations
+  - [ ] derivations of tunneling hamiltonian

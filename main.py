@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter, ImageMagickWriter
 import collections
 
+from IPython import display
 
 # --- Constants ---
 
@@ -356,40 +357,48 @@ class Heterostructure:
     
     #generate set of evectors for each of the 14 k states for projection make 84 length vectors with zeros elsewhere
     def gen_unperturbed_state_evectors(self, k: np.array):
-        kc = self.gen_coupling_k(k)
-        for state in np.arange(0,7,1):
-                h = self.gen_coupling_hamiltonian_diag(kc[state])
+
+                self.is_coupled = False # temporary
+
+        #kc = self.gen_coupling_k(k)
+        #for state in np.arange(0,7,1):
+                #h = self.gen_coupling_hamiltonian_diag(kc[state])
+                h = self.gen_coupling_hamiltonian_diag(k)
                 EVal, EVecs = np.linalg.eigh(h)
 
                 EVecs = np.transpose(EVecs)
 
                 #pos7Vec = state*2      #position in 7*12 length vector, 0 indexed i.e. 0-6
                 #determine number of zeros before and after to make 84 size vector
+                '''
                 preZeros = np.zeros(state*12)
                 afterZeros = np.zeros((6 - state)*12)
+                '''
+                preZeros = np.zeros(0)
+                afterZeros = np.zeros(72)
 
                 #add zeros for projection
                 AllEVecs = collections.deque([])
                 for EVec in EVecs:
-                    EVec = np.concatenate((preZeros, EVec), axis=None)
+                    #EVec = np.concatenate((preZeros, EVec), axis=None)
                     EVec = np.concatenate((EVec, afterZeros), axis=None)
                     AllEVecs.append(EVec)
 
-                # d orbitals should be every 3rd evector
+                # not actual d orbitals but low energy unperterbed eStates
                 # only save evals for k0 orbitals
-                if state == 0:
+                d_orbitals = collections.deque([])
+                EVals = collections.deque([])
+                for i in np.arange(0,4,1):
+                    d_orbitals.append(AllEVecs[i])
+                    EVals.append(EVal[i])
 
-                    #val, vec = zip(*sorted(zip(EVal, AllEVecs)))
-
-                    d_orbitals = collections.deque([])
-                    EVals = collections.deque([])
-                    for i in np.arange(0,4,1):
-                        d_orbitals.append(AllEVecs[i])
-                        EVals.append(EVal[i])
+                    #print('low energy evals: ', EVal[:3])
                     
         # AllEVecs has shape (84,84) where 84 is from: 7 k states x2 layers x2 states at fermi)
 
-        return np.asarray(EVals), np.asarray(AllEVecs), np.asarray(d_orbitals)
+                self.is_coupled = True
+
+                return np.asarray(EVals), np.asarray(AllEVecs), np.asarray(d_orbitals)
         
 
     # Brilloin zone in our 'universal' k coordinate system
@@ -510,7 +519,9 @@ class Heterostructure:
                 #for j in np.arange(0, np.shape(self.stateEVectors)[1], 1):
                     p = np.power(np.absolute(np.vdot(self.stateEVectors[k][j], self.eVectors[k][i])), 2)
 
-                    if p > 1.0: p=1
+                    if p > 1.00000001:
+                        print("projection larger than expected! p = ", p)
+                        p=1
 
                     tmp2.append(p)
             
@@ -602,7 +613,7 @@ class Heterostructure:
         # plot fermi level
         plt.axhline(xmin = self.path[0], xmax = self.path[-1], y = 0, color = 'red')
 
-        # only plot first 4 evalues (fermi level)
+        # plot evalues
         for i in np.arange(0, np.size(self.eValues, axis = 0),1):
         #for i in np.arange(0,4,1):
             '''
@@ -637,8 +648,8 @@ class Heterostructure:
 
         plt.show()
 
-    # plot the eigenvalues
-    def plot_eigenvalues_projected(self):
+    # plot the eigenvalues projected onto basic state
+    def plot_eigenvalues_projected(self, eigenstate):
         fig = plt.figure(figsize=(16,16))
         ax = fig.add_subplot(111)
 
@@ -649,52 +660,66 @@ class Heterostructure:
         # plot fermi level
         plt.axhline(xmin = self.path[0], xmax = self.path[-1], y = 0, color = 'red')
 
-        # plot first 4 unperterbed evalues
+        # plot 2 unperterbed evalues for either layer
         #for i in np.arange(0, np.size(self.stateEValues, axis = 0),1):
-        for i in np.arange(0, 4, 1):
-            '''
-            if (i % 2) == 0:
-                colour = 'red'
-            else:
-                colour = 'blue'
-            '''
-            colour = 'blue'
+        colour = 'blue'
+
+        '''
+        for i in np.arange (0,2,1):
 
             ax.plot(self.path,
-                    self.stateEValues[0],
-                    #xerr = ,
-                    #yerr = ,
-                    #capsize = ,
-                    #marker = 'o',
-                    #markersize = 2,
+                    self.stateEValues[i],
                     color = colour,
                     markerfacecolor = 'black',
                     linewidth = 4,
-                    #linestyle = '-',
                     zorder = 2,
-                    #label = 'asdef'
                     )
-        
+        '''
+
+        ax.plot(self.path,
+                self.stateEValues[2*eigenstate],
+                color = colour,
+                markerfacecolor = 'black',
+                linewidth = 4,
+                zorder = 2,
+                )
+
+        ax.plot(self.path,
+                self.stateEValues[(2*eigenstate)+1],
+                color = colour,
+                markerfacecolor = 'black',
+                linewidth = 4,
+                zorder = 2,
+                )
+
         for i in np.arange(0, 84, 1):
 
             colour = 'red'
 
             # just do every 10th
-            for j in np.arange(0,800,5):
+            for j in np.arange(0,800,1):
 
-                ax.plot(self.path[j],
-                        self.eValues[i][j],
-                        alpha = self.projection[j,i,0],
-                        marker = 'o',
-                        markersize = 2,
-                        color = colour,
-                        markerfacecolor = 'black',
-                        zorder = 2.5,
-                    )
+                # take sum of projections over both states (same state but on rotated layers)
+                a = self.projection[j,i,2*eigenstate] + self.projection[j,i,(2*eigenstate)+1]
 
-        plt.xlim(0,self.RLC*10)
+                # should be <= 1
+                if a > 1:
+                    print("projection larger than expected! a = ", a)
+                    a = 1
+                elif a > 0.05:  # dont need to plot zeros
+
+                    ax.plot(self.path[j],
+                            self.eValues[i][j],
+                            alpha = a,
+                            marker = 'o',
+                            markersize = 2,
+                            color = colour,
+                            markerfacecolor = 'black',
+                            zorder = 2.5,
+                        )
+
         plt.xlim(self.path[0],self.path[-1])
-        #plt.ylim(-1,1)
+        plt.ylim(-1,1)
         #plt.ylim(-0.5, 1)
 
         ax.set_xlabel('Distance along path in $k$ space [m$^{-1}$]')
@@ -790,41 +815,53 @@ class Heterostructure:
         ax.set_title('Lowest energy electronic band surface in brilloin zone')
         plt.show()
 
-    def animate(self, intrvl):
+    def animate(self, start, end, intrvl):
+
+        plt.rcParams['animation.ffmpeg_path'] = "C:/FFmpeg/bin/ffmpeg.exe"
         
         fig, ax = plt.subplots()
 
         # Array to store line2D objects
-        evalue_plots = [0,0,0,0]
+        evalue_plots = []
         
         # Store rotation in degrees before manipulation
-        rtn = round(to_degrees(self.rotation))
+        #rtn = round(to_degrees(self.rotation), 3)
+        rtn = end
 
         def anim(i):
+
+            print("animation count: ", i)
+
             self.rotation = float(to_radians(i))
             self.lattices = np.array([])
             self.gen_lattices()
             self.gen_brilloin_zone_vectors()
             self.gen_brilloin_zone_path()
+            self.gen_coupling_vectors()
             plt_y, plt_x = self.gen_eigenvalues(self.brillouin_path)
 
+            plt_x = np.asarray(plt_x)
+            plt_y = np.asarray(plt_y)
+
             # On first run initialise plots
-            if i == 0:
-                for j in np.arange(0,4,1):
+            if i == start:
+                for j in np.arange(0,84,1):
                     tmp, = ax.plot(plt_x,
-                                    plt_y[j].real,
+                                    (np.zeros(np.size(plt_x))-100),
                                     color = 'blue',
                                     markerfacecolor = 'black',
                                     )
 
-                    evalue_plots[j] = tmp
+                    evalue_plots.append(tmp)
             else:
-                for j in np.arange(0,4,1):
+                for j in np.arange(0,84,1):
                     evalue_plots[j].set_ydata(plt_y[j].real)
 
+
+            ax.set_title(f"Energy band structure of bilayer NbSe$_2$ with twist {round(to_degrees(self.rotation), 3)}$^\circ$")
             return evalue_plots
 
-        ani = FuncAnimation(fig, anim, np.arange(0, rtn+1, intrvl), blit = True, interval = 50)
+        ani = FuncAnimation(fig, anim, np.arange(start, end+intrvl, intrvl), blit = True, interval = 50)
 
         # plot position of corners in triangular path taken
         for vline in self.plot_corners:
@@ -835,21 +872,30 @@ class Heterostructure:
 
         plt.xlim(0,self.RLC*10)
         plt.xlim(self.path[0],self.path[-1])
-        plt.ylim(-1,1)
+        plt.ylim(-1,4)
 
         ax.set_xlabel('Distance along path in $k$ space [m$^{-1}$]')
         ax.set_ylabel('Energy [eV]')
-        ax.set_title(f"Energy band structure of bilayer NbSe$_2$ with twist {round(to_degrees(self.rotation))}$^\circ$")
 
         #plt.show()
 
         # Save as GIF
-        writer = ImageMagickWriter(fps=10)
+        #writer = ImageMagickWriter(fps=10)
         #writer = PillowWriter(fps=10)
-        ani.save("Animation.gif", writer = writer)
+        #ani.save("Animation.gif", writer = writer)
 
-        plt.show()
+        # save mp4
+        ani.save('Animation.mp4', writer = 'ffmpeg', fps = 10)
+        
+        """
+        video = ani.to_html5_video()
+        html = display.HTML(video)
+        display.display(html)
+        """
 
+        #plt.show()
+
+        plt.close()
 
     def print_hamiltonians(self, k: np.array):
 
@@ -932,6 +978,8 @@ class Lattice:
                         self.K_prime_to_Gamma,
                         self.Gamma_to_K,
                         self.K_to_M]
+
+        self.brillouin_path = self.Gamma_to_Gamma
 
         """
         # test these make a closed loop - returns 10-7 error in x, which is negligible
@@ -1052,9 +1100,15 @@ class Lattice:
         # plot position of corners in triangular path taken
         for vline in self.plot_corners:
             plt.axvline(x=vline, ymin=-1, ymax=1, color = 'green')
+        plt.annotate('K',
+                    (self.plot_corners[0], -0.75),
+                    textcoords="offset points", # how to position the text
+                    xytext=(0,10), # distance from text to points (x,y)
+                    color = 'green')
 
         # plot fermi level
         plt.axhline(xmin = self.path[0], xmax = self.path[-1], y = 0, color = 'red')
+        plt.annotate()
 
         for i in np.arange(0,6,1):
             """
@@ -1085,19 +1139,20 @@ class Lattice:
 
         ax.set_xlabel('Distance along path in $k$ space [m$^{-1}$]')
         ax.set_ylabel('Energy [eV]')
-        ax.set_title('Energy band structure of NbSe$_2$')
+        ax.set_title(f"Energy band structure of bilayer NbSe$_2$ with twist {round(to_degrees(self.rotation), 3)}$^\circ$")
 
         plt.show()
 
 #using the heterostructres class
+
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0))
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(30))
-myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0.8))
+myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(30))
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(1))
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0.1))
 myTwistedBilayer.gen_lattices()
-#myTwistedBilayer.set_coupling(0)
-myTwistedBilayer.set_coupling(0.3)
+myTwistedBilayer.set_coupling(0)
+#myTwistedBilayer.set_coupling(0.1)  # 0.1 is 'reasonable'
 myTwistedBilayer.gen_brilloin_zone_vectors()
 myTwistedBilayer.gen_brilloin_zone_path()
 myTwistedBilayer.gen_coupling_vectors()
@@ -1107,14 +1162,33 @@ myTwistedBilayer.gen_coupling_vectors()
 myTwistedBilayer.gen_eigenvalues(myTwistedBilayer.brillouin_path)
 #myTwistedBilayer.plot_brillouin_zone_path()
 #myTwistedBilayer.gen_seperate_layer_evalues(myTwistedBilayer.brillouin_path)
-myTwistedBilayer.plot_eigenvalues()
-myTwistedBilayer.plot_eigenvalues_projected()
-#myTwistedBilayer.animate(5)
+#myTwistedBilayer.plot_eigenvalues()
+#myTwistedBilayer.plot_eigenvalues_projected(1)  # 0 or 1
+myTwistedBilayer.animate(0, 30, 3)
 #myTwistedBilayer.plot_surface(1, 3)
 #myTwistedBilayer.plot_surface(2, 3)
 
-l1 = myTwistedBilayer.lattices[0]
-l2 = myTwistedBilayer.lattices[1]
+"""
+myTwistedBilayer.lattices[0].gen_brilloin_zone_vectors()
+myTwistedBilayer.lattices[0].gen_brilloin_zone_path()
+myTwistedBilayer.lattices[0].gen_eigenvalues(myTwistedBilayer.lattices[0].brillouin_path)
+myTwistedBilayer.lattices[0].plot_eigenvalues()
+"""
+
+"""
+for angle in np.arange(0.7, 1.2, 0.01):
+    myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(angle))
+    myTwistedBilayer.gen_lattices()
+    myTwistedBilayer.set_coupling(0.3)
+    myTwistedBilayer.gen_brilloin_zone_vectors()
+    myTwistedBilayer.gen_brilloin_zone_path()
+    myTwistedBilayer.gen_coupling_vectors()
+    myTwistedBilayer.gen_eigenvalues(myTwistedBilayer.brillouin_path)
+    myTwistedBilayer.plot_eigenvalues()
+
+"""
+#l1 = myTwistedBilayer.lattices[0]
+#l2 = myTwistedBilayer.lattices[1]
 
 #l1.gen_eigenvalues(l1.M_to_M)
 #l1.gen_eigenvalues(myTwistedBilayer.brillouin_path)

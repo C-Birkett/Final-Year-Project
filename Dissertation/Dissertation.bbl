@@ -1,86 +1,22 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{1}
 
-\bibitem{Pearle_2010}
-P.~Pearle, B.~Collett, K.~Bart, D.~Bilderback, D.~Newman, and S.~Samuels,
-  ``What brown saw and you can too,'' {\em Am. J. Phys.}, vol.~78,
-  p.~1278–1289, 2010.
+\bibitem{Cao2018}
+Y.~Cao, V.~Fatemi, S.~Fang, K.~Watanabe, T.~Taniguchi, E.~Kaxiras, and
+  P.~Jarillo-Herrero, ``{Unconventional superconductivity in magic-angle
+  graphene superlattices},'' {\em Nature}, vol.~556, no.~7699, pp.~43--50,
+  2018.
 
-\bibitem{Einstein_1905}
-A.~Einstein, ``Über die von der molekularkinetischen theorie der wärme
-  geforderte bewegung von in ruhenden flüssigkeiten suspendierten teilchen,''
-  {\em Annalen der Physik}, vol.~322, no.~8, pp.~549--560, 1905.
+\bibitem{Habara2021}
+R.~Habara and K.~Wakabayashi, ``{Optically induced spin current in monolayer
+  NbSe2},'' {\em Physical Review B}, vol.~103, no.~16, pp.~2--5, 2021.
 
-\bibitem{Shaikh_2022}
-Y.~H. Shaikh, J.~Pathan, A.~Jallel, and A.~R. Khan, ``Nickel dendritic pattern
-  in electrodeposition at different temperatures,'' {\em ES Materials $\&$
-  Manufacturing}, vol.~15, pp.~78--84, 2022.
+\bibitem{Bistritzer2011}
+R.~Bistritzer and A.~H. MacDonald, ``{Moir{\'{e}} bands in twisted double-layer
+  graphene},'' {\em Proceedings of the National Academy of Sciences of the
+  United States of America}, vol.~108, no.~30, pp.~12233--12237, 2011.
 
-\bibitem{Eden_1961}
-M.~Eden, ``A two-dimensional growth process,'' in {\em Proceedings of Fourth
-  Berkeley Symposium on Mathematics}, vol.~4, p.~223–239, University of
-  California Press., 1961.
-
-\bibitem{Witten_1981}
-T.~A. Witten and L.~M. Sander, ``Diffusion-limited aggregation, a kinetic
-  critical phenomenon,'' {\em Phys. Rev. Lett.}, vol.~47, pp.~1400--1403, Nov
-  1981.
-
-\bibitem{Ball_1984}
-R.~C. Ball, M.~Nauenberg, and T.~A. Witten, ``Diffusion-controlled aggregation
-  in the continuum approximation,'' {\em Physical Review A}, vol.~29,
-  pp.~2017--2020, 1984.
-
-\bibitem{Choi_2011}
-J.~Choi, D.~Crowdy, and M.~Z. Bazant, ``Diffusion-limited aggregation on curved
-  surfaces,'' {\em {EPL} (Europhysics Letters)}, vol.~91, p.~46005, aug 2010.
-
-\bibitem{Tenti_2021}
-J.~M. Tenti, S.~N. Hern\'andez~Guiance, and I.~M. Irurzun, ``Fractal dimension
-  of diffusion-limited aggregation clusters grown on spherical surfaces,'' {\em
-  Phys. Rev. E}, vol.~103, p.~012138, Jan 2021.
-
-\bibitem{Mathiesen_2005}
-J.~Mathiesen, I.~Procaccia, H.~L. Swinney, and M.~Thrasher, ``The universality
-  class of diffusion-limited aggregation and viscous fingering,'' {\em EPL},
-  vol.~76, pp.~257--263, 2005.
-
-\bibitem{Carlock_2016}
-J.~R. Nicol'as-Carlock, J.~L.~E. Carrillo-Estrada, and V.~Dossetti,
-  ``Universality of fractal to non-fractal morphological transitions in
-  stochastic growth processes,'' {\em arXiv: Statistical Mechanics}, 2016.
-
-\bibitem{Li_2008}
-D.~Li, Z.~Zheng, Z.~Shui, M.~Long, J.~Yu, K.~W. Wong, L.~Yang, ‖, L.~Zhang,
-  and W.-M. Lau, ``Using elemental se and ag to grow pure ag2se
-  dendrites/dendritic-films of highly oriented (001) nanocrystals,'' {\em
-  Journal of Physical Chemistry C}, vol.~112, pp.~2845--2850, 2008.
-
-\bibitem{Pietronero_1984}
-L.~Pietronero and H.~Wiesmann, ``Stochastic model for dielectric breakdown.,''
-  {\em J Stat Phys}, vol.~36, p.~909–916, 1984.
-
-\bibitem{Irurzun_2002}
-I.~Irurzun, P.~Bergero, V.~Mola, M.~Cordero, J.~Vicente, and E.~Mola,
-  ``Dielectric breakdown in solids modeled by dbm and dla,'' {\em Chaos,
-  Solitons \& Fractals}, vol.~13, no.~6, pp.~1333--1343, 2002.
-
-\bibitem{Mandelbrot_1982}
-B.~B. Mandelbrot, {\em The Fractal Geometry of Nature}.
-\newblock Benoit B. Mandelbrot, 1~ed., 1982.
-
-\bibitem{Zhang_2007}
-A.~Zhang, Dongsheng;~Samal and J.~R. Brandle, ``A method for estimating fractal
-  dimension of tree crowns from digital images,'' {\em CSE Journal Articles},
-  vol.~97, 2007.
-
-\bibitem{Ranguelov_2011}
-B.~Ranguelov, D.~Goranova, V.~Tonchev, and R.~Yakimova, ``Diffusion limited
-  aggregation with modified local rules,'' {\em Comptes Rendus de L'Academie
-  Bulgare des Sciences}, vol.~65, 05 2011.
-
-\bibitem{Sadovnik_2016}
-E.~V. Sadovnik, ``A central limit theorem for fluctuations of internal
-  diffusion-limited aggregation with multiple sources urop + final paper
-  2016,'' 2016.
+\bibitem{Koshino2015}
+M.~Koshino, ``{Interlayer interaction in general incommensurate atomic
+  layers},'' {\em New Journal of Physics}, vol.~17, 2015.
 
 \end{thebibliography}
