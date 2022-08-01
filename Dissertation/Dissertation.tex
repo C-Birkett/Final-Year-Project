@@ -4,7 +4,7 @@
 % This is a simple template for a LaTeX document using the "article" class.
 % See "book", "report", "letter" for other types of document.
 
-\documentclass[10pt, twocolumn]{article} % use larger type; default would be 10pt
+\documentclass[12pt]{report} % use larger type; default would be 10pt
 
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
 \usepackage{fontspec}
@@ -20,7 +20,7 @@
 
 %%% PAGE DIMENSIONS
 \usepackage{geometry} % to change the page dimensions
-\geometry{a4paper, left=17.5mm, right=17.5mm, textwidth=85mm,columnsep=5mm, top=17.5mm}
+\geometry{a4paper, left=25mm, right=25mm, textwidth=85mm,columnsep=5mm, top=25mm}
 \setlength{\parindent}{0pt}
 % or letterpaper (US) or a5paper or....
 % \geometry{margin=2in} % for example, change the margins to 2 inches all round
@@ -71,28 +71,51 @@
 
 %%% The "real" document content comes below...
 
-\title{\textbf{Tunable in twisted bilayer NbSe$_2$}}
+\title{\textbf{Tunable electronic bands in twisted bilayer NbSe$_2$}}
 \author{Conan Birkett}
 \affil{Department of Physics, University of Bath, Bath BA2 7AY, United Kingdom}
 %\date{} % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed 
 
 \begin{document}
-\twocolumn[
- \begin{@twocolumnfalse}
 \maketitle
 \begin{abstract}
   Following observation of unconventional superconductive effects in twisted bilayer graphene, the novel field of 'twistronics' has seen a rapid progression in theory and experiment. When a Van der Vaals heterostructure formed from a bilayer of 2D lattices is twisted at a so-called 'magic-angle' perturbation effects and interlayer tunneling lead to the formation of a flat electronic band at fermi level in some materials. These exotic electronic properties have the potential to be exploited as high temperature superconductors or in novel electronic devices. Using a multiorbital tight binding model (TBM) we model a bilayer of transition metal dichalcogenide 2H-NbSe$_2$ with interlayer tunneling at various twist angles. We observe ***** in the electronic band structure at *** points. Our results show potential for further modelling of the NbSe$_2$.
-
-\bigskip
 \end{abstract}
-\end{@twocolumnfalse}
-]
-\medskip
+
+\newpage
 
 \section*{Introduction}
 
-  In 2018 Cao Y. et al\cite{Cao2018} realised unconventional superconductivity in bilayer graphene twisted to the 'magic-angle' of 1.1$^\circ$ 
+  In 2018 Cao Y. et al\cite{Cao2018} realised unconventional superconductivity in bilayer graphene twisted to the 'magic-angle' of 1.1$^\circ$. This catapulted interest and research in graphene and two dimensional (2D) materials to new heights. The potential of graphene in realising new electronic properties and phases of matter has been well explored in theory and experimentally. In recent years focus has been directed at electrical properties of other 2D materials like transition metal dichalcogenides (TMDCs) and how combining multiple layers  of 2D materials into Van-der-Waals heterostructures can drastically effect their electronic properties. In particular a novel field, dubbed 'twistronics' has grown from research into how relative inter-layer twist in a Van-der-Waals heterostructure influences the electronic properties of the device. We examine such a heterostructure constructed from a bilayer of 2-hexagonal niobium diselenide (2H NbSe$_2$); its monolayer is known to have different electronic properties from a bulk substrate - in particular a strong Ising-type spin orbit coupling that locks electron spins into out-of-plane directions. We show that at some twist angles there is a significant projection of low energy electronic bands onto unperterbed states (with no interlayer coupling) at saddle points between the $\Gamma$ and K critical points. This may suggest ***
+
+  perturbation theory for two levels cross and seperate
+
+  two states cross - interact and split - the stronger the coupling the further the split
+
+ compare same twist angle with higher coupling - can see  bands seperate apart the levels are not degenerate but close - coupling makes them push apart by perturbation
+
+ compare rotation at same strength 
+
+ at saddle point, interesting things do not happen only at small twist angles
+
+  could plot surfaces - where do they cross? at 15 degrees is it closer to saddle points?
+
+if you can induce flatness (eg at 15 degrees some areas look flatter) in the electronic bands - leads to a high density of states (singularity - formally mathematically it tends to infinity) lots of electrons at this energy
+
+in graphene high density of states at fermi level leads to interesting effects
+
+flatness due to twist angles -> high density of states -> possible interesting effects
+
+tunable! can change the properties of the material other than its metallic state normally - novel behaviour in the material is a good conclusion
+
+ experimental convenienvence at larger twist angles
+
+figure font shouldnt be smaller than normal text - should probably be larger
+
+experimentally canc change fermi level by sandwich in a capacitor
+
+
 
 \section*{Method}
   Our work draws on several published methods on NbSe2 and twistronics. In particular we take the multiorbital tight binding model of monolayer NbSe2 from Habara and Wakabayashi\cite{Habara2021}. To model the bilayer with twist, we employ the method used in the original magic-angle paper by Bistritzer and MacDonald \cite{Bistritzer2011}. 
@@ -124,7 +147,7 @@
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=0.95\columnwidth]{1st_BZ.png}
+\includegraphics[width=0.75\columnwidth]{1st_BZ.png}
   \caption{
     First Brilloin zone in a hexagonal lattice. shown are: reciprocal lattice vectors $b_1, b_2$, standard critical points $\Gamma, K, K', M$ and wavevector axes $k_x, k_y$. Electronic bands are found for $k$ sampled from the equilateral triangle $\Gamma \rightarrow K \rightarrow M \rightarrow K' \rightarrow \Gamma$ or $\Gamma \rightarrow \Gamma$ shown in red.
   }
@@ -306,7 +329,7 @@
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=0.95\columnwidth]{k_prime_diagram.png}
+\includegraphics[width=0.75\columnwidth]{k_prime_diagram.png}
   \caption{
   }
   \label{inter-layer_k_prime_diagram}
@@ -323,25 +346,114 @@ The tunneling potential $t(k + G, z)$ we model as a gaussian in the in-plane axe
   t(k + G) = \frac{C\pi}{A_{UC} r_0^2}e^{- r_0^2 (k + G)/4}
 \end{equation}
 
+due to time limitations in our actual results we use a constant tunneling potential of 0.1eV
+
 \subsection*{Implementation}
+The implementation of these methods and graphing of their results was done in python using the numpy library
 
 \section*{Results and discussion}
 
 \subsection*{Monolayer electronic bands}
+Initially, we seek to reproduce the tight binding bands from Habara et al \cite{Habara2021}. Using their matrix elements we reproduce the six electronic bands corresponding to the $d_{z^2}$, $d_{x^2 - y^2}$ and $d_{xy}$ orbitals of the Nb atoms with spin orbit coupling. The result in FIG \ref{}
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=0.95\columnwidth]{k_prime_diagram.png}
+  \includegraphics[width=0.75\columnwidth]{monolayer_bands.png}
   \caption{
   }
-  \label{inter-layer_k_prime_diagram}
+  \label{monolayer_bands}
 \end{figure}
 
 \subsection*{Bilayer electronic bands}
 
+\begin{figure*}[t!]
+\centering
+  \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{bilayer_bands_5.png}
+    \caption{
+    }
+    \label{bilayer_bands_5}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{bilayer_bands_15.png}
+    \caption{
+    }
+    \label{bilayer_bands_15}
+  \end{subfigure}
+  \caption{}
+  \label{bilayer_bands}
+\end{figure*}
+
 \subsection*{Inter-layer tunneling}
 
-\section*{Conclusion}
+\begin{figure*}[t!]
+\centering
+  \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{bilayer_bands_5_coupled.png}
+    \caption{
+    }
+    \label{bilayer_bands_5_coupled}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{bilayer_bands_15_coupled.png}
+    \caption{
+    }
+    \label{bilayer_bands_15_coupled}
+  \end{subfigure}
+  \caption{}
+  \label{bilayer_bands_coupled}
+\end{figure*}
+
+\begin{figure*}[t!]
+\centering
+  \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{bilayer_bands_5_projected_low_E.png}
+    \caption{}
+    \label{bilayer_bands_5_projected_low_E}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{bilayer_bands_15_projected_low_E.png}
+    \caption{
+    }
+    \label{bilayer_bands_15_projected_low_E}
+  \end{subfigure}
+  \caption{}
+  \label{bilayer_bands_projected}
+\end{figure*}
+
+\begin{figure*}[t!]
+\centering
+  \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{bilayer_bands_5_projected_low_E_saddle.png}
+    \caption{
+    }
+    \label{bilayer_bands_5_projected_low_E_saddle}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{bilayer_bands_15_projected_low_E_saddle.png}
+    \caption{
+    }
+    \label{bilayer_bands_15_projected_low_E_saddle}
+  \end{subfigure}
+  \caption{}
+  \label{bilayer_bands_projected_low_E_saddle}
+\end{figure*}
+
+\section*{Discussion}
+
+\section*{Conclusions}
 
 
 \section*{Acknowledgements}

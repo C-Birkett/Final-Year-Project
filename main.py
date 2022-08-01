@@ -18,9 +18,18 @@ import copy
 #matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter, ImageMagickWriter
+
 import collections
 
 from IPython import display
+
+plt.rc('font', size=16)        
+plt.rc('axes', titlesize=16)        # Controls Axes Title
+plt.rc('axes', labelsize=16)        # Controls Axes Labels
+plt.rc('xtick', labelsize=16)       # Controls x Tick Labels
+plt.rc('ytick', labelsize=16)       # Controls y Tick Labels
+plt.rc('legend', fontsize=16)       # Controls Legend Font
+plt.rc('figure', titlesize=16)      # Controls Figure Title
 
 # --- Constants ---
 
@@ -339,6 +348,10 @@ class Heterostructure:
         return hamiltonian
 
     def gen_hamiltonian(self, k: np.array):
+        #if uncoupled only do 12 states
+        #if self.is_coupled == False:
+        #    return(self.gen_coupling_hamiltonian_diag(k))
+
         kc = self.gen_coupling_k(k)
         gch = self.gen_coupling_hamiltonian
         gchd = self.gen_coupling_hamiltonian_diag
@@ -602,13 +615,15 @@ class Heterostructure:
         plt.show()
 
     # plot the eigenvalues (electronic bands)
-    def plot_eigenvalues(self):
+    def plot_eigenvalues(self, title):
         fig = plt.figure(figsize=(8,8))
         ax = fig.add_subplot(111)
 
         # plot position of corners in triangular path taken
+        corner_labels = ["K", "M", "K'", "$\Gamma$", "K", "M", "K'", ""]
         for vline in self.plot_corners:
             plt.axvline(x=vline, ymin=-1, ymax=1, color = 'green')
+            ax.text(vline + 5e8, 0.8, corner_labels[np.where(self.plot_corners == vline)[0][0]], color = 'green')
 
         # plot fermi level
         plt.axhline(xmin = self.path[0], xmax = self.path[-1], y = 0, color = 'red')
@@ -640,22 +655,29 @@ class Heterostructure:
         plt.xlim(0,self.RLC*10)
         plt.xlim(self.path[0],self.path[-1])
         #plt.ylim(-1,1)
-        #plt.ylim(-0.5, 1)
+        plt.ylim(-0.5, 1)
 
         ax.set_xlabel('Distance along path in $k$ space [m$^{-1}$]')
         ax.set_ylabel('Energy [eV]')
-        ax.set_title(f"Energy band structure of bilayer NbSe$_2$ with twist {round(to_degrees(self.rotation))}$^\circ$")
+
+        if title != "":
+            ax.set_title(title)
+        else:
+            ax.set_title(f"Energy band structure of bilayer NbSe$_2$ with twist {round(to_degrees(self.rotation))}$^\circ$")
 
         plt.show()
 
     # plot the eigenvalues projected onto basic state
     def plot_eigenvalues_projected(self, eigenstate):
-        fig = plt.figure(figsize=(16,16))
+        #fig = plt.figure(figsize=(16,16))
+        fig = plt.figure(figsize=(8,8))
         ax = fig.add_subplot(111)
 
         # plot position of corners in triangular path taken
+        corner_labels = ["K", "M", "K'", "$\Gamma$", "K", "M", "K'", ""]
         for vline in self.plot_corners:
             plt.axvline(x=vline, ymin=-1, ymax=1, color = 'green')
+            ax.text(vline + 5e8, 0.8, corner_labels[np.where(self.plot_corners == vline)[0][0]], color = 'green')
 
         # plot fermi level
         plt.axhline(xmin = self.path[0], xmax = self.path[-1], y = 0, color = 'red')
@@ -718,9 +740,11 @@ class Heterostructure:
                             zorder = 2.5,
                         )
 
-        plt.xlim(self.path[0],self.path[-1])
-        plt.ylim(-1,1)
-        #plt.ylim(-0.5, 1)
+        #plt.xlim(self.path[0],self.path[-1])
+        plt.xlim(self.path[0],self.plot_corners[0]+1e9) #saddle point
+
+        #plt.ylim(-1,1)
+        plt.ylim(-0.5, 1)
 
         ax.set_xlabel('Distance along path in $k$ space [m$^{-1}$]')
         ax.set_ylabel('Energy [eV]')
@@ -1147,12 +1171,12 @@ class Lattice:
 
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0))
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(30))
-myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(30))
+myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(15))
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(1))
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0.1))
 myTwistedBilayer.gen_lattices()
-myTwistedBilayer.set_coupling(0)
-#myTwistedBilayer.set_coupling(0.1)  # 0.1 is 'reasonable'
+#myTwistedBilayer.set_coupling(0)
+myTwistedBilayer.set_coupling(0.1)  # 0.1 is 'reasonable'
 myTwistedBilayer.gen_brilloin_zone_vectors()
 myTwistedBilayer.gen_brilloin_zone_path()
 myTwistedBilayer.gen_coupling_vectors()
@@ -1160,11 +1184,12 @@ myTwistedBilayer.gen_coupling_vectors()
 #myTwistedBilayer.print_hamiltonians(np.array([0,0]))
 
 myTwistedBilayer.gen_eigenvalues(myTwistedBilayer.brillouin_path)
-#myTwistedBilayer.plot_brillouin_zone_path()
 #myTwistedBilayer.gen_seperate_layer_evalues(myTwistedBilayer.brillouin_path)
-#myTwistedBilayer.plot_eigenvalues()
-#myTwistedBilayer.plot_eigenvalues_projected(1)  # 0 or 1
-myTwistedBilayer.animate(0, 30, 3)
+#myTwistedBilayer.plot_brillouin_zone_path()
+#myTwistedBilayer.plot_eigenvalues("TBM electronic bands of monolayer NbSe$_2$")
+#myTwistedBilayer.plot_eigenvalues("")
+myTwistedBilayer.plot_eigenvalues_projected(0)  # 0 or 1
+#myTwistedBilayer.animate(0, 30, 3)
 #myTwistedBilayer.plot_surface(1, 3)
 #myTwistedBilayer.plot_surface(2, 3)
 

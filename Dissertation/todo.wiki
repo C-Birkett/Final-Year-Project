@@ -12,12 +12,13 @@ _dissertation todo_
     - [ ] speak to marcin - interpret results
     - [ ] look at different angles
 
-- [ ] tunneling coefficient gaussian
-  - [ ] figure out decent fitting parameters for gaussian
-  - [ ] implement gaussian as function of k, G
-  - [ ] in hamiltonian swap constants with gaussian values
-  - [ ] plot bands
-  - [ ] interpret
+- [X] tunneling coefficient gaussian
+  - [X] NOT DOING THIS
+    - [X] figure out decent fitting parameters for gaussian
+    - [X] implement gaussian as function of k, G
+    - [X] in hamiltonian swap constants with gaussian values
+    - [X] plot bands
+    - [X] interpret
 
 - [ ] get a variety of plots for write up
 
@@ -71,9 +72,10 @@ _dissertation todo_
 
 - [O] Theory / Method
 
-  - [X] Material - NbSe2
-    - [X] structure/description of material
+  - [O] Material - NbSe2
+    - [o] structure/description of material
       - [X] diagram
+        - [ ] Fix diagram - its slightly off with Se placement
     - [X] why?
       - [X] 2d material
       - [X] bilayer
