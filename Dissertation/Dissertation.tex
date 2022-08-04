@@ -87,7 +87,7 @@
 
 \section*{Introduction}
 
-  In 2018 Cao Y. et al\cite{Cao2018} realised unconventional superconductivity in bilayer graphene twisted to the 'magic-angle' of 1.1$^\circ$. This catapulted interest and research in graphene and two dimensional (2D) materials to new heights. The potential of graphene in realising new electronic properties and phases of matter has been well explored in theory and experimentally. In recent years focus has been directed at electrical properties of other 2D materials like transition metal dichalcogenides (TMDCs) and how combining multiple layers  of 2D materials into Van-der-Waals heterostructures can drastically effect their electronic properties. In particular a novel field, dubbed 'twistronics' has grown from research into how relative inter-layer twist in a Van-der-Waals heterostructure influences the electronic properties of the device. We examine such a heterostructure constructed from a bilayer of 2-hexagonal niobium diselenide (2H NbSe$_2$); its monolayer is known to have different electronic properties from a bulk substrate - in particular a strong Ising-type spin orbit coupling that locks electron spins into out-of-plane directions. We show that at some twist angles there is a significant projection of low energy electronic bands onto unperterbed states (with no interlayer coupling) at saddle points between the $\Gamma$ and K critical points. This may suggest ***
+  In 2018 Cao Y. et al\cite{Cao2018} realised unconventional superconductivity in bilayer graphene twisted to the 'magic-angle' of 1.1$^\circ$. This catapulted interest and research in graphene and two dimensional (2D) materials to new heights. The potential of graphene in realising new electronic properties and phases of matter has been well explored in theory and experimentally. In recent years focus has been directed at electrical properties of other 2D materials like transition metal dichalcogenides (TMDCs) and how combining multiple layers  of 2D materials into Van-der-Waals heterostructures can drastically effect their electronic properties. In particular a novel field, dubbed 'twistronics' has grown from research into how relative inter-layer twist in a Van-der-Waals heterostructure influences the electronic properties of the device. We examine such a heterostructure constructed from a bilayer of 2-hexagonal niobium diselenide (2H NbSe$_2$); its monolayer is known to have different electronic properties from a bulk substrate - in particular a strong Ising-type spin orbit coupling that locks electron spins into out-of-plane directions. We show that at some twist angles there is a significant projection of low energy electronic bands onto unperterbed states (those with no interlayer coupling) at saddle points between the $\Gamma$ and K critical points. This also produces nearly flat bands at relatively large twist angles near the Fermi level. The high density of states assosciated with flat electronic bands at fermi level is well studied in the context of novel electronic properties in other materials \cite{} - in particular magic-angle superconductivity in graphene \cite{}. Experimentally, it is possible to shift the Fermi level in a 2D system by a few hundred MeV by 'sandwiching' it within a capacitor \cite{}. Additionally, the large twist angle (compared to magic-angle graphene) at which these effects are observed could be more convenient for experimental realisation. Our results thus suggest tunable novel electronic properties in bilayer $NbSe_2$ that are within experimental reach. However, further work is required in modelling the bilayer as our results use many non-trivial approximations. Significant improvements to the modelling of inter-layer tunneling can be made, and may have a drastic effect on the results presented. Regardless, our results are promising and justify further research into twisted bilayer $NbSe_2$.
 
   perturbation theory for two levels cross and seperate
 
@@ -97,24 +97,20 @@
 
  compare rotation at same strength 
 
+ for above can do 4 graphs of each maybe
+
  at saddle point, interesting things do not happen only at small twist angles
 
   could plot surfaces - where do they cross? at 15 degrees is it closer to saddle points?
 
 if you can induce flatness (eg at 15 degrees some areas look flatter) in the electronic bands - leads to a high density of states (singularity - formally mathematically it tends to infinity) lots of electrons at this energy
 
-in graphene high density of states at fermi level leads to interesting effects
-
 flatness due to twist angles -> high density of states -> possible interesting effects
 
 tunable! can change the properties of the material other than its metallic state normally - novel behaviour in the material is a good conclusion
 
- experimental convenienvence at larger twist angles
 
 figure font shouldnt be smaller than normal text - should probably be larger
-
-experimentally canc change fermi level by sandwich in a capacitor
-
 
 
 \section*{Method}
@@ -177,6 +173,7 @@ experimentally canc change fermi level by sandwich in a capacitor
   The monolayer hamiltonian $\hat{H}(k)$ with spin orbit coupling is then 
       \begin{equation}
         \hat{H}(k)=\hat{\sigma}_{0} \otimes \hat{H}_{\mathrm{TNN}}(k)+\hat{\sigma}_{z} \otimes \frac{1}{2} \lambda_{\mathrm{SOC}} \hat{L}_{z}
+        \label{monolayer_hamitonian}
       \end{equation}
 
   with the TBM nearest neighbour hamiltonian
@@ -215,6 +212,7 @@ experimentally canc change fermi level by sandwich in a capacitor
     \caption{
       Equilateral triangle from first Brilloin zone shown in unrotated and relatively rotated (by angle $\theta$) reciprocal coordinate systems. An arbitrary vector $k$ in the rotated basis $(k_x', k_y')$ must first be rotated by $-\theta$ before it can be projected onto the unrotated basis $(k_x, k_y)$
     }
+    \label{twisted_triangles}
   \end{subfigure}
   \hfill
   \begin{subfigure}[t]{0.45\textwidth}
@@ -223,6 +221,7 @@ experimentally canc change fermi level by sandwich in a capacitor
     \caption{
       Brilloin zones of both layers at relative angle $\theta$ overlayed. Evaluation of the electronic bands is taken on the set $\Gamma \rightarrow K1 \rightarrow M1 \rightarrow K1' \rightarrow \Gamma \rightarrow K2 \rightarrow M2 \rightarrow K2' \rightarrow \Gamma$ or $\Gamma \rightarrow \Gamma \rightarrow \Gamma$.
     }
+    \label{heterostructure_BZ_path}
   \end{subfigure}
   \caption{
   }
@@ -241,6 +240,7 @@ experimentally canc change fermi level by sandwich in a capacitor
           \hat{H_1}(\boldsymbol{k}) & 0\\
           0 & \hat{H_2}(\boldsymbol{k'})
         \end{array}\right)
+        \label{simple_bilayer_hamiltonian}
       \end{equation}
       
   where $\hat{H_2}(k')$ is the Hamiltonian of the second monolayer, which is rotated by angle $\theta$ relative to the first. To find $\hat{H}(k)$ we must rotate $k$ to $k'$ (as described previously) in $\hat{H_2}(k')$.
@@ -354,7 +354,7 @@ The implementation of these methods and graphing of their results was done in py
 \section*{Results and discussion}
 
 \subsection*{Monolayer electronic bands}
-Initially, we seek to reproduce the tight binding bands from Habara et al \cite{Habara2021}. Using their matrix elements we reproduce the six electronic bands corresponding to the $d_{z^2}$, $d_{x^2 - y^2}$ and $d_{xy}$ orbitals of the Nb atoms with spin orbit coupling. The result in FIG \ref{}
+Initially, we seek to reproduce the tight binding bands from Habara et al \cite{Habara2021}. Using their matrix elements we reproduce the six electronic bands corresponding to the $d_{z^2}$, $d_{x^2 - y^2}$ and $d_{xy}$ orbitals of the Nb atoms with spin orbit coupling. The result in FIG \ref{monolayer_bands} is a reproduction of the bands shown in FIG 1 d) of Habara \cite{Habara2021}. Whilst not a novel result, it is a useful benchmark for checking the validity of further results.
 
 \begin{figure}[t!]
 \centering
@@ -365,6 +365,7 @@ Initially, we seek to reproduce the tight binding bands from Habara et al \cite{
 \end{figure}
 
 \subsection*{Bilayer electronic bands}
+Following the monolayer bands, we construct a Hamiltonian of two layers, with one rotated at some twist angle $theta$ as in \ref{simple_bilayer_hamiltonian}. The graphs in figure \ref{bilayer_bands} show the electronic bands of both layers on the path $\Gamma \rightarrow \Gamma \rightarrow \Gamma$ seen in figure \ref{heterostructure_BZ_path}. This effectively shows that the rotation of a monolayer can be modelled
 
 \begin{figure*}[t!]
 \centering
