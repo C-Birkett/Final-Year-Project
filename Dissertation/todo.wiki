@@ -120,8 +120,10 @@ _dissertation todo_
 
 - [ ] Results
   - [ ] monolayer
+    - [ ] re do monolayer bands trim to just one triangle path
   - [ ] bilayer
     - [ ] twist
+    - [ ] make a surface plot
   - [ ] tunneling
 
 - [ ] Specific discussion
