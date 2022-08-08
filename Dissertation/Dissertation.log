@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.4.30)  4 AUG 2022 16:35
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.4.30)  8 AUG 2022 23:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -596,7 +596,7 @@ ffects in twisted bilayer graphene,
  []
 
 [1]
-Overfull \hbox (0.31514pt too wide) in paragraph at lines 104--105
+Overfull \hbox (0.31514pt too wide) in paragraph at lines 106--107
 []\TU/Georgia(0)/m/n/12 could plot surfaces - where do they cross? at 15 degree
 s is it closer to saddle points? 
  []
@@ -611,71 +611,98 @@ File: 1st_BZ.png Graphic file (type bmp)
  [2] [3]
 File: twisted_triangles.png Graphic file (type bmp)
 <twisted_triangles.png>
-
-Underfull \hbox (badness 1360) in paragraph at lines 214--214
-\TU/Georgia(0)/m/n/10.95 tated (by angle $\OML/cmm/m/it/10.95 ^^R$\TU/Georgia(0
-)/m/n/10.95 ) reciprocal coordinate
- []
-
 File: heterostructure_BZ_path.png Graphic file (type bmp)
 <heterostructure_BZ_path.png>
-[4] [5]
+ [4] [5]
 
-LaTeX Warning: Reference `k_plus_b' on page 6 undefined on input line 260.
+LaTeX Warning: Reference `k_plus_b' on page 6 undefined on input line 265.
 
 
-LaTeX Warning: Reference `k_plus_b' on page 6 undefined on input line 260.
+LaTeX Warning: Reference `k_plus_b' on page 6 undefined on input line 265.
 
 [6]
 File: k_prime_diagram.png Graphic file (type bmp)
 <k_prime_diagram.png>
- [7] [8]
+ [7]
+File: splitting_bands_diagram.png Graphic file (type bmp)
+<splitting_bands_diagram.png>
+ [8] [9]
 File: monolayer_bands.png Graphic file (type bmp)
 <monolayer_bands.png>
 
 
-LaTeX Warning: Reference `surface_plot' on page 9 undefined on input line 366.
+LaTeX Warning: Reference `surface_plot' on page 10 undefined on input line 423.
 
+
+[10]
 File: bilayer_bands_5.png Graphic file (type bmp)
 <bilayer_bands_5.png>
 File: bilayer_bands_15.png Graphic file (type bmp)
 <bilayer_bands_15.png>
-[9]
+ [11]
 File: bilayer_bands_5_coupled.png Graphic file (type bmp)
 <bilayer_bands_5_coupled.png>
 File: bilayer_bands_15_coupled.png Graphic file (type bmp)
 <bilayer_bands_15_coupled.png>
-File: bilayer_bands_5_projected_low_E.png Graphic file (type bmp)
-<bilayer_bands_5_projected_low_E.png>
-File: bilayer_bands_15_projected_low_E.png Graphic file (type bmp)
-<bilayer_bands_15_projected_low_E.png>
+
+
+LaTeX Warning: Reference `perturbation_matrix, perturbation_energy' on page 12 
+undefined on input line 480.
+
+[12]
+File: 0.05_coupling_15_deg.png Graphic file (type bmp)
+<0.05_coupling_15_deg.png>
+File: 0.1_coupling_15_deg.png Graphic file (type bmp)
+<0.1_coupling_15_deg.png>
+File: 0.2_coupling_15_deg.png Graphic file (type bmp)
+<0.2_coupling_15_deg.png>
+File: 0.4_coupling_15_deg.png Graphic file (type bmp)
+<0.4_coupling_15_deg.png>
+Missing character: There is no ̃ in font Georgia/OT:script=latn;language=dflt;m
+apping=tex-text;!
+
+
+LaTeX Warning: Reference `perturbation_matrix, perturbation_energy' on page 13 
+undefined on input line 518.
+
+Missing character: There is no ̃ in font Georgia/OT:script=latn;language=dflt;m
+apping=tex-text;!
+
+LaTeX Warning: Reference `perturbation_matrix, perturbation_energy' on page 13 
+undefined on input line 518.
+
+File: 1_deg_0.1_coupling.png Graphic file (type bmp)
+<1_deg_0.1_coupling.png>
+File: 5_deg_0.1_coupling.png Graphic file (type bmp)
+<5_deg_0.1_coupling.png>
+File: 20_deg_0.1_coupling.png Graphic file (type bmp)
+<20_deg_0.1_coupling.png>
+File: 30_deg_0.1_coupling.png Graphic file (type bmp)
+<30_deg_0.1_coupling.png>
 File: bilayer_bands_5_projected_low_E_saddle.png Graphic file (type bmp)
 <bilayer_bands_5_projected_low_E_saddle.png>
 File: bilayer_bands_15_projected_low_E_saddle.png Graphic file (type bmp)
 <bilayer_bands_15_projected_low_E_saddle.png>
- (./Dissertation.bbl [10] [11]
-Underfull \hbox (badness 3815) in paragraph at lines 14--17
-[]\TU/Georgia(0)/m/n/12 R. Bistritzer and A. H. MacDonald, “Moiré bands in twis
-ted double-layer
- []
+(./Dissertation.bbl [13] [14] [15] [16]) [17
 
-) [12
-
-] [13
+] [18
 
 
 ] (./Dissertation.aux)
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 8948 strings out of 481804
- 192093 string characters out of 5937876
+ 9010 strings out of 481804
+ 193430 string characters out of 5937876
  645300 words of memory out of 5000000
- 25791 multiletter control sequences out of 15000+600000
+ 25846 multiletter control sequences out of 15000+600000
  542156 words of font info for 85 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 48i,11n,79p,2531b,844s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,11n,79p,1597b,844s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Dissertation.pdf (15 pages).
+Output written on Dissertation.pdf (20 pages).

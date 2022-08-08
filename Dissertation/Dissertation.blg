@@ -3,48 +3,44 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Dissertation.aux
 The style file: ieeetr.bst
 Database file #1: refs.bib
-Warning--I didn't find a database entry for "Sadovnik2016"
-Warning--I didn't find a database entry for "Ranguelov_2011"
-Warning--I didn't find a database entry for "Pietronero_1984"
-You've used 4 entries,
+You've used 6 entries,
             1876 wiz_defined-function locations,
-            520 strings with 4356 characters,
-and the built_in function-call counts, 1181 in all, are:
-= -- 121
-> -- 43
+            531 strings with 4558 characters,
+and the built_in function-call counts, 1570 in all, are:
+= -- 162
+> -- 51
 < -- 0
-+ -- 16
-- -- 12
-* -- 89
-:= -- 175
-add.period$ -- 4
-call.type$ -- 4
-change.case$ -- 4
++ -- 20
+- -- 14
+* -- 112
+:= -- 228
+add.period$ -- 7
+call.type$ -- 6
+change.case$ -- 5
 chr.to.int$ -- 0
-cite$ -- 4
-duplicate$ -- 58
-empty$ -- 105
-format.name$ -- 12
-if$ -- 282
+cite$ -- 6
+duplicate$ -- 83
+empty$ -- 147
+format.name$ -- 14
+if$ -- 383
 int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 4
-newline$ -- 15
-num.names$ -- 4
-pop$ -- 6
+int.to.str$ -- 6
+missing$ -- 7
+newline$ -- 22
+num.names$ -- 6
+pop$ -- 13
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 42
+skip$ -- 57
 stack$ -- 0
-substring$ -- 88
-swap$ -- 26
+substring$ -- 96
+swap$ -- 36
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 13
-width$ -- 5
-write$ -- 44
-(There were 3 warnings)
+while$ -- 16
+width$ -- 7
+write$ -- 65
