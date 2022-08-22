@@ -1,5 +1,5 @@
 # Final-Year-Project
-## Tunable electronic bands in twisted bilayer NbSe$_2$
+## Tunable electronic bands in twisted bilayer NbSe2
 
 __Following observation of unconventional superconductive effects in twisted bilayer gra­
 phene, the novel field of ’twistronics’ has seen a rapid progression in theory and exper­
