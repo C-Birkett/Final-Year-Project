@@ -1,10 +1,63 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{Cao2018}
 Y.~Cao, V.~Fatemi, S.~Fang, K.~Watanabe, T.~Taniguchi, E.~Kaxiras, and
   P.~Jarillo-Herrero, ``{Unconventional superconductivity in magic-angle
   graphene superlattices},'' {\em Nature}, vol.~556, no.~7699, pp.~43--50,
   2018.
+
+\bibitem{Ghuge2017}
+D.~A. Ghuge, R.~A. Shirode, and J.~V. Kadam, ``{Graphene: A Comprehensive
+  Review},'' {\em Current Drug Targets}, vol.~18, no.~6, pp.~724--733, 2017.
+
+\bibitem{Bistritzer2010}
+R.~Bistritzer and A.~H. MacDonald, ``{Transport between twisted graphene
+  layers},'' {\em Physical Review B - Condensed Matter and Materials Physics},
+  vol.~81, no.~24, pp.~1--9, 2010.
+
+\bibitem{Bistritzer2011}
+R.~Bistritzer and A.~H. MacDonald, ``{Moir{\'{e}} bands in twisted double-layer
+  graphene},'' {\em Proceedings of the National Academy of Sciences of the
+  United States of America}, vol.~108, no.~30, pp.~12233--12237, 2011.
+
+\bibitem{Geim2013}
+A.~K. Geim and I.~V. Grigorieva, ``{Van der Waals heterostructures},'' {\em
+  Nature}, vol.~499, no.~7459, pp.~419--425, 2013.
+
+\bibitem{Gibney2019}
+E.~Gibney, ``{With a Simple Twist, a ‘Magic' Material Is Now the Big Thing in
+  Physics},'' {\em Nature}, vol.~565, no.~7737, pp.~15--18, 2019.
+
+\bibitem{Zou2018}
+L.~Zou, H.~C. Po, A.~Vishwanath, and T.~Senthil, ``{Band structure of twisted
+  bilayer graphene: Emergent symmetries, commensurate approximants, and Wannier
+  obstructions},'' {\em Physical Review B}, vol.~98, no.~8, 2018.
+
+\bibitem{Carr2017}
+S.~Carr, D.~Massatt, S.~Fang, P.~Cazeaux, M.~Luskin, and E.~Kaxiras,
+  ``Twistronics: Manipulating the electronic properties of two-dimensional
+  layered structures through their twist angle,'' {\em Phys. Rev. B}, vol.~95,
+  p.~075420, Feb 2017.
+
+\bibitem{Nakata2016}
+Y.~Nakata, K.~Sugawara, R.~Shimizu, Y.~Okada, P.~Han, T.~Hitosugi, K.~Ueno,
+  T.~Sato, and T.~Takahashi, ``Monolayer 1t-nbse2 as a mott insulator,'' {\em
+  NPG Asia Materials}, vol.~8, 11 2016.
+
+\bibitem{Xi2016}
+X.~Xi, Z.~Wang, W.~Zhao, J.-H. Park, K.~T. Law, H.~Berger, L.~Forr{\'o},
+  J.~Shan, and K.~F. Mak, ``Ising pairing in superconducting nbse2
+  atomic layers,'' {\em Nature Physics}, vol.~12, pp.~139--143, Feb 2016.
+
+\bibitem{He2018}
+W.-Y. He, B.~T. Zhou, J.~J. He, N.~F.~Q. Yuan, T.~Zhang, and K.~T. Law,
+  ``Magnetic field driven nodal topological superconductivity in monolayer
+  transition metal dichalcogenides,'' {\em Communications Physics}, vol.~1,
+  p.~40, Jul 2018.
+
+\bibitem{Habara2021}
+R.~Habara and K.~Wakabayashi, ``{Optically induced spin current in monolayer
+  NbSe2},'' {\em Physical Review B}, vol.~103, no.~16, pp.~2--5, 2021.
 
 \bibitem{Verhoeven1996}
 J.~W. Verhoeven, ``Glossary of terms used in photochemistry (iupac
@@ -15,17 +68,36 @@ J.~W. Verhoeven, ``Glossary of terms used in photochemistry (iupac
 C.~Cohen-Tannoudji, {\em Quantum Mechanics, 2 Volume Set}, vol.~1.
 \newblock Chichester, England: John Wiley \& Sons, may 2006.
 
-\bibitem{Habara2021}
-R.~Habara and K.~Wakabayashi, ``{Optically induced spin current in monolayer
-  NbSe2},'' {\em Physical Review B}, vol.~103, no.~16, pp.~2--5, 2021.
+\bibitem{Díaz-Fernández2017}
+A.~D{\'i}az-Fern{\'a}ndez, L.~Chico, J.~W. Gonz{\'a}lez, and
+  F.~Dom{\'i}nguez-Adame, ``Tuning the fermi velocity in dirac materials with
+  an electric field,'' {\em Scientific Reports}, vol.~7, p.~8058, Aug 2017.
 
-\bibitem{Bistritzer2011}
-R.~Bistritzer and A.~H. MacDonald, ``{Moir{\'{e}} bands in twisted double-layer
-  graphene},'' {\em Proceedings of the National Academy of Sciences of the
-  United States of America}, vol.~108, no.~30, pp.~12233--12237, 2011.
+\bibitem{Tao2022}
+S.~Tao, X.~Zhang, J.~Zhu, P.~He, S.~A. Yang, Y.~Lu, and S.-H. Wei, ``Designing
+  ultra-flat bands in twisted bilayer materials at large twist angles: Theory
+  and application to two-dimensional indium selenide,'' {\em Journal of the
+  American Chemical Society}, vol.~144, pp.~3949--3956, Mar 2022.
 
 \bibitem{Koshino2015}
 M.~Koshino, ``{Interlayer interaction in general incommensurate atomic
   layers},'' {\em New Journal of Physics}, vol.~17, 2015.
+
+\bibitem{Eui-Hyeok2020}
+G.~G. Naumis, ``5 - electronic properties of two-dimensional materials,'' in
+  {\em Synthesis, Modeling, and Characterization of 2D Materials, and Their
+  Heterostructures} (E.-H. Yang, D.~Datta, J.~Ding, and G.~Hader, eds.), Micro
+  and Nano Technologies, pp.~77--109, Elsevier, 2020.
+
+\bibitem{Conte2019}
+F.~Conte, D.~Ninno, and G.~Cantele, ``Electronic properties and interlayer
+  coupling of twisted ${\mathrm{mos}}_{2}/{\mathrm{nbse}}_{2}$
+  heterobilayers,'' {\em Phys. Rev. B}, vol.~99, p.~155429, Apr 2019.
+
+\bibitem{Liu2013}
+G.~B. Liu, W.~Y. Shan, Y.~Yao, W.~Yao, and D.~Xiao, ``{Three-band tight-binding
+  model for monolayers of group-VIB transition metal dichalcogenides},'' {\em
+  Physical Review B - Condensed Matter and Materials Physics}, vol.~88, no.~8,
+  2013.
 
 \end{thebibliography}

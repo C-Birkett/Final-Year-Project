@@ -662,10 +662,11 @@ class Heterostructure:
                     )
         
         plt.xlim(0,self.RLC*10)
-        plt.xlim(self.path[0],self.path[-1])
-        #plt.xlim(self.path[0],self.plot_corners[3]+1e9) # just on gamma to gamma
+        #plt.xlim(self.path[0],self.path[-1])
+        plt.xlim(self.path[0],self.plot_corners[3]+1e9) # just on gamma to gamma
         #plt.xlim(self.path[0],self.plot_corners[3]) # just on gamma to gamma
-        plt.ylim(-0.5, 1)
+        #plt.ylim(-0.5, 1)
+        plt.ylim(-0.4, 0.2)   #fermi
         #plt.ylim(-0.5,4)   #full bands
 
         ax.set_xlabel('\n'+'Distance along path in $k$ space [m$^{-1}$]', fontsize=20)
@@ -674,7 +675,7 @@ class Heterostructure:
         if title != "":
             ax.set_title(title, fontsize=20)
         else:
-            ax.set_title("Energy band structure of bilayer NbSe$_2$"+ '\n' +f"with relative twist angle {round(to_degrees(self.rotation))}$^\circ$", fontsize=20)
+            ax.set_title("Energy band structure of bilayer NbSe$_2$"+ '\n' +f"with relative twist angle {round(to_degrees(self.rotation),3)}$^\circ$", fontsize=20)
 
         #square axes
         x0,x1 = ax.get_xlim()
@@ -694,6 +695,7 @@ class Heterostructure:
         ax = fig.add_subplot(111)
 
         # plot position of corners in triangular path taken
+        # set height to 0.1 for close ups
         corner_labels = ["K", "M", "K'", "$\Gamma$", "K", "M", "K'", "$\Gamma$"]
         for vline in self.plot_corners:
             plt.axvline(x=vline, ymin=-1, ymax=1, color = 'green')
@@ -739,7 +741,7 @@ class Heterostructure:
 
             colour = 'red'
 
-            # just do every 10th
+            #plot projections
             for j in np.arange(0,800,1):
 
                 # take sum of projections over both states (same state but on rotated layers)
@@ -762,16 +764,22 @@ class Heterostructure:
                         )
 
         #plt.xlim(self.path[0],self.path[-1])
-        #plt.xlim(self.path[0],self.plot_corners[0]+1e9) #saddle point
-        plt.xlim(self.path[0],self.plot_corners[3]+1e9) # just on gamma to gamma
+        #plt.xlim(self.path[0],self.plot_corners[0]+1e9) # gamma to k
+        #plt.xlim(self.path[0],self.plot_corners[1]+1e9) # gamma to m
+        #plt.xlim(self.plot_corners[0]-1e9, self.plot_corners[1]+1e9) # k to m
+        #plt.xlim(self.plot_corners[0]-1e9, self.plot_corners[2]+1e9) # k to k'
+        plt.xlim(self.path[0],self.plot_corners[2]+1e9) # gamma to k'
+        #plt.xlim(self.path[0],self.plot_corners[3]+1e9) # just on gamma to gamma
 
         #plt.ylim(-1,1)
-        plt.ylim(-0.5, 1)
+        #plt.ylim(-0.5, 1)
+        #plt.ylim(-0.4, 0.2)   #fermi
+        plt.ylim(-0.5, 0.2)   #fermi
         #plt.ylim(-0.5, 1.5) #for 0.4 ev coupling
 
         ax.set_xlabel('\n'+'Distance along path in $k$ space [m$^{-1}$]', fontsize=20)
         ax.set_ylabel('Energy [eV]', fontsize = 20)
-        ax.set_title("Energy band structure of bilayer NbSe$_2$"+ '\n' +f"with relative twist angle {round(to_degrees(self.rotation))}$^\circ$", fontsize=20)
+        ax.set_title("Energy band structure of bilayer NbSe$_2$"+ '\n' +f"with relative twist angle {round(to_degrees(self.rotation),3)}$^\circ$", fontsize=20)
 
         #square axes
         x0,x1 = ax.get_xlim()
@@ -916,15 +924,21 @@ class Heterostructure:
         ani = FuncAnimation(fig, anim, np.arange(start, end+intrvl, intrvl), blit = True, interval = 50)
 
         # plot position of corners in triangular path taken
+        corner_labels = ["K", "M", "K'", "$\Gamma$", "K", "M", "K'", "$\Gamma$"]
         for vline in self.plot_corners:
             plt.axvline(x=vline, ymin=-1, ymax=1, color = 'green')
+            ax.text(vline - 4e9, 0.8, corner_labels[np.where(self.plot_corners == vline)[0][0]], color = 'green')
 
         # plot fermi level
         plt.axhline(xmin = self.path[0], xmax = self.path[-1], y = 0, color = 'red')
+        ax.text(0, 0.025, "$E_f$", color = 'black')
 
-        plt.xlim(0,self.RLC*10)
-        plt.xlim(self.path[0],self.path[-1])
-        plt.ylim(-1,4)
+        #plt.xlim(0,self.RLC*10)
+        #plt.xlim(self.path[0],self.path[-1])
+        plt.xlim(self.path[0],self.plot_corners[3]+1e9) # just on gamma to gamma
+        #plt.ylim(-1,4)
+        #plt.ylim(-0.5,1)    #near fermi
+        plt.ylim(-0.4, 0.2)   #fermi
 
         ax.set_xlabel('Distance along path in $k$ space [m$^{-1}$]')
         ax.set_ylabel('Energy [eV]')
@@ -1198,8 +1212,9 @@ class Lattice:
 #using the heterostructres class
 
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(5))
-#myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(30))
-myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(15))
+myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(29)) # 26.1 27.8 29
+#myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(17.5))
+#myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(18.6))
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(1))
 #myTwistedBilayer = Heterostructure(PLV_1,PLV_2,PLC,to_radians(0.1))
 myTwistedBilayer.gen_lattices()
@@ -1216,9 +1231,10 @@ myTwistedBilayer.gen_eigenvalues(myTwistedBilayer.brillouin_path)
 #myTwistedBilayer.gen_seperate_layer_evalues(myTwistedBilayer.brillouin_path)
 #myTwistedBilayer.plot_brillouin_zone_path()
 #myTwistedBilayer.plot_eigenvalues("TBM electronic bands of monolayer NbSe$_2$")
-myTwistedBilayer.plot_eigenvalues("")
-#myTwistedBilayer.plot_eigenvalues_projected(0)  # 0 or 1
-#myTwistedBilayer.animate(0, 30, 3)
+#myTwistedBilayer.plot_eigenvalues("")
+myTwistedBilayer.plot_eigenvalues_projected(0)  # 0 or 1
+#myTwistedBilayer.animate(17.5, 22.5, 0.1)
+#myTwistedBilayer.animate(0, 30, 0.1)    #full, will take ages
 #myTwistedBilayer.plot_surface(1, 3)
 #myTwistedBilayer.plot_surface(2, 3)
 

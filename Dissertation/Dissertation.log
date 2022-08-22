@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.4.30)  8 AUG 2022 23:02
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2022.4.30)  11 AUG 2022 22:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -350,6 +350,14 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
 LaTeX Info: Redefining \[ on input line 2859.
 LaTeX Info: Redefining \] on input line 2860.
 )
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)
 (/usr/share/texlive/texmf-dist/tex/latex/lipsum/lipsum.sty
 Package: lipsum 2019/01/02 v2.2 150 paragraphs of Lorem Ipsum dummy text
 
@@ -467,86 +475,86 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 ) (./Dissertation.aux)
 \openout1 = `Dissertation.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 80.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 81.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 8
-0.
+1.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
 
 Package fontspec Info: Adjusting the maths setup (use [no-math] to avoid
 (fontspec)             this).
 
-\symlegacymaths=\mathgroup4
+\symlegacymaths=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 80.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 80.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 80.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 80.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 80.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 80.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 80.
-LaTeX Font Info:    Redeclaring math accent \check on input line 80.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 80.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 80.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 80.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 80.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 80.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 80.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 80.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 80.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 80.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 80.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 80.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 80.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 80.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 80.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 80.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 80.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 81.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 81.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 81.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 81.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 81.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 81.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 81.
+LaTeX Font Info:    Redeclaring math accent \check on input line 81.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 81.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 81.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 81.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 81.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 81.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 81.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 81.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 81.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 81.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 81.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 81.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 81.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 81.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 81.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 81.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 81.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 80.
+(Font)              `operators' in the math version `normal' on input line 81.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> TU/Georgia(0)/m/n on input line 80.
+(Font)                  OT1/cmr/m/n --> TU/Georgia(0)/m/n on input line 81.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 80.
+(Font)              `operators' in the math version `bold' on input line 81.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> TU/Georgia(0)/m/n on input line 80.
+(Font)                  OT1/cmr/bx/n --> TU/Georgia(0)/m/n on input line 81.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  TU/Georgia(0)/m/n --> TU/Georgia(0)/m/n on input line 8
-0.
+1.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> TU/Georgia(0)/m/it on input line 80.
+(Font)                  OT1/cmr/m/it --> TU/Georgia(0)/m/it on input line 81.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> TU/Georgia(0)/b/n on input line 80.
+(Font)                  OT1/cmr/bx/n --> TU/Georgia(0)/b/n on input line 81.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/Georgia(0)/m/n on input line 80.
+(Font)                  OT1/cmss/m/n --> TU/Georgia(0)/m/n on input line 81.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> TU/Georgia(1)/m/n on input line 80.
+(Font)                  OT1/cmtt/m/n --> TU/Georgia(1)/m/n on input line 81.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  TU/Georgia(0)/m/n --> TU/Georgia(0)/b/n on input line 8
-0.
+1.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> TU/Georgia(0)/b/it on input line 80.
+(Font)                  OT1/cmr/bx/it --> TU/Georgia(0)/b/it on input line 81.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/Georgia(0)/b/n on input line 80.
+(Font)                  OT1/cmss/bx/n --> TU/Georgia(0)/b/n on input line 81.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/Georgia(1)/b/n on input line 80.
+(Font)                  OT1/cmtt/m/n --> TU/Georgia(1)/b/n on input line 81.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -587,38 +595,35 @@ Package caption Info: float package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count292
-[1
+LaTeX Font Info:    Trying to load font information for U+msa on input line 82.
 
-]
-Overfull \hbox (29.73636pt too wide) in paragraph at lines 83--84
-\TU/Georgia(0)/m/n/12 Following observation of unconventional superconductive e
-ffects in twisted bilayer graphene,
- []
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 82.
 
-[1]
-Overfull \hbox (0.31514pt too wide) in paragraph at lines 106--107
-[]\TU/Georgia(0)/m/n/12 could plot surfaces - where do they cross? at 15 degree
-s is it closer to saddle points? 
- []
 
-[1]
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) [1
+
+] [1] [1]
 File: NbSe_top.png Graphic file (type bmp)
 <NbSe_top.png>
 File: NbSe_side.png Graphic file (type bmp)
 <NbSe_side.png>
+ [2]
 File: 1st_BZ.png Graphic file (type bmp)
 <1st_BZ.png>
- [2] [3]
 File: twisted_triangles.png Graphic file (type bmp)
 <twisted_triangles.png>
 File: heterostructure_BZ_path.png Graphic file (type bmp)
 <heterostructure_BZ_path.png>
- [4] [5]
 
-LaTeX Warning: Reference `k_plus_b' on page 6 undefined on input line 265.
-
-
-LaTeX Warning: Reference `k_plus_b' on page 6 undefined on input line 265.
+[3] [4] [5]
+Overfull \hbox (35.20537pt too wide) detected at line 275
+[][]
+ []
 
 [6]
 File: k_prime_diagram.png Graphic file (type bmp)
@@ -629,27 +634,20 @@ File: splitting_bands_diagram.png Graphic file (type bmp)
  [8] [9]
 File: monolayer_bands.png Graphic file (type bmp)
 <monolayer_bands.png>
-
-
-LaTeX Warning: Reference `surface_plot' on page 10 undefined on input line 423.
-
-
-[10]
+ [10]
 File: bilayer_bands_5.png Graphic file (type bmp)
 <bilayer_bands_5.png>
 File: bilayer_bands_15.png Graphic file (type bmp)
 <bilayer_bands_15.png>
- [11]
+File: surface_bands.png Graphic file (type bmp)
+<surface_bands.png>
+File: surface.png Graphic file (type bmp)
+<surface.png>
 File: bilayer_bands_5_coupled.png Graphic file (type bmp)
 <bilayer_bands_5_coupled.png>
 File: bilayer_bands_15_coupled.png Graphic file (type bmp)
 <bilayer_bands_15_coupled.png>
-
-
-LaTeX Warning: Reference `perturbation_matrix, perturbation_energy' on page 12 
-undefined on input line 480.
-
-[12]
+ [11] [12]
 File: 0.05_coupling_15_deg.png Graphic file (type bmp)
 <0.05_coupling_15_deg.png>
 File: 0.1_coupling_15_deg.png Graphic file (type bmp)
@@ -658,19 +656,7 @@ File: 0.2_coupling_15_deg.png Graphic file (type bmp)
 <0.2_coupling_15_deg.png>
 File: 0.4_coupling_15_deg.png Graphic file (type bmp)
 <0.4_coupling_15_deg.png>
-Missing character: There is no ̃ in font Georgia/OT:script=latn;language=dflt;m
-apping=tex-text;!
-
-
-LaTeX Warning: Reference `perturbation_matrix, perturbation_energy' on page 13 
-undefined on input line 518.
-
-Missing character: There is no ̃ in font Georgia/OT:script=latn;language=dflt;m
-apping=tex-text;!
-
-LaTeX Warning: Reference `perturbation_matrix, perturbation_energy' on page 13 
-undefined on input line 518.
-
+ [13]
 File: 1_deg_0.1_coupling.png Graphic file (type bmp)
 <1_deg_0.1_coupling.png>
 File: 5_deg_0.1_coupling.png Graphic file (type bmp)
@@ -679,30 +665,33 @@ File: 20_deg_0.1_coupling.png Graphic file (type bmp)
 <20_deg_0.1_coupling.png>
 File: 30_deg_0.1_coupling.png Graphic file (type bmp)
 <30_deg_0.1_coupling.png>
-File: bilayer_bands_5_projected_low_E_saddle.png Graphic file (type bmp)
-<bilayer_bands_5_projected_low_E_saddle.png>
-File: bilayer_bands_15_projected_low_E_saddle.png Graphic file (type bmp)
-<bilayer_bands_15_projected_low_E_saddle.png>
-(./Dissertation.bbl [13] [14] [15] [16]) [17
+File: flat_band_2.8.png Graphic file (type bmp)
+<flat_band_2.8.png>
+File: flat_band_12.5.png Graphic file (type bmp)
+<flat_band_12.5.png>
+File: flat_band_18.9.png Graphic file (type bmp)
+<flat_band_18.9.png>
+File: flat_band_26.1.png Graphic file (type bmp)
+<flat_band_26.1.png>
+ [14] (./Dissertation.bbl [15] [16] [17]
+[18]
+Underfull \hbox (badness 2617) in paragraph at lines 19--22
+[]\TU/Georgia(0)/m/n/12 R. Bistritzer and A. H. MacDonald, “Moiré bands in twis
+ted double-layer
+ []
 
-] [18
+[19
 
+]) [20] [21
 
-] (./Dissertation.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+] (./Dissertation.aux) ) 
 Here is how much of TeX's memory you used:
- 9010 strings out of 481804
- 193430 string characters out of 5937876
- 645300 words of memory out of 5000000
- 25846 multiletter control sequences out of 15000+600000
- 542156 words of font info for 85 fonts, out of 8000000 for 9000
+ 9153 strings out of 481804
+ 195095 string characters out of 5937876
+ 651735 words of memory out of 5000000
+ 25971 multiletter control sequences out of 15000+600000
+ 544615 words of font info for 97 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 48i,11n,79p,1597b,844s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,11n,79p,1600b,835s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Dissertation.pdf (20 pages).
+Output written on Dissertation.pdf (23 pages).
