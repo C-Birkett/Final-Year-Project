@@ -1,6 +1,8 @@
 # Final-Year-Project
 ## Tunable electronic bands in twisted bilayer NbSe2
 
+![screen-gif](./bands_anim.gif)
+
 __Following observation of unconventional superconductive effects in twisted bilayer gra­
 phene, the novel field of ’twistronics’ has seen a rapid progression in theory and exper­
 imentation. When a van der Waals heterostructure formed from a bilayer of 2D lattices
